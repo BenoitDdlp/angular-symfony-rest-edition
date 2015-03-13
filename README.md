@@ -13,5 +13,5 @@ This project is under the Creative Common license CC-BY-SA.
 Installation instruction
 --------
 
-[Read the installation guide for master](https://github.com/BenoitDdlp/Sympozer-event-manager-app/blob/master/install.md)
+[Read the installation guide for master](https://github.com/BenoitDdlp/angular-symfony-rest-edition/blob/master/install.md)
 
