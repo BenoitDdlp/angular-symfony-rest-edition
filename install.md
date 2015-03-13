@@ -3,13 +3,6 @@ Angular Symfony rest edition
 
 Angular Symfony rest edition is a jump start at building restfull web applications.
 
-Sympozer - the best event experience, before, during and after
-=============
-
-Sympozer is an Angularjs/Symfony web application allowing event organizers and attendees to finally reach their perfect event experience.
-Through its rich and powerful interface, Sympozer provides a wide set of facilitating and networking tools for attendees to keep tracking the schedule, receive notifications, and of course, meet new contacts.
-The organization is now easier than ever with our specialized tools following at every step of your work.
-
 ###Requirements
 
 	Server     : nodejs server + http server + php application server (Apache Server or Nginx with php fpm)
