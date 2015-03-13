@@ -7,7 +7,7 @@ License
 -------
 
 This project is under the Creative Common license CC-BY-NC-SA.
-[![Licence](http://i.creativecommons.org/l/by-nc-sa/3.0/88x31.png)](https://creativecommons.org/licenses/by-nc-sa/3.0/)
+[![Licence](http://i.creativecommons.org/l/by-sa/3.0/88x31.png)](https://creativecommons.org/licenses/BY-SA/3.0/)
 
 
 Installation instruction
