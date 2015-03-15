@@ -94,13 +94,12 @@ class ImportController extends FOSRestController
    * The config is got from Importer annotations for the given entity provided by $entityLabel
    * and is used to parse input datas.
    *
-   * @Rest\Post("/mainEvents/{mainEventId}/import/{entityLabel}", defaults={"entityLabel" = "all"})
-   * @Rest\Get("/mainEvents/{mainEventId}/import/{entityLabel}", defaults={"entityLabel" = "all"})
+   * @Rest\Post("/import/{entityLabel}", defaults={"entityLabel" = "all"})
+   * @Rest\Get("/import/{entityLabel}", defaults={"entityLabel" = "all"})
    * @Rest\View(serializerEnableMaxDepthChecks=true, serializerGroups={"list"})
    * @Rest\QueryParam(name="commit", requirements="true|false", default="false", description="How many entity to return.")
    * @param Request               $request
    * @param ParamFetcherInterface $paramFetcher
-   * @param                       $mainEventId
    * @param                       $entityLabel
    *
    * @return

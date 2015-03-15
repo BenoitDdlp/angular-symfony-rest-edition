@@ -3,7 +3,6 @@
 
 namespace asre\SecurityBundle\Repository;
 
-use asre\SecurityBundle\Entity\Team;
 use Doctrine\ORM\EntityRepository;
 
 /**

@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+  <meta charset="utf-8">
+  <title>Asre</title>
+
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Asre">
+  <meta name="author" content="Benoît durant de la Pastellière">
+
+  <!-- Favicons -->
+  <link rel="icon" type="image/png" sizes="192x192" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="160x160" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="96x96" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon.ico">
+
+
+  <!-- build:remove -->
+  <link href="assets/less/import.less" rel="stylesheet/less" media="all">
+  <!-- /build -->
+
+  <link rel="stylesheet" href="assets/css/import.css"/>
+
+
+  <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries. Placeholdr.js enables the placeholder attribute -->
+  <!--[if lt IE 9]>
+  <link rel="stylesheet" href="assets/css/ie8.css">
+  <script type="text/javascript" src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/respond.js/1.1.0/respond.min.js"></script>
+  <script type="text/javascript" src="assets/plugins/charts-flot/excanvas.min.js"></script>
+  <script type='text/javascript' src='bower/placeholdr/placeholdr.min.js'></script>
+  <![endif]-->
+
+  <!--[if IE 9]>
+  <script type="text/javascript" src="assets/plugins/misc/media.match.min.js"></script>
+  <![endif]-->
+
+  <!-- The following CSS are included as plugins and can be removed if unused-->
+
+  <!-- build:css assets/css/vendor.css -->
+  <!-- bower:css -->
+  <link rel="stylesheet" href="bower/angular-toggle-switch/angular-toggle-switch.css" />
+  <link rel="stylesheet" href="bower/angular-xeditable/dist/css/xeditable.css" />
+  <link rel="stylesheet" href="bower/select2/select2.css" />
+  <link rel="stylesheet" href="bower/font-awesome/css/font-awesome.css" />
+  <link rel="stylesheet" href="bower/jScrollPane/style/jquery.jscrollpane.css" />
+  <link rel="stylesheet" href="bower/pnotify/pnotify.core.css" />
+  <link rel="stylesheet" href="bower/pnotify/pnotify.buttons.css" />
+  <link rel="stylesheet" href="bower/pnotify/pnotify.history.css" />
+  <link rel="stylesheet" href="bower/bootstrap-social/bootstrap-social.css" />
+  <link rel="stylesheet" href="bower/bootstrap-tags/dist/css/bootstrap-tags.css" />
+  <!-- endbower -->
+
+  <link rel='stylesheet' type='text/css' href='assets/plugins/icheck/all.css'/>
+  <link rel='stylesheet' type='text/css' href='assets/plugins/form-multiselect/css/multi-select.css'/>
+  <link rel='stylesheet' type='text/css' href='assets/plugins/datepaginator/bootstrap-datepaginator.css'/>
+  <link rel='stylesheet' type='text/css' href='assets/plugins/jquery-fileupload/css/jquery.fileupload-ui.css'/>
+  <link rel='stylesheet' type='text/css' href='assets/plugins/progress-skylo/skylo.css'/>
+  <link rel='stylesheet' type='text/css' href='assets/plugins/form-daterangepicker/daterangepicker-bs3.css'/>
+  <link rel='stylesheet' type='text/css' href='assets/plugins/form-select2/select2.css'/>
+  <link rel='stylesheet' type='text/css' href='assets/plugins/fullcalendar/fullcalendar.css'/>
+  <!-- endbuild -->
+
+  <!-- Asre styles -->
+  <!--<link rel='stylesheet' type='text/css' href="assets/css/styles.css"/>-->
+
+  <!-- build:remove -->
+  <script type="text/javascript">less = {};
+  less.env = 'development';</script>
+  <script type="text/javascript" src="assets/plugins/misc/less.js"></script>
+  <!-- /build -->
+
+  <style type="text/css">
+    [ng-cloak]
+    {
+      display: none;
+    }
+
+    .topNegative1000
+    {
+      top: -1000px !important;
+    }
+
+    .topZero
+    {
+      top: 0 !important;
+    }
+
+    .mainview-animation
+    {
+      position: relative;
+    }
+
+    .mainview-animation.ng-enter
+    {
+      -webkit-transition: .3s linear all; /* Safari/Chrome */
+      -moz-transition: .3s linear all; /* Firefox */
+      -o-transition: .3s linear all; /* Opera */
+      transition: .3s linear all; /* IE10+ and Future Browsers */
+    }
+
+    .mainview-animation.ng-enter
+    {
+      opacity: 0;
+    }
+
+    .mainview-animation.ng-enter.ng-enter-active
+    {
+      opacity: 1;
+    }
+
+    .navbar.navbar-default.ng-hide
+    {
+      display: none;
+    }
+
+    .fc-grid .fc-day-number
+    {
+      padding: 5px 6px;
+    }
+  </style>
+
+
+</head>
+<body class=""
+      ng-app="asreApp"
+      ng-controller="mainCtrl"
+      ng-class="{
+            'static-header': true,
+            'layout-horizontal': false,
+            'fixed-layout': false,
+            'collapse-leftbar': ui_navLeftCollapsed && !ui_navLeftShown,
+            'show-rightbar': ui_navRightCollapsed,
+            'show-leftbar': ui_navLeftShown,
+            'show-events-filterbar' : ui_eventsFilterBarCollapsed
+      }"
+      ng-click="hideSearchBar();hideHeaderBar();"
+      ng-cloak
+    >
+<div id="notifs" style="position: relative;top: 50px;"></div>
+
+<!-- HEADER BAR -->
+<div ng-include="'partials/navigation/nav-header.html'" ng-controller="navHeaderCtrl"></div>
+
+<!-- NAV TOP -->
+<div ng-include="'partials/navigation/nav-top.html'" ng-controller="navTopCtrl"></div>
+
+<!-- MAIN BLOCK-->
+<div id="page-container" class="clearfix">
+
+  <!-- NAV LEFT VERTICAL -->
+  <div ng-include="'partials/navigation/nav-left.html'" ng-controller="navLeftCtrl"></div>
+
+  <!-- NAV RIGHT -->
+  <div ng-include="'partials/navigation/nav-right.html'" ng-controller="navRightCtrl"></div>
+
+  <!--CONTENT-->
+  <div id="page-content" class="clearfix" fit-height>
+    <div id="wrap" ng-view="" class="mainview-animation ">
+    </div>
+    <!-- page-content -->
+  </div>
+
+
+  <!-- FOOTER -->
+  <div ng-include="'partials/navigation/footer.html'" ng-controller="footerCtrl"></div>
+
+
+</div>
+<!-- page-container -->
+
+<!-- scripts are loaded here -->
+
+<!--[if lt IE 9]>
+<script src="bower/es5-shim/es5-shim.js"></script>
+<script src="bower/json3/lib/json3.min.js"></script>
+<![endif]-->
+
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places"></script>
+
+
+<!-- build:js js/bower.js -->
+<!-- bower:js -->
+<script src="bower/modernizr/modernizr.js"></script>
+<script src="bower/jquery/dist/jquery.js"></script>
+<script src="bower/underscore/underscore.js"></script>
+<script src="bower/angular/angular.js"></script>
+<script src="bower/angular-resource/angular-resource.js"></script>
+<script src="bower/angular-cookies/angular-cookies.js"></script>
+<script src="bower/angular-sanitize/angular-sanitize.js"></script>
+<script src="bower/angular-route/angular-route.js"></script>
+<script src="bower/angular-animate/angular-animate.js"></script>
+<script src="bower/angular-toggle-switch/angular-toggle-switch.min.js"></script>
+<script src="bower/angular-xeditable/dist/js/xeditable.js"></script>
+<script src="bower/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+<script src="bower/select2/select2.js"></script>
+<script src="bower/angular-ui-select2/src/select2.js"></script>
+<script src="bower/angular-mocks/angular-mocks.js"></script>
+<script src="bower/moment/moment.js"></script>
+<script src="bower/angular-moment/angular-moment.js"></script>
+<script src="bower/angular-translate/angular-translate.js"></script>
+<script src="bower/angular-cached-resource/angular-cached-resource.js"></script>
+<script src="bower/angular-validation-match/dist/angular-input-match.min.js"></script>
+<script src="bower/jquery-waypoints/waypoints.js"></script>
+<script src="bower/SHA-1/sha1.js"></script>
+<script src="bower/angulartics/src/angulartics.js"></script>
+<script src="bower/angulartics/src/angulartics-adobe.js"></script>
+<script src="bower/angulartics/src/angulartics-chartbeat.js"></script>
+<script src="bower/angulartics/src/angulartics-cnzz.js"></script>
+<script src="bower/angulartics/src/angulartics-flurry.js"></script>
+<script src="bower/angulartics/src/angulartics-ga-cordova.js"></script>
+<script src="bower/angulartics/src/angulartics-ga.js"></script>
+<script src="bower/angulartics/src/angulartics-gtm.js"></script>
+<script src="bower/angulartics/src/angulartics-kissmetrics.js"></script>
+<script src="bower/angulartics/src/angulartics-mixpanel.js"></script>
+<script src="bower/angulartics/src/angulartics-piwik.js"></script>
+<script src="bower/angulartics/src/angulartics-scroll.js"></script>
+<script src="bower/angulartics/src/angulartics-segmentio.js"></script>
+<script src="bower/angulartics/src/angulartics-splunk.js"></script>
+<script src="bower/angulartics/src/angulartics-woopra.js"></script>
+<script src="bower/angulartics/src/angulartics-marketo.js"></script>
+<script src="bower/angulartics/src/angulartics-intercom.js"></script>
+<script src="bower/jquery.ui/ui/jquery.ui.core.js"></script>
+<script src="bower/jquery.ui/ui/jquery.ui.widget.js"></script>
+<script src="bower/jquery.ui/ui/jquery.ui.mouse.js"></script>
+<script src="bower/jquery.ui/ui/jquery.ui.draggable.js"></script>
+<script src="bower/jquery.ui/ui/jquery.ui.resizable.js"></script>
+<script src="bower/jquery.slimscroll/jquery.slimscroll.min.js"></script>
+<script src="bower/jquery.easing/js/jquery.easing.js"></script>
+<script src="bower/jquery-autosize/jquery.autosize.js"></script>
+<script src="bower/jquery-validation/dist/jquery.validate.js"></script>
+<script src="bower/bootstrap/dist/js/bootstrap.js"></script>
+<script src="bower/seiyria-bootstrap-slider/js/bootstrap-slider.js"></script>
+<script src="bower/gmaps/gmaps.js"></script>
+<script src="bower/jScrollPane/script/jquery.mousewheel.js"></script>
+<script src="bower/jScrollPane/script/mwheelIntent.js"></script>
+<script src="bower/jScrollPane/script/jquery.jscrollpane.min.js"></script>
+<script src="bower/enquire/dist/enquire.js"></script>
+<script src="bower/pnotify/pnotify.core.js"></script>
+<script src="bower/pnotify/pnotify.buttons.js"></script>
+<script src="bower/pnotify/pnotify.callbacks.js"></script>
+<script src="bower/pnotify/pnotify.confirm.js"></script>
+<script src="bower/pnotify/pnotify.desktop.js"></script>
+<script src="bower/pnotify/pnotify.history.js"></script>
+<script src="bower/pnotify/pnotify.nonblock.js"></script>
+<script src="bower/json3/lib/json3.js"></script>
+<script src="bower/placeholdr/placeholdr.js"></script>
+<script src="bower/iCheck/icheck.min.js"></script>
+<script src="bower/bootstrap-tags/dist/js/bootstrap-tags.js"></script>
+<script src="bower/flow.js/dist/flow.js"></script>
+<script src="bower/ng-flow/dist/ng-flow.js"></script>
+<!-- endbower -->
+<!-- endbuild -->
+
+<!-- build:js js/assets.js -->
+<script type='text/javascript' src='assets/plugins/form-daterangepicker/daterangepicker.min.js'></script>
+<script type='text/javascript' src='assets/plugins/form-datepicker/js/bootstrap-datepicker.js'></script>
+<script type='text/javascript' src='assets/plugins/datepaginator/bootstrap-datepaginator.js'></script>
+<script type='text/javascript' src='assets/plugins/form-colorpicker/js/bootstrap-colorpicker.min.js'></script>
+<script type='text/javascript' src='assets/plugins/form-jasnyupload/fileinput.js'></script>
+<script type='text/javascript' src='assets/plugins/csv-to-array/csvToArray.v2.1.min.js'></script>
+<script type='text/javascript' src='assets/plugins/fullcalendar/fullcalendar.js'></script>
+<script type='text/javascript' src='assets/plugins/fullcalendar/lang/fr.js'></script>
+<script type='text/javascript' src="assets/plugins/stepy/lib/jquery.stepy.js"></script>
+<script type='text/javascript' src='assets/plugins/progress-skylo/skylo.js'></script>
+
+<!-- endbuild -->
+
+
+<!--
+  Asre Angular scripts
+-->
+
+<!-- build:js js/scripts.js -->
+<!-- ASRE GLOBAL FILES -->
+<script src="js/ws-config.js"></script>
+<script src="js/app.js"></script>
+<script src="js/config.js"></script>
+<script src="js/routes.js"></script>
+<!--CONTROLLERS-->
+<script src="js/controllers/navigation/footer.ctrl.js"></script>
+<script src="js/controllers/navigation/breadcrumb.ctrl.js"></script>
+<script src="js/controllers/navigation/nav-header.ctrl.js"></script>
+<script src="js/controllers/navigation/nav-top.ctrl.js"></script>
+<script src="js/controllers/navigation/nav-left.ctrl.js"></script>
+<script src="js/controllers/navigation/nav-right.ctrl.js"></script>
+<script src="js/controllers/navigation/nav-main.ctrl.js"></script>
+
+<script src="js/controllers/main.ctrl.js"></script>
+<script src="js/controllers/dashboard.ctrl.js"></script>
+
+
+<!--ANIMATIONS-->
+<script src="js/animations/slide-out-nav.drv.js"></script>
+
+<!--DIRECTIVES-->
+<script src="js/directives/dates/datetime-format.drv.js"></script>
+<script src="js/directives/dates/asre-event-days-dropdown.drv.js"></script>
+
+<script src="js/directives/ui-components/icheck.drv.js"></script>
+<script src="js/directives/ui-components/asre-dragover.drv.js"></script>
+<script src="js/directives/ui-components/panel.drv.js"></script>
+<script src="js/directives/ui-components/panel-control.drv.js"></script>
+<script src="js/directives/ui-components/panel-control-collapse.drv.js"></script>
+<script src="js/directives/ui-components/jscrollpane.drv.js"></script>
+<script src="js/directives/ui-components/tile.drv.js"></script>
+<script src="js/directives/ui-components/tile-large.drv.js"></script>
+<script src="js/directives/ui-components/tile-mini.drv.js"></script>
+<script src="js/directives/ui-components/sideboxright.drv.js"></script>
+<script src="js/directives/ui-components/fullcalendar.drv.js"></script>
+<script src="js/directives/ui-components/backToTop.drv.js"></script>
+
+
+<script src="js/directives/lists/entity-list-handler.drv.js"></script>
+<script src="js/directives/lists/infinite-scroll.drv.js"></script>
+
+<script src="js/directives/validations/server-error.drv.js"></script>
+<script src="js/directives/validations/date-before-now.vld.js"></script>
+
+<script src="js/directives/forms/colorpicker.drv.js"></script>
+<script src="js/directives/forms/textarea-autosize.drv.js"></script>
+<script src="js/directives/forms/wizard.drv.js"></script>
+
+<script src="js/directives/maps/google-place-autocomplete.drv.js"></script>
+<script src="js/directives/maps/gmap.drv.js"></script>
+
+
+<script src="js/directives/no-image.drv.js"></script>
+<script src="js/directives/asre-autocomplete.drv.js"></script>
+<script src="js/directives/asre-include-with-locals.drv.js"></script>
+
+<!--FILTERS -->
+<script src="js/filters/asre-checkmark.fltr.js"></script>
+<script src="js/filters/asre-in-array.fltr.js"></script>
+<script src="js/filters/asre-titleize.fltr.js"></script>
+<script src="js/filters/asre-date-to-iso.fltr.js"></script>
+<script src="js/filters/asre-highlight-query.fltr.js"></script>
+<script src="js/filters/safe-html.fltr.js"></script>
+<script src="js/filters/asre-keep-only-id.fltr.js"></script>
+
+<!--SERVICES -->
+<script src="js/services/form-validation.fact.js"></script>
+<script src="js/services/global-http-interceptor.fact.js"></script>
+<script src="js/services/template-loader.fact.js"></script>
+<script src="js/services/progress-loader.fact.js"></script>
+<script src="js/services/pines-notifications.fact.js"></script>
+<script src="js/services/search.fact.js"></script>
+<script src="js/services/gmaps.fact.js"></script>
+<script src="js/services/uiConfig.fact.js"></script>
+<script src="js/services/date-days-difference.fact.js"></script>
+
+
+<!-- ASRE AUTHENTICATION APP -->
+<script src="modules/authentication/js/routes.js"></script>
+
+<!--CONTROLLERS-->
+<script src="modules/authentication/js/controllers/change-pwd.ctrl.js"></script>
+<script src="modules/authentication/js/controllers/confirm.ctrl.js"></script>
+<script src="modules/authentication/js/controllers/global-auth.ctrl.js"></script>
+<script src="modules/authentication/js/controllers/account.ctrl.js"></script>
+<script src="modules/authentication/js/controllers/reset-pwd.ctrl.js"></script>
+<script src="modules/authentication/js/controllers/reset-pwd-request.ctrl.js"></script>
+<script src="modules/authentication/js/controllers/sign-in.ctrl.js"></script>
+<script src="modules/authentication/js/controllers/sign-out.ctrl.js"></script>
+<script src="modules/authentication/js/controllers/sign-up.ctrl.js"></script>
+<!--SERVICES -->
+<script src="modules/authentication/js/services/users.fact.js"></script>
+<script src="modules/authentication/js/services/authentication.fact.js"></script>
+
+
+<!-- ASRE I18N APP -->
+<script src="modules/i18n/i18nApp.js"></script>
+<script src="modules/i18n/controllers/translate.ctrl.js"></script>
+<script src="modules/i18n/services/i18n.srv.js"></script>
+
+
+<!-- ASRE PERSONS APP -->
+<script src="modules/persons/js/routes.js"></script>
+<!--CONTROLLERS-->
+<script src="modules/persons/js/controllers/persons-delete.ctrl.js"></script>
+<script src="modules/persons/js/controllers/persons-edit.ctrl.js"></script>
+<script src="modules/persons/js/controllers/persons-event-list.ctrl.js"></script>
+<script src="modules/persons/js/controllers/persons-list.ctrl.js"></script>
+<script src="modules/persons/js/controllers/persons-list-by-event.ctrl.js"></script>
+<script src="modules/persons/js/controllers/persons-main.ctrl.js"></script>
+<script src="modules/persons/js/controllers/persons-new.ctrl.js"></script>
+<script src="modules/persons/js/controllers/persons-show.ctrl.js"></script>
+<script src="modules/persons/js/controllers/community/persons-community-index.ctrl.js"></script>
+<!--SERVICES -->
+<script src="modules/persons/js/services/persons.fact.js"></script>
+
+
+
+<!-- ASRE ORGANIZATIONS APP -->
+<script src="modules/organizations/js/routes.js"></script>
+<!-- CONTROLLERS -->
+<script src="modules/organizations/js/controllers/community/organizations-community-index.ctrl.js"></script>
+<!--@TODO <script src="modules/organizations/js/controllers/organizations-delete.ctrl.js"></script>-->
+<script src="modules/organizations/js/controllers/organizations-edit.ctrl.js"></script>
+<!--@TODO <script src="modules/organizations/js/controllers/organizations-list.ctrl.js"></script>-->
+<script src="modules/organizations/js/controllers/organizations-new.ctrl.js"></script>
+<script src="modules/organizations/js/controllers/organizations-show.ctrl.js"></script>
+<!-- SERVICES -->
+<script src="modules/organizations/js/services/organizations.fact.js"></script>
+
+
+<!-- ASRE LOCATIONS APP -->
+<script src="modules/locations/js/routes.js"></script>
+<!-- CONTROLLERS -->
+<script src="modules/locations/js/controllers/locations-delete.ctrl.js"></script>
+<script src="modules/locations/js/controllers/locations-edit.ctrl.js"></script>
+<script src="modules/locations/js/controllers/locations-list.ctrl.js"></script>
+<!--@TODO <script src="modules/locations/js/controllers/locations-main.ctrl.js"></script>-->
+<script src="modules/locations/js/controllers/locations-new.ctrl.js"></script>
+<!--@TODO -->
+<script src="modules/locations/js/controllers/locations-show.ctrl.js"></script>
+<!-- SERVICES -->
+<script src="modules/locations/js/services/locations.fact.js"></script>
+
+<!-- ASRE TOPICS APP -->
+<script src="modules/topics/js/routes.js"></script>
+<!-- CONTROLLERS -->
+<script src="modules/topics/js/controllers/topics-new.ctrl.js"></script>
+<script src="modules/topics/js/controllers/topics-show.ctrl.js"></script>
+<script src="modules/topics/js/controllers/topics-list-by-event.ctrl.js"></script>
+<!-- SERVICES -->
+<script src="modules/topics/js/services/topics.fact.js"></script>
+
+
+<!-- ASRE NOTIFICATIONS APP -->
+<!-- CONTROLLERS -->
+<script src="modules/notifications/js/routes.js"></script>
+<script src="modules/notifications/js/controllers/notifications-list.ctrl.js"></script>
+<script src="modules/notifications/js/controllers/notifications-popover.ctrl.js"></script>
+
+
+<!-- ASRE MESSAGES APP -->
+<!-- CONTROLLERS -->
+<script src="modules/messages/js/routes.js"></script>
+<script src="modules/messages/js/controllers/messages-inbox.ctrl.js"></script>
+<script src="modules/messages/js/controllers/messages-chatroom.ctrl.js"></script>
+<script src="modules/messages/js/controllers/messages-popover.ctrl.js"></script>
+
+
+<!-- ASRE ANALYTICS APP -->
+<script src="assets/plugins/angulartics/angulartics-ga.js"></script>
+<script src="assets/plugins/angulartics/angulartics.js"></script>
+<script src="modules/analytics/js/analytics.js"></script>
+<script src="modules/analytics/js/routes.js"></script>
+<script src="modules/analytics/js/controllers/analytics.ctrl.js"></script>
+<script src="modules/analytics/js/controllers/date-range-demo.ctrl.js"></script>
+
+
+<!-- ASRE SOCIALS APP -->
+<script src="modules/socials/js/controllers/twittertimeline.ctrl.js"></script>
+<script src="modules/socials/js/directives/social-buttons.drv.js"></script>
+<script src="modules/socials/js/directives/social.drv.js"></script>
+<script src="modules/socials/js/services/twitter.fact.js"></script>
+
+
+<!-- ASRE IMPORT APP -->
+<script src="modules/import/js/controllers/import.ctrl.js"></script>
+<script src="modules/import/js/services/import.srv.js"></script>
+<script src="modules/import/js/services/import.fact.js"></script>
+
+
+<!-- endbuild -->
+<script type="text/javascript" id="views/template-main.html">
+    // Remplacer ici la clé 'UA-XXXXXXXX-X' par la clé du compte Google Analytics que vous souhaitez suivre
+    var gaToken = ""
+</script>
+</body>
+</html>

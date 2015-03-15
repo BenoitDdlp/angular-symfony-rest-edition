@@ -36,7 +36,7 @@ class Person extends Agent
   /**
    * technical user
    *
-   * @ORM\OneToOne(targetEntity="asre\SecurityBundle\Entity\User", cascade={"all"})
+   * @ORM\OneToOne(targetEntity="asre\SecurityBundle\Entity\User", cascade={"all"}, inversedBy="person")
    * @ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="cascade")
    *
    */

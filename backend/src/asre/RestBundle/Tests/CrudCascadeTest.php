@@ -69,7 +69,7 @@ class CrudCascadeTest extends WebTestCase
     assertNotNull($entity->getId(), "should have an id ");
   }
 
-  /********** TEST OneToOne & manyToOne owning side ( MainEvent -> Location ) ***********/
+  /********** TEST OneToOne & manyToOne owning side ***********/
 
   protected function callBusinessService($entity, $entityClassName, $method)
   {

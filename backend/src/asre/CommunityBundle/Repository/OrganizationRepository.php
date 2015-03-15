@@ -24,15 +24,6 @@ class OrganizationRepository extends EntityRepository
    */
   public function filter($qb, $params)
   {
-    if (isset($params['mainEventId']))
-    {
-      $qb->leftJoin('qb.organizationVersions', 'orgv');
-      $qb->leftJoin('orgv.organizationVersionOwner', 'pers');
-      $qb->leftJoin('pers.roles', 'rol');
-      $qb->andWhere('rol.mainEvent = (:MainEventId)');
-      $qb->setParameter('MainEventId', $params['mainEventId']);
-    }
-
     return $qb;
   }
 }

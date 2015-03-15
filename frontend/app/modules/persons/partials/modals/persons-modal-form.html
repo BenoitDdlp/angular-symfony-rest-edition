@@ -1,0 +1,13 @@
+<div class="modal-header">
+    <h3 class="modal-title">{{ 'persons.actions.new' | translate}}</h3>
+</div>
+<div class="modal-body">
+    <form name="personEditForm" class="form-horizontal" role="form">
+        <div ng-include="'modules/persons/partials/views/persons-form.html'"></div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-default" ng-click="cancel()">{{ 'global.actions.cancel' | translate}}</button>
+    <button class="btn btn-primary" ng-disabled="personEditForm.$invalid" ng-click="create(personEditForm)">{{ 'global.actions.ok' | translate}}</button>
+</div>
+

@@ -1,0 +1,130 @@
+<div class="modal-header" xmlns="http://www.w3.org/1999/html">
+  <h3 class="modal-title">{{ entityLbl.toLowerCase() + 's.actions.import' | translate}}</h3>
+</div>
+<div class="modal-body">
+  <form action="#" data-wizard="{select:changeStep}" class="form-horizontal">
+
+    <fieldset title="Step 1">
+      <legend>{{'import.select_file' | translate}}</legend>
+      <div flow-init flow-files-submitted="fileChanged()">
+        <div class="drop" flow-drop flow-drag-enter="style={'border-color':'#BBB'}" flow-drag-leave="style={'border-color':'#DDD'}">
+          <span class="btn btn-default" flow-btn>Upload File</span>
+          <b>OR</b>
+          Drag And Drop your file here
+        </div>
+
+        <div>
+          <div ng-repeat="file in $flow.files" class="transfer-box">
+            {{file.relativePath}} ({{file.size}}bytes)
+            <div class="progress progress-striped" ng-class="{active: file.isUploading()}">
+              <div class="progress-bar" role="progressbar"
+                   aria-valuenow="{{file.progress() * 100}}"
+                   aria-valuemin="0"
+                   aria-valuemax="100"
+                   ng-style="{width: (file.progress() * 100) + '%'}">
+                <span class="sr-only">{{file.progress()}}% Complete</span>
+              </div>
+            </div>
+            <div class="btn-group">
+              <a class="btn btn-xs btn-danger" ng-click="file.cancel();fileChanged(true)">
+                {{ 'global.actions.cancel' | translate}}
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="margin: 1em 0;">
+        <a ng-href="{{$root.GLOBAL_CONFIG.api.urls.get_import_header}}/{{entityLbl}}-sample.csv" class="btn btn-sky btn-sm">
+          <i class="fa fa-download"></i> download a sample
+        </a></div>
+
+    </fieldset>
+
+
+    <fieldset title="Step 2">
+      <legend>{{'global.labels.search.results' | translate}}</legend>
+
+
+      <alert type="info" ng-show="busy">
+        <span>{{'import.validating' | translate}}</span>
+        <i class="fa fa-spinner fa-spin"></i>
+      </alert>
+
+      <alert type="danger" ng-show="!busy && error">
+        <a ng-click="retrySend(2)" class="btn btn-sm alert-danger pull-right" style="margin-top: -0.5em;" href="javascript:void(0)"><i class="fa fa-refresh"></i> Retry</a>
+        <span><strong>Oh snap!</strong> Something bad happened!</span>
+      </alert>
+
+      <alert type="success" ng-show="!busy && !validationError && !error">
+        <span><strong>Well done!</strong>{{ results.length }} {{ entityLbl }}s are ready to be imported!</span>
+      </alert>
+      <alert type="warning" ng-show="!busy && validationError && !error">
+        <span> There are errors. Cannot {{'import.send_to_server' | translate  | lowercase}}</span></alert>
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <thead>
+          <tr>
+            <th ng-repeat="field in header.header">
+              {{field}}
+            </th>
+            <th>errors</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr ng-repeat="entity in results track by $index"
+              ng-init="lineNb = $index">
+            <td ng-repeat="field in entity track by $index"
+                ng-class="importResults.errors[lineNb + 1][$index + 1] ? 'import-warning' : ''">
+              <div popover-trigger="mouseenter"
+                   popover="{{ importResults.errors[lineNb + 1][$index + 1].msg }}"
+                   popover-title="error">
+                <span ng-show="field">{{ field  || "empty"}}</span>
+              </div>
+            </td>
+            <td>
+              <p ng-repeat="error in importResults.errors[$index + 1] track by $index">
+                {{error.msg}}
+              </p>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </fieldset>
+
+
+    <fieldset title="Step 3">
+      <legend>{{'import.send_to_server' | translate}}</legend>
+
+
+      <alert type="info" ng-show="busy">
+        <span>{{'import.processing' | translate}}</span>
+        <i class="fa fa-spinner fa-spin"></i>
+      </alert>
+
+      <alert type="danger" ng-show="!busy && error">
+        <a ng-click="retrySend(3)" class="btn btn-sm alert-danger pull-right" style="margin-top: -0.5em;" href="javascript:void(0)"><i class="fa fa-refresh"></i> Retry</a>
+        <span><strong>Oh snap!</strong> Something bad happened!</span>
+      </alert>
+
+      <alert type="success" ng-show="!busy && !validationError && !error">
+        <span><strong>Well done!</strong>{{ results.length }} {{ entityLbl }} were correctly imported!</span>
+      </alert>
+      <alert type="warning" ng-show="!busy && validationError && !error">
+        <span> There are errors. Cannot {{'import.send_to_server' | translate  | lowercase}}</span></alert>
+      <!--todo : include dynamic template-->
+      <div ng-repeat="entity in importResults.entities  track by $index" class="col-sm-5 col-md-5 col-lg-5">
+        <div asre-with-locals
+             ng-init="dynamicvar = ( entityLbl | lowercase ); tplUrl = 'modules/' + ( entityLbl | lowercase ) + 's/partialsviews/' + ( entityLbl | lowercase ) + 's-tile-sm.html'"
+             locals-dynamicvar="entity"
+             locals-edit="true"
+             ng-include="tplUrl"
+          ></div>
+      </div>
+
+    </fieldset>
+  </form>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-default" ng-click="$dismiss('cancel')">{{ 'global.actions.cancel' | translate}}</button>
+</div>

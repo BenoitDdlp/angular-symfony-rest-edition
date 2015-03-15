@@ -31,14 +31,6 @@ class PersonRepository extends EntityRepository
    */
   public function filter($qb, $params)
   {
-    if (isset($params['mainEventId']))
-    {
-      $qb->leftJoin('qb.roles', 'r');
-      $qb->leftJoin('r.mainEvent', 'ev');
-      $qb->andWhere('ev.id = (:MainEventId)');
-      $qb->setParameter('MainEventId', $params['mainEventId']);
-    }
-
     return $qb;
   }
 }

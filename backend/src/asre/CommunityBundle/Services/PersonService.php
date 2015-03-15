@@ -10,7 +10,7 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 
 /**
- * Class MainEventService
+ * Class PersonService
  *
  * @package asre\EventBundle\Services
  */

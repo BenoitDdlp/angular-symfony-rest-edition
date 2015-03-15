@@ -7,6 +7,7 @@
   <parameters>
     <parameter key="serialize_exception_listener.class">asre\RestBundle\Listener\SerializeExceptionListener</parameter>
     <parameter key="authentication_handler.class">asre\RestBundle\Handler\AuthenticationHandler</parameter>
+    <parameter key="asre.rest.logout.success_handler.class">asre\RestBundle\Handler\LogoutSuccessHandler</parameter>
 
     <parameter key="asre.rest.crudhandler.class">asre\RestBundle\Handler\CrudHandler</parameter>
     <parameter key="asre.rest.business_service.class">asre\RestBundle\Services\AbstractBusinessService</parameter>
@@ -24,6 +25,12 @@
       <argument type="service" id="fos_user.user_manager"/>
       <argument type="service" id="translator"/>
       <argument type="service" id="jms_serializer"/>
+    </service>
+    <!-- ajax logout -->
+    <service id="asre.rest.logout.success_handler" class="%asre.rest.logout.success_handler.class%" public="false"
+             abstract="true">
+      <argument type="service" id="security.http_utils"/>
+      <argument>/</argument>
     </service>
 
     <service id="asre.rest.asre_entity_type" class="%asre.rest.asre_entity_type.class%">

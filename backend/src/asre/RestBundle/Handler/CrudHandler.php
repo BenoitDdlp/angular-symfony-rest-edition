@@ -60,7 +60,7 @@ class CrudHandler
   /**
    * Processes the form.
    * try to call a business service method having the same name the http method
-   * the business service is conventionally named asre.{entityNme}Service  (i.e. : asre.mainEventService)
+   * the business service is conventionally named asre.{entityNme}Service  (i.e. : asre.PersonService)
    *
    * @param Request $request
    * @param string  $entityClassName

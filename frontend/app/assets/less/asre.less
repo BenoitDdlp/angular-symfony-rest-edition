@@ -1,0 +1,242 @@
+/**
+ * Bootstrap less var
+ */
+/* gray is definitely not viewable background color*/
+@gray-light: lighten(@gray-base, 40%);
+// #777;
+
+/**
+ * Alignment screen's espacelized
+ *
+ * Description : espacelized alignement wich consider the size of the screen to apply the named effect
+ *
+ * Exemple : .text-right-lg will align the text to the right, only if the screen is currently large (lg)
+ *
+ * @Author Vincent Sébille
+ */
+@media (min-width: @screen-lg)
+{
+  .text-right-lg
+  {
+    text-align: right;
+    // change margin direction for labels
+    & > .labels
+    {
+      margin-left: 5px;
+      margin-right: 0;
+    }
+  }
+
+  .text-left-lg
+  {
+    text-align: left;
+  }
+
+  .text-center-lg
+  {
+    text-align: center;
+  }
+
+  .text-justify-lg
+  {
+    text-align: justify;
+  }
+
+  .text-nowrap-lg
+  {
+    white-space: nowrap;
+  }
+}
+
+@media (min-width: @screen-md)
+{
+  .text-right-md
+  {
+    text-align: right;
+    // change margin direction for labels
+    & > .labels
+    {
+      margin-left: 5px;
+      margin-right: 0 !important;
+    }
+  }
+
+  .text-left-md
+  {
+    text-align: left;
+  }
+
+  .text-center-md
+  {
+    text-align: center;
+  }
+
+  .text-justify-md
+  {
+    text-align: justify;
+  }
+
+  .text-nowrap-md
+  {
+    white-space: nowrap;
+  }
+}
+
+/**
+ * Multiple labels
+ *
+ * Description : make possible to add multiple label
+ */
+.labels
+{
+  .label;
+  margin-right: 5px;
+}
+
+/**
+* Ellipsis
+* Description : add '...' on box overflow
+*/
+.ellipsis
+{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -o-text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100%;
+}
+
+/**
+* Autocomplete dropdown
+* @author : Benoit
+*/
+[asre-autocomplete] ul.dropdown-menu
+{
+  position: inherit;
+  width: 100%;
+
+  li
+  {
+    cursor: pointer;
+  }
+  li:hover
+  {
+    background-color: #F7F7F7;
+  }
+}
+
+/**
+* Image container
+* @description : image standard size for responsive behaviour
+*/
+.img-container-xs
+{
+  max-width: 30px;
+  max-height: 30px;
+}
+
+.img-container-sm
+{
+  max-width: 45px;
+  max-height: 45px;
+}
+
+.img-container-md
+{
+  max-width: 60px;
+  max-height: 60px;
+}
+
+.img-container-lg
+{
+  max-width: 96px;
+  max-height: 96px;
+}
+
+.scale-img
+{
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+}
+
+/**
+* Image caption hover
+* @description : show a set of buttons on image hover
+*/
+.caption-img
+{
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.4);
+  width: 100%;
+  height: 100%;
+  color: #fff !important;
+  text-align: center;
+  padding-top: 20%;
+}
+
+/**
+ * pagination
+ */
+.pagination
+{
+  float: right;
+}
+
+/** datetimerangepicker **/
+.daterangepicker.dropdown-menu
+{
+  z-index: 2000;
+}
+
+/** datetimerangepicker **/
+.btn.btn-social
+{
+  margin: 0px 6px 6px 0px;
+  padding-left: 44px;
+}
+
+/** stepy form wizard **/
+.stepy-navigator .button-next
+{
+  float: right;
+}
+
+/** import **/
+.table tbody tr > td.import-warning span
+{
+  color: #e75a5a;
+}
+
+/** twitter timeline **/
+@media (max-width: 991px)
+{
+  .timeline > li .timeline-icon
+  {
+    margin: 20px 70px 50px 0;
+    z-index: 1;
+    float: left;
+    img
+    {
+      right: 10px;
+      position: relative;
+    }
+  }
+}
+
+.timeline > li .timeline-body {
+  padding: 5px;
+}
+
+
+/**  Label **/
+
+.btn.selected {
+  color: @gray-dark;
+  background-color: @gray-light;
+  border-color: @gray-light;
+}

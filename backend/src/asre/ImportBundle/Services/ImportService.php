@@ -30,11 +30,10 @@ class ImportService
   }
 
   /**
-   * Do the deserialization between incoming datas to entities
+   * loop over incoming rows to do the deserialization into entities
    *
    * @param array                              $datas
    * @param                                    $shortClassName
-   * @param \asre\EventBundle\Entity\MainEvent $mainEvent
    *
    * @throws \Symfony\Component\Security\Core\Exception\AccessDeniedException
    * @return array
@@ -184,36 +183,8 @@ class ImportService
         return clone $entityTpl;
       }
     }
+    return null;
   }
-
-//    protected function getOrCreateEntity($row, $entityTpl)
-
-//    {
-//        //create if no importCode provided
-//        if (!isset($row[0]) || empty($row[0]))
-//        {
-//            $this->log->debug("[ImportService] INSERT : no importCode provided");
-//            return clone $entityTpl;
-//        }
-//        $importCode = $row[0];
-//
-//        //get if no importCode is registered for this mainEvent
-//        if (null != $entity = $this->em->getRepository(get_class($entityTpl))->findOneBy(array(
-//                "importCode" => $importCode,
-//                "mainEvent" => $entityTpl->getMainEvent()
-//            ))
-//        )
-//        {
-//            $this->log->debug("[ImportService] UPDATE : importCode $importCode is registered for mainEvent '" . $entityTpl->getMainEvent()->getId() . "'.");
-//            return $entity;
-//        }
-//        else
-//        { //create if no importCode is unregistered for this mainEvent
-//
-//            $this->log->debug("[ImportService] INSERT : importCode $importCode is not registered for mainEvent '" . $entityTpl->getMainEvent()->getId() . "'.");
-//            return clone $entityTpl;
-//        }
-//    }
 
   /**
    * createEntityTpl

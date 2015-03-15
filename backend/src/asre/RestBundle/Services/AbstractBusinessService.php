@@ -6,7 +6,7 @@ use Doctrine\Common\Annotations\Reader;
 use Doctrine\ORM\EntityManagerInterface;
 
 /**
- *  helper functions for business service like asre.MainEventService
+ *  helper functions for business service like asre.PersonService
  *
  * @author benoitddlp
  */

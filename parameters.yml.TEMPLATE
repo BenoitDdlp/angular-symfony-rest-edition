@@ -1,5 +1,8 @@
 # local backend properties
 parameters:
+
+# db settings
+
     database_driver:   pdo_mysql
     database_host:     127.0.0.1
     database_port:     ~
@@ -7,6 +10,7 @@ parameters:
     database_user:     root
     database_password: root
 
+# mail settings
     mailer_transport:  smtp
     mailer_encryption: ssl
     mailer_auth_mode:  login
@@ -16,3 +20,22 @@ parameters:
 
     #used to generate frontend mail url
     front_end_path:    http://localhost/asre/frontend/app/
+
+# curl settings
+    curl_proxy.address: ~
+    curl_proxy.port: ~
+
+# social account
+    google.client_id:               your_google_client_id
+    google.client_secret:           your_google_client_secret
+
+    twitter.client_id:              your_twitter_client_id
+    twitter.client_secret:          your_twitter_client_secret
+    twitter.access_token:           your_twitter_access_token
+    twitter.access_token_secret:    your_twitter_access_token_secret
+
+    facebook.client_id:             your_facebook_client_id
+    facebook.client_secret:         your_facebook_client_secret
+
+    linkedin.client_id:             your_linkedin_client_id
+    linkedin.client_secret:         your_linkedin_client_secret

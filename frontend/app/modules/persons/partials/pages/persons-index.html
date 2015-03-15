@@ -1,0 +1,51 @@
+<div id="page-heading">
+
+    <div ng-include="'partials/navigation/breadcrumb.html'"></div>
+
+    <h1>{{'persons.links.persons' | translate }}</h1>
+    <div ng-include="'modules/persons/partials/persons-actions.html'"></div>
+</div>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+
+            <div class="panel">
+                <div class="panel-heading">
+                    <h4>{{'persons.actions.search' | translate }}</h4>
+                </div>
+                <div class="panel-body" entity-list-handler="persons">
+                    <div class="search-classic">
+                        <form ng-submit="sendQuery(query)">
+                            <div class="input-group well w100">
+                                <input type="text" ng-model="query" placeholder="{{'global.actions.placeHolderSearch' | translate }}" class="form-control"/>
+                                 <span class="input-group-btn">
+                    <button role="submit" type="submit" class="btn btn-primary">
+                        <i class="fa fa-search"></i> {{'global.actions.search' | translate }}
+                    </button>
+                  </span>
+                            </div>
+                        </form>
+                        <h3 ng-if="count==0"> {{'global.labels.search.no_result' | translate }}</h3>
+
+                        <div class="search-result" ng-repeat-start="person in entities  track by $index" infinite-scroll='load()' infinite-scroll-disabled='busy' infinite-scroll-distance='0.5'>
+                            <div class="row" ng-include="'modules/persons/partials/views/persons-entity-row-lg.html'"></div>
+                        </div>
+                        <hr ng-repeat-end="">
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- col-md-12 -->
+    </div>
+    <!-- row -->
+</div> <!-- container -->
+</div>
+
+
+
+
+
+

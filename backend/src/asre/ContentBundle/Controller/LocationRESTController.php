@@ -18,7 +18,7 @@ class LocationRESTController extends FOSRestController
   const FORM_CLASSNAME = "asre\\ContentBundle\\Form\\LocationType";
 
   /**
-   * Lists all MainEventLocation entities.
+   * Lists all Location entities.
    * @Rest\Get("/locations",name="content_locations_all")
    * @Rest\View(serializerEnableMaxDepthChecks=true, serializerGroups={"list"})
    * @Rest\QueryParam(name="offset", requirements="\d+", nullable=true, description="Offset from which to start listing pages.")
@@ -50,7 +50,7 @@ class LocationRESTController extends FOSRestController
 
 
   /**
-   * Creates a new MainEventLocation from the submitted data.
+   * Creates a new Location from the submitted data.
    *
    * @Rest\Post("/locations",name="content_locations_post")
    *

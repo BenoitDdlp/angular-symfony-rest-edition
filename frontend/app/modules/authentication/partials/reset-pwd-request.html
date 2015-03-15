@@ -1,0 +1,28 @@
+
+<div class="verticalcenter">
+
+    <div class="modal-header">
+        <a href="#/"><img ng-src="assets/img/logo.png" alt="Logo" class="brand"/></a>
+    </div>
+
+    <div class="modal-body">
+
+        <alert type="info"><span>{{ 'authentication.messages.reset_pwd_info' | translate }}</span></alert>
+
+        <form name="resetPwdRequestForm" class="form" role="form" ng-submit="resetPwdRequestAction(resetPwdRequestForm)" novalidate="">
+            <div class="form-group">
+                <label for="inputUsername">{{ 'authentication.labels.username_or_email' | translate }}</label>
+                <input required="" type="text" name="username" class="form-control" id="inputUsername" placeholder="{{ 'authentication.labels.username_or_email' | translate }}" ng-model="user.username"/>
+            </div>
+
+        </form>
+
+    </div>
+
+    <div class="modal-footer">
+        <div class="pull-right">
+            <a href="" class="btn btn-default" ng-click="$dismiss('cancel')">{{ 'global.actions.cancel' | translate }}</a>
+            <a href="" class="btn btn-primary" ng-disabled="resetPwdRequestAction.$invalid" ng-click="resetPwdRequestAction(resetPwdRequestForm)">{{ 'global.actions.ok' | translate }}</a>
+        </div>
+    </div>
+</div>
