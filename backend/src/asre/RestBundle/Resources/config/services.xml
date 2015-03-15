@@ -27,11 +27,7 @@
       <argument type="service" id="jms_serializer"/>
     </service>
     <!-- ajax logout -->
-    <service id="asre.rest.logout.success_handler" class="%asre.rest.logout.success_handler.class%" public="false"
-             abstract="true">
-      <argument type="service" id="security.http_utils"/>
-      <argument>/</argument>
-    </service>
+    <service id="asre.rest.logout.success_handler" class="%asre.rest.logout.success_handler.class%"/>
 
     <service id="asre.rest.asre_entity_type" class="%asre.rest.asre_entity_type.class%">
       <argument type="service" id="doctrine.orm.entity_manager"/>

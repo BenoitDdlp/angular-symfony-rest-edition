@@ -76,6 +76,7 @@ security:
                     #automatic user registration on your site, with data from the provider (facebook. google, etc.)
                     service: my_user_provider
             logout:
+                success_handler: asre.rest.logout.success_handler
                 path:   logout
                 target: /
 
