@@ -1,0 +1,84 @@
+jms_security_extra:
+    secure_all_services: false
+    expressions: true
+
+security:
+    encoders:
+       # Symfony\Component\Security\Core\User\User: plaintext
+        asre\SecurityBundle\Entity\User:
+         # id : fos_user.password_provider.encoder
+          algorithm: sha512
+          iterations: 1
+          encode_as_base64: false
+
+    providers:
+        main:
+            id: fos_user.user_provider.username
+
+    access_decision_manager:
+        # La valeur de « Strategy » peut être : affirmative, unanimous ou consensus
+        strategy: affirmative
+
+#        in_memory:
+#            memory:
+#                users:
+#                    #define here the user password of the "admin" account
+#                    admin: { password: wwwconfTER, roles: [ 'ROLE_ADMIN' ] }
+
+    firewalls:
+        dev:
+            pattern:  ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        main_login:
+            pattern:   /account/login$
+            anonymous: true # On autorise les anonymes sur ce pare-feu
+
+        oauth_login:
+            pattern:   ^/account/connect
+            anonymous: true # On autorise les anonymes sur ce pare-feu
+
+        main:
+            remember_me:
+                key:      "%secret%"
+                lifetime: 31536000 # 365 days in seconds
+                path:     /
+                domain:   ~ # Defaults to the current domain from $_SERVER
+            pattern:   ^/
+            anonymous: true
+            provider:  main
+            form_login:
+#               login_path: fos_user_security_login
+#               check_path: fos_user_security_check
+                login_path: /account/login
+                check_path: /account/login/login_check
+                default_target_path: dashboard_index
+                success_handler: authentication_handler
+                failure_handler: authentication_handler
+                require_previous_session: false # The default value is true
+                #
+            oauth:
+                resource_owners:
+                    google:         "/account/login/check-google"
+                    twitter:        "/account/login/check-twitter"
+                    facebook:       "/account/login/check-facebook"
+                    linkedin:       "/account/login/check-linkedin"
+                login_path:        /account/login
+                failure_path:      /account/login
+                default_target_path: /
+                use_forward:       false
+                success_handler: authentication_handler
+                failure_handler: authentication_handler
+                # use_forward:       true
+
+                oauth_user_provider:
+                    #this is my custom user provider, created from FOSUBUserProvider - will manage the
+                    #automatic user registration on your site, with data from the provider (facebook. google, etc.)
+                    service: my_user_provider
+            logout:
+                path:   logout
+                target: /
+
+    access_control:
+        #- { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
+

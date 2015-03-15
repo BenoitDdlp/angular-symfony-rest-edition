@@ -1,0 +1,31 @@
+{% block subject %}Welcome {{ user.username }}{% endblock %}
+
+
+{% block body_text %}
+  {% autoescape false %}
+  Hello {{ user.username }} !
+
+  {{ 'registration' }}
+
+  {{ 'registration_confirmation_mail' | trans }} {{ confirmationUrl }}
+
+  Regards,{{ user.langage }}
+  the Symposer team
+  {% endautoescape %}
+{% endblock %}
+{% block body_html %}
+  <html>
+  <body>
+  <img src="{{ asset('img/asre.png') }}"/>
+
+  <h3>Hello {{ user.username }} !</h3>
+
+  <p>{{ 'registration_confirmation_mail' | trans }}
+    <a href="{{ confirmationUrl }}">{{ 'registration_confirmation_mail_this_link' | trans }}</a></p>
+
+  <p>Regards,</p>
+
+  <p><i>the Symposer team</i></p>
+  </body>
+  </html>
+  {# include a html template #}{% endblock %}

@@ -1,0 +1,34 @@
+# Symfony directories
+backend/app/logs/*
+backend/app/cache/*
+backend/vendor/*
+backend/web/bundles/*
+
+# Symfony files
+backend/app/config/parameters.yml
+backend/composer.lock
+
+# intellij files
+*.iml
+.idea
+
+# gedit temp file
+*~
+
+# Node install
+*/node_modules/*
+node_modules/*
+
+
+frontend/app/js/ws-config.js
+.tmp/*
+frontend/.tmp/*
+frontend/dist/*
+frontend/app/bower/*
+frontend/app/scripts/*
+frontend/local-config.json
+npm-debug.log
+
+#Proprietary theme files
+frontend/app/assets/less/theme
+local-config.json

@@ -1,0 +1,85 @@
+
+
+parameters:
+    fos_user.registration.confirmation.enabled: true
+    my_user_provider.class: asre\SecurityBundle\Services\FOSUBUserProvider
+    twitter.api_url: "https://api.twitter.com/1.1/"
+
+    asre_security.mailer.random_pwd_email_message.subject:    "Asre"
+    asre_security.mailer.random_pwd_email_message.html_body:  >
+        <html>
+          <body>
+            <img src="{{ asset('img/asre.png') }}"/>
+
+            <h3>Welcome !</h3>
+
+            <p>We're glad you have linked your #serviceName# account with asre</p>
+
+            <br/>All the asre's team welcomes you and wishes you will enjoy using our service.
+
+            <p>Regards,</p>
+            <p><i>the Asre team</i></p>
+          </body>
+        </html>
+    asre_security.mailer.random_pwd_email_message.text_body:  >
+        Welcome !
+        We're glad you have linked your #serviceName# account with asre
+        All the asre's team welcomes you and wishes you will enjoy using our service.
+        Regards,
+        the Asre team
+
+services:
+
+    #enable proxy setting for curl ( params : "curl_proxy.address" and "curl_proxy.port")
+    asre_proxy_aware_curl:
+        class: asre\SecurityBundle\Services\AsreProxyAwareCurl
+        decorates: hwi_oauth.http_client
+        arguments:
+            - "@service_container"
+
+    my_user_provider:
+        class: "%my_user_provider.class%"
+        #this is the place where the properties are passed to the UserProvider - see config.yml
+        arguments: 
+            - @fos_user.user_manager
+            - 
+                google:         google_id
+                twitter:        twitter_id
+                facebook:       facebook_id
+                linkedin:       linkedin_id
+            - @session
+            - @asre_security.mailer
+            - @asre.UserService
+
+    asre.UserService:
+        class:  asre\SecurityBundle\Services\UserService
+        parent: asre.rest.business_service
+
+    asre_user.registration.form.type:
+        class: asre\SecurityBundle\Form\RegistrationFormType
+        arguments: [%fos_user.model.user.class%]
+        tags:
+            - { name: form.type, alias: asre_user_registration }
+
+    asre_user.profile.form.type:
+        class: asre\SecurityBundle\Form\ProfileFormType
+        arguments: [%fos_user.model.user.class%]
+        tags:
+            - { name: form.type, alias: asre_user_profile }
+
+    asre_security.mailer:
+        class:  asre\SecurityBundle\Services\Mailer
+        public: false
+        arguments:
+            - "@mailer"
+            - "@router" 
+            -
+                random_pwd_email_message:
+                    from_email  : "%fos_user.registration.confirmation.from_email%"
+                    subject     : "%asre_security.mailer.random_pwd_email_message.subject%"
+                    html_body   : "%asre_security.mailer.random_pwd_email_message.html_body%"
+                    text_body   : "%asre_security.mailer.random_pwd_email_message.text_body%"
+
+    asre_security.twitter:
+        class: asre\SecurityBundle\Services\TwitterAPI
+        arguments: [ %twitter.client_id%, %twitter.client_secret%, %twitter.access_token%, %twitter.access_token_secret%, %twitter.api_url% , @asre_proxy_aware_curl]

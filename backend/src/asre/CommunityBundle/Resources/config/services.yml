@@ -1,0 +1,19 @@
+parameters:
+    mail_manager.class: asre\CommunityBundle\Services\MailManager
+    person_service.class: asre\CommunityBundle\Services\PersonService
+    organization_version_service.class: asre\CommunityBundle\Services\OrganizationVersionService
+services:
+
+    asre.mail_manager:
+        class:  "%mail_manager.class%"
+        parent: fos_user.mailer.twig_swift
+        calls:
+            - [setFrontEndPath, ["%front_end_path%"]]
+            - [setConfirmPath, ["%front_end_confirm_path%"]]
+            - [setResetPath, ["%front_end_reset_path%"]]
+
+
+    asre.PersonService:
+        class:  "%person_service.class%"
+        parent: asre.rest.business_service
+        arguments: ["@security.context", "@fos_user.user_manager", "@fos_user.util.token_generator", "@asre.mail_manager", "@session"]

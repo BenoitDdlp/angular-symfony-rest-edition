@@ -1,0 +1,79 @@
+asre_import:
+    resource: "@asreImportBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+fos_user_registration:
+    resource: "@FOSUserBundle/Resources/config/routing/registration.xml"
+    prefix: /account/register
+
+fos_user_profile:
+    resource: "@FOSUserBundle/Resources/config/routing/profile.xml"
+    prefix: /account
+
+fos_user_resetting:
+    resource: "@FOSUserBundle/Resources/config/routing/resetting.xml"
+    prefix: /account/resetting
+
+fos_user_change_password:
+    resource: "@FOSUserBundle/Resources/config/routing/change_password.xml"
+    prefix: /account/profile
+
+
+asre_community:
+    resource: "@asreCommunityBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+asre_organization:
+    resource: asre\CommunityBundle\Controller\OrganizationRESTController
+    prefix:   /
+
+asre_person:
+    resource: asre\CommunityBundle\Controller\PersonRESTController
+    prefix:   /
+
+asre_content:
+    resource: "@asreContentBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+asre_security_www_conf:
+    resource: "@asreSecurityBundle/Controller/"
+    type:     annotation
+    prefix:   /account
+
+asre_tweets_bundle:
+    resource: "@asreTweetsBundle/Controller/"
+    type:     annotation
+
+login_check:
+     pattern:   /account/login/login_check
+
+logout:
+    pattern:   /account/logout
+
+#HWIOAuthBundle routes
+hwi_oauth_security:
+    resource: "@HWIOAuthBundle/Resources/config/routing/login.xml"
+    prefix: /account/login
+
+#hwi_oauth_connect:
+#    resource: "@HWIOAuthBundle/Resources/config/routing/connect.xml"
+#    prefix: /account/login
+
+hwi_oauth_redirect:
+    resource: "@HWIOAuthBundle/Resources/config/routing/redirect.xml"
+    prefix:   /account/connect
+
+google_login:
+    pattern: /account/login/check-google
+
+twitter_login:
+    pattern: /account/login/check-twitter
+
+facebook_login:
+    pattern: /account/login/check-facebook
+
+linkedin_login:
+    pattern: /account/login/check-linkedin

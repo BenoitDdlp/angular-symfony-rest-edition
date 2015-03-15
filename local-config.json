@@ -1,0 +1,4 @@
+{
+  "serverRootPath": "http://192.168.0.13/asre/backend/web/app_dev.php",
+  "clientRootPath": "http://192.168.0.13/asre/frontend/app"
+}

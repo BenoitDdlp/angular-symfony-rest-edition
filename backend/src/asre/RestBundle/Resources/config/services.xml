@@ -1,0 +1,74 @@
+<?xml version="1.0" ?>
+
+<container xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xmlns="http://symfony.com/schema/dic/services"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+  <parameters>
+    <parameter key="serialize_exception_listener.class">asre\RestBundle\Listener\SerializeExceptionListener</parameter>
+    <parameter key="authentication_handler.class">asre\RestBundle\Handler\AuthenticationHandler</parameter>
+
+    <parameter key="asre.rest.crudhandler.class">asre\RestBundle\Handler\CrudHandler</parameter>
+    <parameter key="asre.rest.business_service.class">asre\RestBundle\Services\AbstractBusinessService</parameter>
+
+    <parameter key="asre.rest.searchservice.class">asre\RestBundle\Search\SearchService</parameter>
+    <parameter key="asre.rest.asre_entity_type.class">asre\RestBundle\Form\AsreEntityType</parameter>
+    <parameter key="asre.rest.asre_collection_type.class">asre\RestBundle\Form\AsreCollectionType</parameter>
+  </parameters>
+
+  <services>
+    <!-- ajax login -->
+    <service id="authentication_handler" class="%authentication_handler.class%">
+      <argument type="service" id="router"/>
+      <argument type="service" id="security.context"/>
+      <argument type="service" id="fos_user.user_manager"/>
+      <argument type="service" id="translator"/>
+      <argument type="service" id="jms_serializer"/>
+    </service>
+
+    <service id="asre.rest.asre_entity_type" class="%asre.rest.asre_entity_type.class%">
+      <argument type="service" id="doctrine.orm.entity_manager"/>
+      <tag name="form.type" alias="asre_entity_type"/>
+    </service>
+
+    <service id="asre.rest.asre_collection_type" class="%asre.rest.asre_collection_type.class%">
+      <argument type="service" id="doctrine.orm.entity_manager"/>
+      <tag name="form.type" alias="asre_collection_type"/>
+    </service>
+
+    <!-- generic crud handler-->
+    <service id="asre.rest.crudhandler" class="%asre.rest.crudhandler.class%">
+      <argument type="service" id="service_container"/>
+    </service>
+
+    <!-- generic crud handler-->
+    <service id="asre.rest.crudhandler" class="%asre.rest.crudhandler.class%">
+      <argument type="service" id="service_container"/>
+    </service>
+
+    <!-- abstract business service-->
+    <service id="asre.rest.business_service" class="%asre.rest.business_service.class%" abstract="true">
+      <call method="setEntityManager">
+        <argument type="service" id="doctrine.orm.entity_manager"/>
+      </call>
+      <call method="setReader">
+        <argument type="service" id="annotations.reader"/>
+      </call>
+    </service>
+
+    <!-- search service-->
+    <service id="asre.rest.searchservice" class="%asre.rest.searchservice.class%">
+      <argument type="service" id="doctrine.orm.entity_manager"/>
+      <argument type="service" id="annotations.reader"/>
+    </service>
+
+
+    <service id="serialize_exception_listener" class="%serialize_exception_listener.class%">
+      <tag name="kernel.event_listener" event="kernel.exception" method="onKernelException"/>
+      <argument type="service" id="serializer"/>
+      <argument type="service" id="logger"/>
+    </service>
+
+  </services>
+
+</container>

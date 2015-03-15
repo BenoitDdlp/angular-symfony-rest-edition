@@ -16,8 +16,8 @@ Angular Symfony rest edition is a jump start at building restfull web applicatio
 	
 ##Step 1 : Clone Repository
 
-	git clone https://github.com/BenoitDdlp/angular-symfony-rest-edition.git angular-symfony-rest-edition
-	cd angular-symfony-rest-edition/backend
+	git clone https://github.com/BenoitDdlp/angular-symfony-rest-edition.git asre
+	cd asre
 
 ##Step 2 : Configuration => template files to copy & adapt
 
@@ -34,16 +34,20 @@ Angular Symfony rest edition is a jump start at building restfull web applicatio
 ##Step 3 : Download vendors
 
 ### Node and grunt
+create directory "node_modules" and :
 
     npm install
     npm install -g grunt-cli
 
 #### Composer
+create directory "backend/vendor" and :
+
     cd backend
 	composer update
 	cd ..
 
 #### Bower
+create directory "frontend/bower" and :
 
      grunt update_dependencies
 

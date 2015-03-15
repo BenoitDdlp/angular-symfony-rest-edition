@@ -1,0 +1,4 @@
+services:
+#    asre_tweets.example:
+#        class: asre\TweetsBundle\Example
+#        arguments: [@service_id, "plain_value", %parameter%]

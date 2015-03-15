@@ -1,0 +1,44 @@
+imports:
+    - { resource: config.yml }
+
+# CORS Support
+nelmio_cors:
+    defaults:
+        allow_credentials: true
+    paths:
+        '^/':
+            allow_origin: ['*']
+            allow_headers: ['Accept','Content-Type','X-Custom-Auth']
+            allow_methods: ['POST', 'PATCH', 'PUT', 'GET', 'DELETE', 'OPTIONS']
+
+framework:
+    router:   { resource: %kernel.root_dir%/config/%routing_dev_file% }
+    profiler: { only_exceptions: false }
+
+web_profiler:
+    toolbar: true
+    intercept_redirects: false
+
+monolog:
+    handlers:
+        main:
+            type:  stream
+            path:  %kernel.logs_dir%/%kernel.environment%.log
+            level: debug
+        firephp:
+            type:  firephp
+            level: info
+        chromephp:
+            type:  chromephp
+            level: info
+
+assetic:
+    use_controller: true
+
+swiftmailer:
+    transport:  %mailer_transport%
+    host:       %mailer_host%
+    auth_mode:  %mailer_auth_mode% 
+    encryption: %mailer_encryption%
+    username:   %mailer_username%
+    password:   %mailer_password%
