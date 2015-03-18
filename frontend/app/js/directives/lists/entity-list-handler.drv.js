@@ -23,7 +23,7 @@ angular.module('asreApp').directive('entityListHandler', [
       {
         if (!attrs.entityListHandler)
         {
-          return console.error('missing mandatory field in "entity-list-handler" directive (see doc above)');
+          return console.error('missing mandatory param "entity-list-handler" for directive "entity-list-handler" directive (see doc above)');
         }
 
         //Request param in scope specifies the url to use for fetching entities
@@ -66,9 +66,6 @@ angular.module('asreApp').directive('entityListHandler', [
         //put filter function in scope for reuse
         scope.filter = filter;
 
-
-        //first fetch
-        scope.sendQuery();
         function initialize()
         {
           offset = 0;

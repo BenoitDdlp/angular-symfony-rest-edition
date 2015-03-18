@@ -10,7 +10,7 @@ angular.module('topicsApp')
     function ($routeProvider)
     {
       $routeProvider
-        .when('/home/topics/show/:topicId', {
+        .when('/topics/show/:topicId', {
           templateUrl: 'modules/topics/partials/topics-show.html',
           controller: 'topicShowCtrl'
         })
@@ -18,7 +18,7 @@ angular.module('topicsApp')
 //          templateUrl: 'modules/topics/partials/topics-thumbnail.html',
 //          controller: 'topicsListCtrl'
 //        })
-        .when('/home/topics/new', {
+        .when('/topics/new', {
           templateUrl: 'modules/topics/partials/topics-new.html',
           controller: 'topicsNewCtrl'
         });

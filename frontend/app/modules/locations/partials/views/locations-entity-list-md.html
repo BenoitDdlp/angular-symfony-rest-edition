@@ -17,8 +17,10 @@
         <i ng-repeat="equipment in location.equipments  track by $index" class="fa fa-{{equipment.icon}} fa-1x"></i>
       </td>
       <td>
-        <a class="btn btn-warning btn-sm" asre-acl-show="location" href="#/home/locations/edit/{{ location.id }}" role="button"><i class="fa fa-edit fa-1x"></i></a>
-        <a class="btn btn-default btn-sm" href="#/home/locations/show/{{ location.id }}" role="button"><i class="fa fa-eye fa-1x"></i></a>
+        <a class="btn btn-warning btn-sm" asre-acl-show="location" href="#/locations/edit/{{ location.id }}"
+           role="button"><i class="fa fa-edit fa-1x"></i></a>
+        <a class="btn btn-default btn-sm" href="#/locations/show/{{ location.id }}" role="button"><i
+          class="fa fa-eye fa-1x"></i></a>
         <a class="btn btn-primary btn-sm" asre-acl-show="location" href="" data-ng-click="clone(location, $index)" role="button"><i class="fa fa-files-o fa-1x"></i></a>
         <button class="btn btn-danger btn-sm" asre-acl-show="location" data-ng-click="deleteModal($index, location)" role="button">
           <i class="fa fa-trash-o fa-1x"></i>

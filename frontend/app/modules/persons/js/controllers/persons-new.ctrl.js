@@ -9,11 +9,10 @@ angular.module('personsApp').controller('personsNewCtrl', [
   '$window',
   '$location',
   'personsFact',
-  'papersFact',
   'organizationsFact',
   'pinesNotifications',
   'translateFilter',
-    function ($scope, $filter, $window, $location, personsFact, papersFact, organizationsFact, pinesNotifications, translateFilter)
+  function ($scope, $filter, $window, $location, personsFact, organizationsFact, pinesNotifications, translateFilter)
     {
         $scope.person = new personsFact();
 
@@ -29,13 +28,6 @@ angular.module('personsApp').controller('personsNewCtrl', [
 
         var success = function (response, args)
         {
-            //Notify of the creation action success
-//            pinesNotifications.notify({
-//                title: translateFilter('global.validations.success'),
-//                text: translateFilter('persons.validations.created'),
-//                type: 'success'
-//            });
-
             //close modal if view is a modal instance (resolve promise with the new person)
             if ($scope.$close)
             {
@@ -48,7 +40,7 @@ angular.module('personsApp').controller('personsNewCtrl', [
             }
         };
 
-        //Fct to close the modal if the view is a modal instance
+      //Close the modal if the view is a modal instance
         $scope.cancel = function ()
         {
             $scope.$dismiss('cancel');
@@ -63,7 +55,6 @@ angular.module('personsApp').controller('personsNewCtrl', [
                 personsFact.create(personsFact.serialize($scope.person), success, error);
             }
         };
-
 
         //Populate array of a specific linked entity
         $scope.addRelationship = function (key, model)

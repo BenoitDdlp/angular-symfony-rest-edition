@@ -5,28 +5,31 @@
     <input type="url" class="form-control" id="inputImg" placeholder="http://..." ng-model="person.img">
   </div>
 </div>
+
 <div class="form-group">
   <label class="col-sm-3 control-label" for="inputFirstname">{{ 'persons.model.firstname' | translate}}</label>
 
   <div class="col-sm-6">
     <input type="text" class="form-control" id="inputFirstname" placeholder="{{ 'persons.model.firstname' | translate}}"
-           ng-model="person.firstName" required>
+           ng-model="person.firstName" required="required">
   </div>
 </div>
+
 <div class="form-group">
   <label class="col-sm-3 control-label" for="inputFamilyname">{{ 'persons.model.familyname' | translate}}</label>
 
   <div class="col-sm-6">
     <input type="text" class="form-control" id="inputFamilyname"
-           placeholder="{{ 'persons.model.familyname' | translate}}" ng-model="person.familyName" required>
+           placeholder="{{ 'persons.model.familyname' | translate}}" ng-model="person.familyName" required="required">
   </div>
 </div>
+
 <div class="form-group">
   <label class="col-sm-3 control-label" for="inputEmail">{{ 'persons.model.email' | translate}}</label>
 
   <div class="col-sm-6">
     <input type="email" class="form-control" id="inputEmail" name="mail"
-           placeholder="{{ 'persons.model.email' | translate}}" ng-model="person.email" required
+           placeholder="{{ 'persons.model.email' | translate}}" ng-model="person.email" required="required"
            ng-pattern=/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/>
   </div>
 </div>
@@ -36,7 +39,7 @@
 
   <div class="col-sm-6">
     <textarea class="form-control" id="inputDesc" name="description"
-              placeholder="{{ 'persons.model.description' | translate}}" ng-model="person.description"/>
+              placeholder="{{ 'persons.model.description' | translate}}" ng-model="person.description"></textarea>
   </div>
 </div>
 
@@ -44,10 +47,11 @@
   <label class="col-sm-3 control-label" for="inputCountry">{{ 'persons.model.localization' | translate}}</label>
 
   <div class="col-sm-6">
-    <input google-place-autocomplete="" type="text" class="form-control" on-select="selectAddress"
+    <input google-place-autocomplete="" id="inputCountry" type="text" class="form-control" on-select="selectAddress"
            ng-model="person.localization.label"/></td>
   </div>
 </div>
+
 <div class="form-group">
   <label class="col-sm-3 control-label" for="inputWebsite">{{ 'persons.model.website' | translate}}</label>
 
@@ -55,6 +59,7 @@
     <input type="url" class="form-control" id="inputWebsite" placeholder="http://..." ng-model="person.website">
   </div>
 </div>
+
 <div class="form-group">
   <label class="col-sm-3 control-label" for="inputTwitter">{{ 'persons.model.twitter' | translate}}</label>
 
@@ -62,6 +67,7 @@
     <input class="form-control" id="inputTwitter" placeholder="{{person.twitter}}" ng-model="person.twitter">
   </div>
 </div>
+
 <div class="form-group">
   <div class="checkbox block">
     <label class="col-sm-3 control-label" for="inputShare">{{ 'persons.model.share' | translate}}</label>

@@ -7,7 +7,7 @@
 angular.module('analyticsApp').config([ '$routeProvider', function ($routeProvider)
 {
     $routeProvider
-        .when('/home/analytics/index', {
+      .when('/analytics', {
             templateUrl: 'modules/analytics/partials/pages/analytics-index.html',
             controller : 'analyticsIndexCtrl'
         })

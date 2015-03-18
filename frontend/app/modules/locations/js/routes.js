@@ -11,7 +11,7 @@ angular.module('locationsApp')
     {
       $routeProvider
         .otherwise({
-          redirectTo: '/home/locations/list'
+          redirectTo: '/locations/list'
         });
     }
   ]);

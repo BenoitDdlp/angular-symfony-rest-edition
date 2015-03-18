@@ -44,10 +44,10 @@ angular.module('asreApp').factory('searchService', [
                     limit : searchConfig.limit
                 };
 
-                //Serialize the order param
+              //Serialize order params
                 requestParams["order[" + searchConfig.orderBy + "]"] = searchConfig.orderSide || null;
 
-                //Add route parameters to request parameters
+              //Add route parameters to request
                 for (var param in searchConfig.routeParams)
                 {
                     requestParams[param] = searchConfig.routeParams[param];
@@ -84,7 +84,7 @@ angular.module('asreApp').factory('searchService', [
                     arg.callback(data);
                 }
             }
-        }
+        };
 
         this.serializeFilters = function(filters,  serializedFilters){
 
@@ -106,7 +106,7 @@ angular.module('asreApp').factory('searchService', [
             }
 
             return serializedFilters;
-        }
+        };
 
         return this;
     }

@@ -10,7 +10,7 @@ angular.module('authenticationApp')
     function ($routeProvider)
     {
       $routeProvider
-        .when('/home/authentication/account', {
+        .when('/authentication/account', {
           templateUrl: 'modules/authentication/partials/account.html',
           controller: 'accountCtrl'
         })

@@ -1,36 +1,37 @@
 <div id="page-heading">
 
-    <div ng-include="'partials/navigation/breadcrumb.html'"></div>
+  <div ng-include="'partials/navigation/breadcrumb.html'"></div>
 
-    <!--Options bar containing possible actions-->
-    <div class="options">
-        <div class="btn-toolbar">
-            <a class="btn btn-info" role="button">
-                <i class="fa fa-edit fa-1x"></i> {{ 'persons.actions.edit_profile' | translate}}
-            </a>
-        </div>
-    </div>
+  <h1>{{'persons.actions.add' | translate }}</h1>
+
+  <div ng-include="'modules/persons/partials/views/persons-actions.html'"></div>
+
 </div>
 <!--Page content-->
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="panel panel-gray">
-                <div class="panel-body">
-                    <panel panel-class="panel panel-gray"  heading="{{person.label}}">
-                        <form name="personNewForm" class="form" role="form" ng-submit="create(personNewForm)">
-                            <div ng-include="'modules/persons/partials/views/persons-form.html'"></div>
-                            <div class="form-group">
-                                <div  class="col-sm-3 control-label"></div>
-                                <div class="col-sm-6">
-                                    <button type="submit" class="btn btn-success">{{ 'globals.actions.save' | translate}}</button>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="panel panel panel-gray">
+        <div class="panel-heading">
+          <h4 class="ng-binding">
+            <i class="fa fa-plus"></i>
+            {{'persons.actions.add' | translate }}</h4>
 
-                                </div>
-                            </div>
-                        </form>
-                    </panel>
-                </div>
-            </div>
+          <div class="options">
+          </div>
         </div>
+        <div class="panel-body">
+          <form name="personNewForm" class="form-horizontal" role="form" ng-submit="create(personNewForm)">
+            <div ng-include="'modules/persons/partials/views/persons-form.html'"></div>
+            <div class="form-group">
+              <div class="col-sm-3 control-label"></div>
+              <div class="col-sm-6">
+                <button type="submit" class="btn btn-success">{{ 'globals.actions.save' | translate}}</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
+  </div>
 </div>

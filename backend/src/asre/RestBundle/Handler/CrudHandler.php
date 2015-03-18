@@ -9,6 +9,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
 class CrudHandler
 {
@@ -134,6 +135,15 @@ class CrudHandler
         break;
       default:
         throw new \RuntimeException("[$method] is not allowed!");
+    }
+    if (!$this->container->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED'))
+    {
+      throw new UnauthorizedHttpException('Basic realm="Asre"',
+        sprintf('You don\'t have the authorization to perform %s on %s',
+          $right,
+          '#' . $entity->getId()
+        )
+      );
     }
   }
 

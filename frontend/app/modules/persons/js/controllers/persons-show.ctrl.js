@@ -3,9 +3,10 @@
  *
  * @type {controller}
  */
-angular.module('personsApp').controller('personsShowCtrl', [ '$scope', '$rootScope', '$routeParams', 'personsFact', function ($scope, $rootScope, $routeParams, personsFact )
+angular.module('personsApp').controller('personsShowCtrl', [
+  '$scope',
+  'person',
+  function ($scope, person)
 {
-
-    $scope.person = personsFact.get({id: $routeParams.personId});
-
+  $scope.person = person;
 }]);

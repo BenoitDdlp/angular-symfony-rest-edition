@@ -20,12 +20,12 @@ angular.module('asreApp').controller('navMainCtrl', ['$scope', '$rootScope', '$l
     {
       label: 'persons.links.persons',
       iconClass: 'fa fa-user',
-      link: '#/home/persons/index'
+      link: '#/persons'
     },
     {
       label: 'organizations.links.organizations',
       iconClass: 'fa fa-group',
-      link : '#/home/organizations/index'
+      link: '#/organizations'
     },
     {
       label: "menu",
@@ -34,7 +34,7 @@ angular.module('asreApp').controller('navMainCtrl', ['$scope', '$rootScope', '$l
         {
           label: 'persons.links.persons',
           iconClass: 'fa fa-user',
-          link: '#/home/persons/index'
+          link: '#/persons'
         }
       ]
     }

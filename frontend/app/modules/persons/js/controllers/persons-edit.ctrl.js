@@ -5,25 +5,23 @@
  */
 angular.module('personsApp').controller('personsEditCtrl', [
   '$scope',
+  'person',
   '$q',
   '$filter',
   '$modal',
-  '$routeParams',
   '$location',
   'personsFact',
   'organizationsFact',
-  'papersFact',
   'pinesNotifications',
   'translateFilter',
   'authenticationFact',
   'positionsFact',
-  function ($scope, $q, $filter, $modal, $routeParams, $location, personsFact, organizationsFact, papersFact, pinesNotifications, translateFilter, authenticationFact, positionsFact)
+  function ($scope, person, $q, $filter, $modal, $location, personsFact, organizationsFact, pinesNotifications, translateFilter, authenticationFact, positionsFact)
   {
-    //Fetch person info
-    $scope.person = personsFact.get({id: $routeParams.personId});
+    $scope.person = person;
 
 
-    //Error on patch request
+    //Error on request
     var error = function (response, args)
     {
       //Notify of error on patch request
@@ -37,12 +35,6 @@ angular.module('personsApp').controller('personsEditCtrl', [
     //Success on patch request
     var success = function (response, args)
     {
-      //Notify of success on patch request
-//            pinesNotifications.notify({
-//                title: translateFilter('global.validations.success'),
-//                text : translateFilter('global.validations.modifications_saved'),
-//                type : 'success'
-//            });
       authenticationFact.updatePerson(response);
     };
 
