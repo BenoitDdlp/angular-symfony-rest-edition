@@ -4,12 +4,12 @@
     <a href="#/"><img ng-src="assets/img/logo.png" no-image alt="Logo" class="brand"/></a>
   </div>
 
+  <form name="signinForm" class="form-horizontal" role="form" ng-submit="signinAction(user)" novalidate="">
   <div class="modal-body" id="signinFormModal">
     <h4 class="text-center" style="margin-bottom: 25px;">{{ 'authentication.labels.signin_get_started' | translate }}
       <a href="" ng-click="showSignupPopup()" ng-controller="signupCtrl">{{ 'authentication.actions.signup' | translate }}</a>
     </h4>
 
-    <form name="signinForm" class="form-horizontal" role="form" ng-submit="signinAction(user)" novalidate="">
 
       <div class="form-group">
         <div class="col-sm-12">
@@ -58,12 +58,14 @@
       </a>
 
 
-    </form>
   </div>
   <div class="modal-footer">
     <div class="pull-right">
       <a href="" class="btn btn-default" ng-click="$dismiss('cancel')">{{ 'global.actions.cancel' | translate }}</a>
-      <a href="" class="btn btn-primary" ng-disabled="signinForm.$invalid" ng-click="signinAction(signinForm)">{{ 'global.actions.ok' | translate }}</a>
+      <button type="submit" class="btn btn-primary" ng-disabled="signinForm.$invalid">{{ 'global.actions.ok' | translate
+        }}
+      </button>
     </div>
   </div>
+  </form>
 </div>

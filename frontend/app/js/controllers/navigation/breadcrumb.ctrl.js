@@ -28,7 +28,7 @@ angular.module('asreApp').controller('breadcrumbCtrl', ['$scope', '$location', f
     },
     {
       idUrl: 'persons',
-      url: '/persons',
+      url: '#/persons',
       label: 'persons.links.persons',
       children: [
         {
@@ -51,7 +51,7 @@ angular.module('asreApp').controller('breadcrumbCtrl', ['$scope', '$location', f
     },
     {
       idUrl: 'organizations',
-      url: '/organizations',
+      url: '#/organizations',
       label: 'organizations.links.organizations',
       children: [
         {
