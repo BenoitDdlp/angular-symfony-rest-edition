@@ -18,7 +18,7 @@ angular.module('authenticationApp').factory('usersFact', ['$resource', function 
     {
       get: {method: 'GET', params: {}, isArray: false},
       signin: {method: 'POST', params: {}, isArray: false},
-      signup: {method: 'POST', params: {no_clean: true}, url: globalConfig.api.urls.registration, isArray: false},
+      signup: {method: 'POST', url: globalConfig.api.urls.registration, isArray: false},
       signout: {method: 'GET', url: globalConfig.api.urls.logout, isArray: false},
       confirm: {method: 'POST', url: globalConfig.api.urls.confirm, isArray: false},
       changepwd: {method: 'POST', url: globalConfig.api.urls.changepwd, isArray: false},

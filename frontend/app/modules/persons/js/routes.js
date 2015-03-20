@@ -11,21 +11,21 @@ angular.module('personsApp').config([
     $routeProvider
       .when('/persons', {
         templateUrl: 'modules/persons/partials/pages/persons-index.html',
-        controller: 'personsListCtrl',
-        resolve: {
-          persons: function (personsFact, $route)
-          {
-            return personsFact.all().$promise;
-          }
-        }
+        controller: 'personsListCtrl'
+        //resolve: {
+        //  persons: function (personsFact)
+        //  {
+        //    return personsFact.all().$promise;
+        //  }
+        //}
       })
       .when('/persons/new', {
         templateUrl: 'modules/persons/partials/pages/persons-new.html',
         controller: 'personsNewCtrl'
       })
-      .when('/persons/edit/:personId', {
-        templateUrl: 'modules/persons/partials/pages/persons-edit.html',
-        controller: 'personsEditCtrl',
+      .when('/persons/show/:personId', {
+        templateUrl: 'modules/persons/partials/pages/persons-show.html',
+        controller: 'personsShowCtrl',
         resolve: {
           person: function (personsFact, $route)
           {
@@ -33,9 +33,9 @@ angular.module('personsApp').config([
           }
         }
       })
-      .when('/persons/show/:personId', {
-        templateUrl: 'modules/persons/partials/pages/persons-show.html',
-        controller: 'personsShowCtrl',
+      .when('/persons/edit/:personId', {
+        templateUrl: 'modules/persons/partials/pages/persons-edit.html',
+        controller: 'personsEditCtrl',
         resolve: {
           person: function (personsFact, $route)
           {

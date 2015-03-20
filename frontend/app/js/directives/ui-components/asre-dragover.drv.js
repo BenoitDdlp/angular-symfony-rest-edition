@@ -25,4 +25,4 @@ angular.module('asreApp').directive('asreDragover', function ($timeout, $parse)
             }
         }
     };
-})
+});

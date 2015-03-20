@@ -31,8 +31,9 @@ class PersonService extends AbstractBusinessService
   }
 
   /**
+   * invite a person
    * - create an user linked to the person
-   * - send a confirmation mail
+   * - send a confirmation mail enabling it to log afterward
    * - add the current logged user as "godfather"
    *
    * @param Person $person
@@ -41,21 +42,25 @@ class PersonService extends AbstractBusinessService
    */
   public function post(Person $person)
   {
-    $email = $person->getEmail();
-    $randomPwd = substr(base_convert(bin2hex(hash('sha256', uniqid(mt_rand(), true), true)), 16, 36), 0, 12);
 
     /** @var \asre\SecurityBundle\Entity\User $newUser */
     $newUser = $this->userManager->createUser();
-    $newUser->setRandomPwd(true);
+    $person->setUser($newUser);
+
+
+    $email = $person->getEmail();
     $newUser->setUsername($email);
     $newUser->setEmail($email);
+
+    $randomPwd = substr(base_convert(bin2hex(hash('sha256', uniqid(mt_rand(), true), true)), 16, 36), 0, 12);
     $newUser->setPlainPassword($randomPwd);
+    $newUser->setRandomPwd(true);
     $newUser->setEnabled(false);
     $newUser->setConfirmationToken($this->tokenGenerator->generateToken());
-    $person->setUser($newUser);
+
     $this->userManager->updateUser($newUser);
 
-    $user = $this->securityContext->getToken()->getUser();
+    $user = $this->getLoggedUser();
     if ($user->getId() != $newUser->getId())
     {
       //add the current logged user as "godfather"
@@ -65,8 +70,13 @@ class PersonService extends AbstractBusinessService
     $this->mailer->sendConfirmationEmailMessage($newUser);
   }
 
+  protected function getLoggedUser()
+  {
+    return $this->securityContext->getToken()->getUser();
+  }
+
   /**
-   * if the account isn't activated, send a new mail
+   * validate edit ction
    *
    * @param Person $person
    *
@@ -75,18 +85,31 @@ class PersonService extends AbstractBusinessService
    */
   public function put(Person $person)
   {
-    $user = $person->getUser();
+    $this->validateAction($person);
+  }
 
-    if ($oldMail = $this->isDirty($person, 'email'))
+  protected function validateAction(Person $person)
+  {
+    $currentUser = $this->getLoggedUser();
+    if ($currentUser->getId() != $person->getUser()->getId())
     {
-      $user->setEmail($person->getEmail());
-      $this->userManager->updateUser($user);
-
-      $user->setConfirmationToken($this->tokenGenerator->generateToken());
-      $this->userManager->updateUser($user);
-      $this->mailer->sendConfirmationEmailMessage($user);
-      //todo : send a mail to the old account to inform that the confirmation link is no longer valid !
+      throw new AccessDeniedException('Not your account!');
     }
+
+    return $currentUser;
+  }
+
+  /**
+   * validate edit ction
+   *
+   * @param Person $person
+   *
+   * @throws \Doctrine\DBAL\DBALException when email or username is already in use
+   * @throws \Symfony\Component\Security\Core\Exception\AccessDeniedException
+   */
+  public function patch(Person $person)
+  {
+    $this->validateAction($person);
   }
 
   /**
@@ -99,13 +122,10 @@ class PersonService extends AbstractBusinessService
    */
   public function delete(Person $person)
   {
-    $user = $person->getUser();
-    if ($user->isEnabled())
-    {
-      throw new AccessDeniedException('This person is linked to a real user account');
-    }
+    $user = $this->validateAction($person);
     $user->setPerson(null);
     $person->setUser(null);
     $this->userManager->deleteUser($user);
+    //delete person ??
   }
 }

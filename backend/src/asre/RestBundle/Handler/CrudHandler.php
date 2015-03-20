@@ -59,9 +59,15 @@ class CrudHandler
   }
 
   /**
-   * Processes the form.
-   * try to call a business service method having the same name the http method
-   * the business service is conventionally named asre.{entityNme}Service  (i.e. : asre.PersonService)
+   * Processes a rest request, meant to be called from a controller.
+   *  - get or create entity
+   *  - process the received form
+   *  - validate action
+   *  - call business service (*)
+   *  - persist
+   *
+   *  * : try to call a business service method having the same name as the http method
+   *        the business service is conventionally named asre.{entityNme}Service  (i.e. : asre.PersonService->patch($person))
    *
    * @param Request $request
    * @param string  $entityClassName
@@ -154,7 +160,7 @@ class CrudHandler
    * @param $entityClassName
    * @param $method
    */
-  protected function callBusinessService($entity, $entityClassName, $method)
+  public function callBusinessService($entity, $entityClassName, $method)
   {
     try
     {

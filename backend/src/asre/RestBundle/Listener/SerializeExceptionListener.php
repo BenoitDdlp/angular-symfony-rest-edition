@@ -32,6 +32,7 @@ class SerializeExceptionListener
     if (null !== $this->logger)
     {
       $this->logger->critical($error->getMessage());
+      $this->logger->critical($error->getFile() . "(" . $error->getLine() . ")");
       foreach (explode("\n", $error->getTraceAsString()) as $trace)
       {
         $this->logger->critical($trace);

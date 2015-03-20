@@ -66,6 +66,7 @@ angular.module('asreApp').directive('entityListHandler', [
         //put filter function in scope for reuse
         scope.filter = filter;
 
+
         function initialize()
         {
           offset = 0;

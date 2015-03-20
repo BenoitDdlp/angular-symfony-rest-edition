@@ -15,6 +15,8 @@
     <parameter key="asre.rest.searchservice.class">asre\RestBundle\Search\SearchService</parameter>
     <parameter key="asre.rest.asre_entity_type.class">asre\RestBundle\Form\AsreEntityType</parameter>
     <parameter key="asre.rest.asre_collection_type.class">asre\RestBundle\Form\AsreCollectionType</parameter>
+
+    <parameter key="asre.serialize_right_listener.class">asre\RestBundle\Listener\SerializeRightListener</parameter>
   </parameters>
 
   <services>
@@ -69,6 +71,12 @@
     <service id="serialize_exception_listener" class="%serialize_exception_listener.class%">
       <tag name="kernel.event_listener" event="kernel.exception" method="onKernelException"/>
       <argument type="service" id="serializer"/>
+      <argument type="service" id="logger"/>
+    </service>
+
+    <service id="serialize_right_listener" class="%asre.serialize_right_listener.class%">
+      <tag name="jms_serializer.event_subscriber" event="serializer.post_serialize" method="onPostSerialize"/>
+      <argument type="service" id="security.context"/>
       <argument type="service" id="logger"/>
     </service>
 

@@ -69,8 +69,8 @@ class User extends BaseUser
   /************************************
    * SOCIAL NETWORK ID
    *
-   * @TODO : put it in the table social_service_account
-   *       ***********************************/
+   * @TODO : put it in a separated table
+   ************************************/
   /** @ORM\Column(name="google_access_token", type="string", length=255, nullable=true) */
   protected $google_access_token;
   /** @ORM\Column(name="twitter_id", type="string", length=255, nullable=true) */

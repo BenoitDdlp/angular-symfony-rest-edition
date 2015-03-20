@@ -5,9 +5,8 @@
  */
 angular.module('personsApp').controller('personsListCtrl', [
   '$scope',
-  'persons',
   'personsFact',
-  function ($scope, persons, personsFact)
+  function ($scope, personsFact)
   {
     //Prepare entities object for list entity handler directive
     $scope.entities = [];

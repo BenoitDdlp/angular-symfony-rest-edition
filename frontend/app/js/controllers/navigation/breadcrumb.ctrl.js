@@ -3,7 +3,7 @@
 /**
  * Breadcrumb controller (or also called 'fil d'ariane')
  */
-angular.module('asreApp').controller('breadcrumbCtrl', ['$scope', '$rootScope', '$location', function ($scope, $rootScope, $location)
+angular.module('asreApp').controller('breadcrumbCtrl', ['$scope', '$location', function ($scope, $location)
 {
   /**
    * Definitions for breadcrump
@@ -13,7 +13,7 @@ angular.module('asreApp').controller('breadcrumbCtrl', ['$scope', '$rootScope', 
    * url: optional, the url where to go when the user click on it
    * children: the children node (must know all routes of the next subUrl)
    *
-   * @type {{idUrl: string, label: string, url: string, children: {idUrl: string, label: string}[]}[]}
+   * @type {{idUrl: String, label: String, children: {idUrl: String, label: String}[]}[]}
    */
   var breadcrumbDefinitions = [
     {
@@ -28,6 +28,7 @@ angular.module('asreApp').controller('breadcrumbCtrl', ['$scope', '$rootScope', 
     },
     {
       idUrl: 'persons',
+      url: '/persons',
       label: 'persons.links.persons',
       children: [
         {
@@ -50,6 +51,7 @@ angular.module('asreApp').controller('breadcrumbCtrl', ['$scope', '$rootScope', 
     },
     {
       idUrl: 'organizations',
+      url: '/organizations',
       label: 'organizations.links.organizations',
       children: [
         {
@@ -60,43 +62,14 @@ angular.module('asreApp').controller('breadcrumbCtrl', ['$scope', '$rootScope', 
     }
   ];
 
-  /**
-   * Find an item in an items array
-   *
-   * @param items A list of items
-   * @param itemId The item to look for
-   * @returns {*}
-   */
-  var findItem = function (items, itemId)
-  {
-    if (items !== undefined)
-    {
-      for (var i = 0, length = items.length; i < length; i++)
-      {
-
-        if (itemId === items[i].idUrl)
-        {
-          return items[i];
-        }
-      }
-
-
-      console.error('[ERROR] - Breadcrumb.js : \n   children node \'' + itemId + '\' does not exist.\n   The parent node must contains a correct id child.');
-      return null;
-    }
-    else
-    {
-      console.error('[ERROR] - Breadcrumb.js : \n   parent node for itemId \'' + itemId + '\' undefined.\n   Maybe you forgot to define a children node ?')
-    }
-    return null;
-  };
+  $scope.breadcrumbArray = getCurrentBreadcrumb();
 
   /**
    * Return an array containing the breadcrump to show
    *
    * @returns {Array}
    */
-  var getCurrentBreadcrumb = function ()
+  function getCurrentBreadcrumb()
   {
     // Getting the current url...
     var currentPath = $location.path();
@@ -158,9 +131,39 @@ angular.module('asreApp').controller('breadcrumbCtrl', ['$scope', '$rootScope', 
       }
     }
     return breadcrumbArray;
-  };
+  }
 
-  $scope.breadcrumbArray = getCurrentBreadcrumb();
+  /**
+   * Find an item in an items array
+   *
+   * @param items A list of items
+   * @param itemId The item to look for
+   * @returns {*}
+   */
+  function findItem(items, itemId)
+  {
+    if (items !== undefined)
+    {
+      for (var i = 0, length = items.length; i < length; i++)
+      {
+
+        if (itemId === items[i].idUrl)
+        {
+          return items[i];
+        }
+      }
+
+
+      console.error('[ERROR] - Breadcrumb.js : \n   children node \'' + itemId + '\' does not exist.\n   The parent node must contains a correct id child.');
+      return null;
+    }
+    else
+    {
+      console.error('[ERROR] - Breadcrumb.js : \n   parent node for itemId \'' + itemId + '\' undefined.\n   Maybe you forgot to define a children node ?')
+    }
+    return null;
+  }
+
 }]);
 
 
