@@ -1,29 +1,29 @@
 <nav id="page-leftbar" role="navigation">
-    <div>
-        <ul ng-controller="navMainCtrl" id="sidebar" sticky-scroll="40">
-            <li id="search" ng-class="{'keep-open':ui_searchCollapsed}">
-                <a href=""
-                   ng-class="{blockImportant:ui_navLeftCollapsed && !ui_searchCollapsed}"
-                   ng-click="showSearchBar($event)"
-                        ><i class="fa fa-search opacity-control"></i></a>
+  <div>
+    <ul ng-controller="navMainCtrl" id="sidebar" sticky-scroll="40">
+      <li id="search" ng-class="{'keep-open':ui_searchCollapsed}">
+        <a href=""
+           ng-class="{blockImportant:ui_navLeftCollapsed && !ui_searchCollapsed}"
+           ng-click="showSearchBar($event)">
+          <i class="fa fa-search opacity-control"></i></a>
 
-                <form ng-show="!ui_navLeftCollapsed || ui_searchCollapsed"
-                      ng-style="{display: ui_searchCollapsed? 'block':''}"
-                      ng-click="$event.stopPropagation()"
-                        >
-                    <input type="text" ng-model="searchQuery" class="search-query" placeholder="Search..."
-                           ng-style="{width: ui_searchCollapsed? 'auto':''}"
-                            >
-                    <button type="submit" ng-click="globalSearch()"><i class="fa fa-search"></i></button>
-                </form>
-            </li>
-            <li ng-repeat="node in menu"
-                ng-class="{ hasChild: (node.childNodes!==undefined),
+        <form ng-show="!ui_navLeftCollapsed || ui_searchCollapsed"
+              ng-style="{display: ui_searchCollapsed? 'block':''}"
+              ng-click="$event.stopPropagation()"
+              ng-submit="globalSearch(searchQuery)">
+          <input type="text" ng-model="searchQuery" class="search-query" placeholder="Search..."
+                 ng-style="{width: ui_searchCollapsed? 'auto':''}"
+            >
+          <button type="submit"><i class="fa fa-search"></i></button>
+        </form>
+      </li>
+      <li ng-repeat="node in menu"
+          ng-class="{ hasChild: (node.childNodes!==undefined),
                                     active: node.selected,
                                       open: (node.childNodes!==undefined) && node.open }"
-                ng-include="'partials/navigation/nav-left-tab.html'"
-                    ></li>
-        </ul>
-    </div>
-    <!-- END SIDEBAR MENU -->
+          ng-include="'partials/navigation/nav-left-tab.html'"
+        ></li>
+    </ul>
+  </div>
+  <!-- END SIDEBAR MENU -->
 </nav>

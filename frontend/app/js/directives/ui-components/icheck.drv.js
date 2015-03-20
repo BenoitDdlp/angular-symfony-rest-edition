@@ -48,4 +48,4 @@ angular.module('asreApp').directive('icheck', function ($timeout, $parse)
             });
         }
     };
-})
+});

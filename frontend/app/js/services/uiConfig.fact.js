@@ -39,7 +39,7 @@ angular.module('asreApp').service('$uiConfig', ['$rootScope', '$document', '$win
                 $rootScope.$broadcast('uiConfig:maxWidth767', false);
             }
         });
-        $rootScope.$broadcast('uiConfig:maxWidth767', true);
+      //$rootScope.$broadcast('uiConfig:maxWidth767', true);
     });
 
 }]);
