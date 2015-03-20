@@ -11,8 +11,10 @@ var globalConfig = {
       event_minutes_step: 15 // Same value as calendar_default_time_event_durantion
     }
   },
-  language: 'EN'
-
+  language: 'EN',
+  page_size: 15,
+  organizations: {order: {label: "ASC"}},
+  persons: {order: {label: "ASC"}}
 };
 
 

@@ -5,11 +5,12 @@
  */
 angular.module('personsApp').controller('personsListCtrl', [
   '$scope',
+  'persons',
   'personsFact',
-  function ($scope, personsFact)
+  function ($scope, persons, personsFact)
   {
-    //Prepare entities object for list entity handler directive
-    $scope.entities = [];
+    //Prepare enttties object for list entity handler directive
+    $scope.entities = persons.results;
 
     //Fetch all persons
     $scope.request = personsFact.all;

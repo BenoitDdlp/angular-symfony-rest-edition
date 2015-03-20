@@ -17,16 +17,18 @@ angular.module('asreApp').directive('entityListHandler', [
   'searchService',
   function ($routeParams, searchService)
   {
+    var pageSize = globalConfig.page_size;
     return {
       restrict: 'A',
       link: function (scope, element, attrs)
       {
+        //"request" param in scope specifies kind of entity
         if (!attrs.entityListHandler)
         {
           return console.error('missing mandatory param "entity-list-handler" for directive "entity-list-handler" directive (see doc above)');
         }
 
-        //Request param in scope specifies the url to use for fetching entities
+        //"request" param in scope specifies the url to use for fetching entities
         if (!scope.request)
         {
           return console.error('missing mandatory request parameter in the scope');
@@ -37,18 +39,16 @@ angular.module('asreApp').directive('entityListHandler', [
           reset = false,
         //offset is the row number to start the results set from
         //use fetchPage(pageNb, reset) to change this value for infinitescroll and pagination
-          offset = parseInt(attrs.offset) || 0
+          offset = parseInt(attrs.offset) || pageSize
           ;
 
         //Initialize the options
         //Query is a string
         scope.query = attrs.query;
-        //orderBy is the attribute on which order has to be applied
-        scope.orderBy = attrs.orderBy || "label";
-        //orderSide is ASC (for ascendent) or DESC (for descendant)
-        scope.orderSide = attrs.orderSide || "ASC";
+        //order object
+        scope.order = attrs.order || globalConfig[childEntityLbl].order;
         //Limit is the results set size
-        scope.limit = parseInt(attrs.limit) || 20;
+        scope.limit = parseInt(attrs.limit) || pageSize;
         //currentPage is the page to fetch when use fetchPage(page). must be exposed to be watched by bootstrap ui pagination
         scope.currentPage = 1;
         //Busy is use by the infinite-scroll directive to manage scroll event listenning
@@ -62,7 +62,7 @@ angular.module('asreApp').directive('entityListHandler', [
         //put goToPage function in scope for reuse
         scope.fetchPage = fetchPage;
         //put order function in scope for reuse
-        scope.order = order;
+        scope.orderBy = orderBy;
         //put filter function in scope for reuse
         scope.filter = filter;
 
@@ -89,13 +89,13 @@ angular.module('asreApp').directive('entityListHandler', [
         }
 
         //Called when an order parameters is changed
-        function order(orderBy, orderSide)
+        function orderBy(orderBy, orderSide)
         {
           initialize();
-          scope.orderBy = orderBy;
-          scope.orderSide = orderSide;
+          scope.order[orderBy] = orderSide || "ASC";
           search(true);
         }
+
 
         //Called when a filter changes (scope.filters are managed by the list controller)
         function filter()
@@ -124,10 +124,9 @@ angular.module('asreApp').directive('entityListHandler', [
             query: scope.query,
             offset: offset,
             limit: scope.limit,
-            orderBy: scope.orderBy,
+            order: scope.order,
             filters: scope.filters,
             routeParams: $routeParams,
-            orderSide: scope.orderSide
           });
 
           //increasing offset

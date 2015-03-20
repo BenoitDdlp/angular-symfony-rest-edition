@@ -11,13 +11,16 @@ angular.module('personsApp').config([
     $routeProvider
       .when('/persons', {
         templateUrl: 'modules/persons/partials/pages/persons-index.html',
-        controller: 'personsListCtrl'
-        //resolve: {
-        //  persons: function (personsFact)
-        //  {
-        //    return personsFact.all().$promise;
-        //  }
-        //}
+        controller: 'personsListCtrl',
+        resolve: {
+          persons: function (personsFact)
+          {
+            return personsFact.all({
+              limit: globalConfig.page_size,
+              order: globalConfig.organizations.order
+            }).$promise;
+          }
+        }
       })
       .when('/persons/new', {
         templateUrl: 'modules/persons/partials/pages/persons-new.html',

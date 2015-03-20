@@ -12,13 +12,16 @@ angular.module('organizationsApp')
       $routeProvider
         .when('/organizations', {
           templateUrl: 'modules/organizations/partials/pages/organizations-index.html',
-          controller: 'organizationsListCtrl'
-          //resolve: {
-          //  organizations: function (organizationsFact)
-          //  {
-          //    return organizationsFact.all().$promise;
-          //  }
-          //}
+          controller: 'organizationsListCtrl',
+          resolve: {
+            organizations: function (organizationsFact)
+            {
+              return organizationsFact.all({
+                limit: globalConfig.page_size,
+                order: globalConfig.organizations.order
+              }).$promise;
+            }
+          }
         })
         .when('/organizations/new', {
           templateUrl: 'modules/organizations/partials/pages/organizations-new.html',
