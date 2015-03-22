@@ -2,13 +2,14 @@ imports:
     - { resource: parameters_common.yml }
     - { resource: parameters.yml }
     - { resource: security.yml }
+    - { resource: "@FOSOAuthServerBundle/Resources/config/security.xml" }
 
 hwi_oauth:
-    #this is my custom user provider, created from FOSUBUserProvider - will manage the 
+    #this is my custom user provider, created from FOSUBUserProvider - will manage the
     #automatic user registration on your site, with data from the provider (facebook. google, etc.)
     #and also, the connecting part (get the token and the user_id)
     connect:
-        account_connector: my_user_provider
+        account_connector: fosub_user_provider
         confirmation: false
     # name of the firewall in which this bundle is active, this setting MUST be set
     firewall_name: main
@@ -16,6 +17,17 @@ hwi_oauth:
         username_iterations: 30
         properties:
     resource_owners: %social_networks%
+
+fos_oauth_server:
+    db_driver: orm       # Driver availables: orm, mongodb, or propel
+    client_class:        asre\OAuthServerBundle\Entity\Client
+    access_token_class:  asre\OAuthServerBundle\Entity\AccessToken
+    refresh_token_class: asre\OAuthServerBundle\Entity\RefreshToken
+    auth_code_class:     asre\OAuthServerBundle\Entity\AuthCode
+    service:
+        user_provider: asre_oauth_server.user.provider
+        options:
+            supported_scopes: user
 
 assetic:
     node: %path_to_node%
@@ -50,7 +62,7 @@ twig:
             # @TODO : These lines prevent Asre Admin to work (deprecated lines ?)
             # - form_global_theme.html.twig
             # - 'asreSecurityBundle:Form:fields.html.twig'
-            - LexikFormFilterBundle:Form:form_div_layout.html.twig
+#            - LexikFormFilterBundle:Form:form_div_layout.html.twig
 
 
 # Doctrine Configuration

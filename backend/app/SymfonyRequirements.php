@@ -164,7 +164,7 @@ class PhpIniRequirement extends Requirement
     }
 
     parent::__construct($fulfilled || ($approveCfgAbsence && false === $cfgValue), $testMessage, $helpHtml, $helpText, $optional);
-  }
+    }
 }
 
 /**
@@ -380,7 +380,7 @@ class RequirementCollection implements IteratorAggregate
   public function getPhpIniConfigPath()
   {
     return get_cfg_var('cfg_file_path');
-  }
+    }
 }
 
 /**
@@ -479,19 +479,19 @@ class SymfonyRequirements extends RequirementCollection
       function_exists('ctype_alpha'),
       'ctype_alpha() must be available',
       'Install and enable the <strong>ctype</strong> extension.'
-    );
+        );
 
-    $this->addRequirement(
-      function_exists('token_get_all'),
-      'token_get_all() must be available',
-      'Install and enable the <strong>Tokenizer</strong> extension.'
-    );
+        $this->addRequirement(
+          function_exists('token_get_all'),
+          'token_get_all() must be available',
+          'Install and enable the <strong>Tokenizer</strong> extension.'
+        );
 
-    $this->addRequirement(
-      function_exists('simplexml_import_dom'),
-      'simplexml_import_dom() must be available',
-      'Install and enable the <strong>SimpleXML</strong> extension.'
-    );
+        $this->addRequirement(
+          function_exists('simplexml_import_dom'),
+          'simplexml_import_dom() must be available',
+          'Install and enable the <strong>SimpleXML</strong> extension.'
+        );
 
     if (function_exists('apc_store') && ini_get('apc.enabled'))
     {
@@ -714,6 +714,6 @@ class SymfonyRequirements extends RequirementCollection
         sprintf('PDO should have some drivers installed (currently available: %s)', count($drivers) ? implode(', ', $drivers) : 'none'),
         'Install <strong>PDO drivers</strong> (mandatory for Doctrine).'
       );
+        }
     }
-  }
 }

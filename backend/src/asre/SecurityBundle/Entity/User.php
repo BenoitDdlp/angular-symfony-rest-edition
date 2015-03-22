@@ -38,7 +38,7 @@ class User extends BaseUser
    */
   protected $randomPwd;
   /**
-   * Person
+   * Name
    *
    * @ORM\Column(name="name", type="string", length=255, nullable=true)
    * @Expose
@@ -90,7 +90,7 @@ class User extends BaseUser
   /**
    * Person
    *
-   * @ORM\OneToOne(targetEntity="asre\CommunityBundle\Entity\Person", cascade={"all"}, inversedBy="user")
+   * @ORM\OneToOne(targetEntity="asre\CommunityBundle\Entity\Person", cascade={"all"}, mappedBy="user")
    * @MaxDepth(1)
    * @Expose
    */

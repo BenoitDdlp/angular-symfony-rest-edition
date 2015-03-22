@@ -2,7 +2,7 @@
 
 parameters:
     fos_user.registration.confirmation.enabled: true
-    my_user_provider.class: asre\SecurityBundle\Services\FOSUBUserProvider
+    fosub_user_provider.class: asre\SecurityBundle\Services\FOSUBUserProvider
     twitter.api_url: "https://api.twitter.com/1.1/"
 
     asre_security.mailer.random_pwd_email_message.subject:    "Asre"
@@ -37,8 +37,8 @@ services:
         arguments:
             - "@service_container"
 
-    my_user_provider:
-        class: "%my_user_provider.class%"
+    fosub_user_provider:
+        class: "%fosub_user_provider.class%"
         #this is the place where the properties are passed to the UserProvider - see config.yml
         arguments: 
             - @fos_user.user_manager

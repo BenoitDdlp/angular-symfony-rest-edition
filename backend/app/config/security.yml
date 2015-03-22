@@ -14,10 +14,8 @@ security:
     providers:
         main:
             id: fos_user.user_provider.username
-
-    access_decision_manager:
-        # La valeur de « Strategy » peut être : affirmative, unanimous ou consensus
-        strategy: affirmative
+        oauth_provider:
+            id: asre_oauth_server.user.provider
 
 #        in_memory:
 #            memory:
@@ -31,22 +29,42 @@ security:
             security: false
 
         main_login:
-            pattern:   /account/login$
+            pattern:   ^/account/login$
             anonymous: true # On autorise les anonymes sur ce pare-feu
 
         oauth_login:
             pattern:   ^/account/connect
             anonymous: true # On autorise les anonymes sur ce pare-feu
 
+        oauth_token:
+            pattern:    ^/account/oauth/v2/token
+            security:   false
+
+        oauth_authorize:
+            pattern:    ^/account/oauth/v2/auth
+            form_login:
+                provider: oauth_provider
+                check_path: /account/oauth/v2/auth_login_check
+                login_path: /account/oauth/v2/auth_login
+            anonymous: true
+            # Add your favorite authentication process here
+
+        api:
+            pattern:   ^/api
+            fos_oauth: true
+            stateless: true
+
         main:
+            pattern:   ^/
+            anonymous: true
+            provider:  main
+            fos_oauth:  true
+            stateless:  true
             remember_me:
                 key:      "%secret%"
                 lifetime: 31536000 # 365 days in seconds
                 path:     /
                 domain:   ~ # Defaults to the current domain from $_SERVER
-            pattern:   ^/
-            anonymous: true
-            provider:  main
             form_login:
 #               login_path: fos_user_security_login
 #               check_path: fos_user_security_check
@@ -74,12 +92,16 @@ security:
                 oauth_user_provider:
                     #this is my custom user provider, created from FOSUBUserProvider - will manage the
                     #automatic user registration on your site, with data from the provider (facebook. google, etc.)
-                    service: my_user_provider
+                    service: fosub_user_provider
             logout:
                 success_handler: asre.rest.logout.success_handler
                 path:   logout
                 target: /
 
     access_control:
+        - { path: ^/api, roles: [ IS_AUTHENTICATED_FULLY ] }
+        - { path: ^/account/oauth/v2/auth$, role: IS_AUTHENTICATED_FULLY }
         #- { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
+#            - { path: ^/account/oauth/v2/auth_login, role: IS_AUTHENTICATED_ANONYMOUSLY}
+#            - { path: ^/account/oauth/v2/auth, roles: ROLE_USER }
 

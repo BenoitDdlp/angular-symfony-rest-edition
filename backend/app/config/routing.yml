@@ -1,4 +1,9 @@
 asre_import:
+    resource: "@asreRestBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+asre_import:
     resource: "@asreImportBundle/Controller/"
     type:     annotation
     prefix:   /
@@ -23,20 +28,20 @@ fos_user_change_password:
 asre_community:
     resource: "@asreCommunityBundle/Controller/"
     type:     annotation
-    prefix:   /
+    prefix:   /api
 
 asre_organization:
     resource: asre\CommunityBundle\Controller\OrganizationRESTController
-    prefix:   /
+    prefix:   /api
 
 asre_person:
     resource: asre\CommunityBundle\Controller\PersonRESTController
-    prefix:   /
+    prefix:   /api
 
 asre_content:
     resource: "@asreContentBundle/Controller/"
     type:     annotation
-    prefix:   /
+    prefix:   /api
 
 asre_security_www_conf:
     resource: "@asreSecurityBundle/Controller/"
@@ -66,6 +71,7 @@ hwi_oauth_redirect:
     resource: "@HWIOAuthBundle/Resources/config/routing/redirect.xml"
     prefix:   /account/connect
 
+
 google_login:
     pattern: /account/login/check-google
 
@@ -77,3 +83,17 @@ facebook_login:
 
 linkedin_login:
     pattern: /account/login/check-linkedin
+
+#FOSOAuthServerBundle routes'
+fos_oauth_server_token:
+    resource: "@FOSOAuthServerBundle/Resources/config/routing/token.xml"
+    prefix:   /account
+
+fos_oauth_server_authorize:
+    resource: "@FOSOAuthServerBundle/Resources/config/routing/authorize.xml"
+    prefix:   /account
+
+asre_oauth_server:
+    resource: "@OAuthServerBundle/Controller/"
+    type:     annotation
+    prefix:   /account

@@ -13,9 +13,11 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * This entity define a topic
  *
+ * define as cas insensitive table
  * @ORM\Table(name="topic", options={"collate"="utf8_bin"})
  * @ORM\Entity(repositoryClass="asre\ContentBundle\Repository\TopicRepository")
- * @ORM\HasLifecycleCallbacks
+ *
+*@ORM\HasLifecycleCallbacks
  * @ExclusionPolicy("all")
  */
 class Topic

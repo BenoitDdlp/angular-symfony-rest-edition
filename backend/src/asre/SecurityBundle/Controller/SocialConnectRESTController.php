@@ -17,7 +17,7 @@ class SocialConnectRESTController extends ConnectController
 {
   /**
    *
-   * @Route("/login/service/{service}", name="hwi_oauth_connect_service")
+   * @Route("/account/login/service/{service}", name="hwi_oauth_connect_service")
    *
    * @param Request $request
    * @param         $service

@@ -26,10 +26,12 @@ class AppKernel extends Kernel
       new HWI\Bundle\OAuthBundle\HWIOAuthBundle(),
       new JMS\SerializerBundle\JMSSerializerBundle(),
       new FOS\RestBundle\FOSRestBundle(),
+      new FOS\OAuthServerBundle\FOSOAuthServerBundle(),
       new asre\ContentBundle\asreContentBundle(),
       new asre\CommunityBundle\asreCommunityBundle(),
       new asre\TweetsBundle\asreTweetsBundle(),
       new asre\ImportBundle\asreImportBundle(),
+      new asre\OAuthServerBundle\OAuthServerBundle(),
     );
 
     if (in_array($this->getEnvironment(), array('dev', 'test')))
