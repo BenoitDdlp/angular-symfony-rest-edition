@@ -1,0 +1,60 @@
+parameters:
+    asre_oauth_server.authorize.form_type.class: "asre\OAuthServerBundle\Form\AuthorizeFormType"
+    asre_oauth_server.authorize.form_handler.class: "asre\OAuthServerBundle\Form\Handler\AuthorizeFormHandler"
+    asre_oauth_server.entity.user.class: "asre\SecurityBundle\Entity\User"
+    asre_oauth_server.user.provider.class: "asre\OAuthServerBundle\Services\OAuthUserProvider"
+    asre_oauth_server.user.repository.class: "asre\SecurityBundle\Repository\UserRepository"
+
+services:
+    asre_oauth_server.authorize.form_type:
+        class: %asre_oauth_server.authorize.form_type.class%
+        tags:
+            - { name: form.type, alias: asre_oauth_server_auth }
+
+    asre_oauth_server.authorize.form:
+        class: Symfony\Component\Form\Form
+        factory_service: form.factory
+        factory_method: "createNamed"
+        arguments:
+            - "oauth_server_authorize_form_type"
+            - "asre_oauth_server_auth"
+
+#    acme_demo.form.task:
+#        factory_method: createNamed
+#        factory_service: form.factory
+#        class: Symfony\Component\Form\Form
+#        arguments:
+#            - task_form                        # name of the form
+#            - task                             # alias of the form type
+#            - null                             # data to bind, this is where your entity could go if you have that defined as a service
+#            - { validation_groups: [Default] } # validation groups
+
+    asre_oauth_server.authorize.form_handler:
+        scope: "request"
+        class: %asre_oauth_server.authorize.form_handler.class%
+        arguments:
+            - "@asre_oauth_server.authorize.form"
+            - "@request"
+            - "@security.context"
+            - "@fos_oauth_server.server"
+
+#oauth user provide
+
+    asre_oauth_server.user.manager:
+        class: Doctrine\ORM\EntityManager
+        factory_service: doctrine
+        factory_method: "getManagerForClass"
+        arguments:
+            - "%asre_oauth_server.entity.user.class%"
+
+    asre_oauth_server.user.repository:
+        class: "%asre_oauth_server.user.repository.class%"
+        factory_service: doctrine
+        factory_method: "getRepository"
+        arguments:
+            - "%asre_oauth_server.entity.user.class%"
+
+    asre_oauth_server.user.provider:
+        class: %asre_oauth_server.user.provider.class%
+        arguments:
+            - "@fos_user.user_manager"
