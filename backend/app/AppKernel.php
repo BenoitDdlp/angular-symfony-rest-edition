@@ -30,7 +30,6 @@ class AppKernel extends Kernel
       new asre\ContentBundle\asreContentBundle(),
       new asre\CommunityBundle\asreCommunityBundle(),
       new asre\TweetsBundle\asreTweetsBundle(),
-      new asre\ImportBundle\asreImportBundle(),
       new asre\OAuthServerBundle\OAuthServerBundle(),
     );
 

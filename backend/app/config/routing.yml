@@ -3,11 +3,6 @@ asre_import:
     type:     annotation
     prefix:   /
 
-asre_import:
-    resource: "@asreImportBundle/Controller/"
-    type:     annotation
-    prefix:   /
-
 fos_user_registration:
     resource: "@FOSUserBundle/Resources/config/routing/registration.xml"
     prefix: /account/register

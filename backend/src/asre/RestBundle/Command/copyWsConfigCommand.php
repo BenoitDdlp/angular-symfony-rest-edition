@@ -104,7 +104,12 @@ class copyWsConfigCommand extends ContainerAwareCommand
 
   private function performCommand()
   {
-    $wsConfig = $this->getContainer()->get('templating')->render('asreRestBundle:rest:ws-config.js.twig', array("serverBasePath" => $this->serverBasePath));
+    $wsConfig = $this->getContainer()->get('templating')->render('asreRestBundle:rest:ws-config.js.twig', array(
+      "serverBasePath" => $this->serverBasePath,
+      "oauth"          => array(
+        "id"     => $this->getContainer()->getParameter("front_end_oauth_public"),
+        "secret" => $this->getContainer()->getParameter("front_end_oauth_secret")
+      )));
 
     if (true === $content = $this->writeFileContent($this->toPath, $wsConfig))
     {

@@ -1,6 +1,8 @@
 var wsConfig = {
 api : {
 urls: {
+oauth_id               : "{{ oauth.id  | raw }}",
+oauth_secret           : "{{ oauth.secret  | raw }}",
 get_persons            : "{{ serverBasePath | raw }}{{ path('community_persons_post')  | raw }}",
 get_organizations      : "{{ serverBasePath | raw }}{{ path('community_organizations_post')  | raw }}",
 get_positions          : "{{ serverBasePath | raw }}{{ path('community_positions_post')  | raw }}",
@@ -8,8 +10,6 @@ get_topics             : "{{ serverBasePath | raw }}{{ path('content_topics_post
 
 
 socials                : "{{ serverBasePath | raw }}{{ path('tweets_twitter_get')  | raw }}",
-
-get_import_header      : "{{ serverBasePath | raw }}{{ path('content_import_get_header')  | raw }}",
 
 login                  : "{{ serverBasePath | raw }}{{ path('login_check', {_format: 'json'})  | raw }}",
 logout                 : "{{ serverBasePath | raw }}{{ path('logout')  | raw }}",
