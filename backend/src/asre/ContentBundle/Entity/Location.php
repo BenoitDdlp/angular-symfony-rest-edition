@@ -34,7 +34,6 @@ class Location extends Localization
    * importCode used to easily make link between entities during data import
    * @ORM\Column(type="string", nullable=true)
    *
-   * @Importer
    */
   protected $importCode;
   /**
@@ -44,7 +43,6 @@ class Location extends Localization
    * @Expose
    * @Groups({"list"})
    *
-   * @Importer()
    */
   protected $capacity;
   /**
@@ -54,7 +52,6 @@ class Location extends Localization
    * @Expose
    * @Groups({"list"})
    *
-   * @Importer()
    */
   protected $description;
   /**
@@ -64,7 +61,6 @@ class Location extends Localization
    * @Expose
    * @Groups({"list"})
    *
-   * @Importer()
    */
   protected $accesibility;
 

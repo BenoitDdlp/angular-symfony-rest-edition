@@ -3,38 +3,70 @@
  * Manage the current user stored in local storage
  * @type {factory}
  */
-angular.module('authenticationApp').factory('authenticationFact', ['$rootScope', function ($rootScope)
-{
-    var authenticationFact = {};
+angular.module('authenticationApp').factory('authenticationFact', [
+  '$rootScope',
+  'usersFact',
+  function ($rootScope, usersFact)
+  {
+    var loggedUser = localStorage.getItem('loggedUser'),
+      auth = localStorage.getItem('oauth')
+      ;
 
-    $rootScope.isLoggedIn = false;
-
-
-    $rootScope.currentUser = localStorage.getItem('currentUser') || null;
-    if($rootScope.currentUser){
-        $rootScope.isLoggedIn = true;
+    function sendLoginForm(form, success, error)
+    {
+      //TODO serialize login method in resource
+      return usersFact.signin({}, form, success, error).promise;
     }
 
-    authenticationFact.addUser = function (newUser){
-        $rootScope.currentUser = newUser;
+    function refreshAccessToken(refreshToken)
+    {
+      //TODO
+      return usersFact.signin().promise;
+    }
 
-        $rootScope.isLoggedIn = true;
-        localStorage.setItem('currentUser', JSON.stringify(newUser));
+    function grantAccess()
+    {
+      //TODO
+      return usersFact.grantAccess().promise;
+    }
+
+    return {
+      /**
+       * should be called when server has denied an access
+       * @returns {*}
+       */
+      startOAuthLoginWorkflow: function ()
+      {
+        //get access token if a refresh token is available
+        if (auth.refresh_token)
+        {
+          return refreshAccessToken(auth.refresh_token)
+        }
+        //if not, user has never logged in before => show him the login popup
+        $rootScope.showSigninPopup();
+      },
+      handleLoginForm: function (form, success, error)
+      {
+        //TODO serialize login method in resource
+        return sendLoginForm(form, success, error)
+          .then(grantAccess);
+      },
+
+      getUser: function ()
+      {
+        return loggedUser;
+      },
+      saveLoggedUser: function (user)
+      {
+        localStorage.setItem('loggedUser', JSON.stringify(user));
+        return loggedUser = user;
+      },
+      removeLoggedUser: function (user)
+      {
+        localStorage.removeItem('loggedUser');
+        loggedUser = undefined;
+      }
+
     };
-
-    authenticationFact.updatePerson = function (newPerson){
-        $rootScope.currentUser.person = newPerson;
-    };
-
-
-    authenticationFact.removeUser = function (){
-        $rootScope.isLoggedIn = false;
-        localStorage.removeItem('currentUser');
-        $rootScope.currentUser = {};
-    };
-
-
-    return authenticationFact;
-
-}]);
+  }]);
 

@@ -6,7 +6,13 @@
  *
  *
  */
-angular.module('asreApp').factory('globalHttpInterceptor', ['$q', '$rootScope', 'pinesNotifications', 'translateFilter', 'progressLoader', function ($q, $rootScope, pinesNotifications, translateFilter, progressLoader)
+angular.module('asreApp').factory('globalHttpInterceptor', [
+  '$q',
+  'authenticationFact',
+  'pinesNotifications',
+  'translateFilter',
+  'progressLoader',
+  function ($q, authenticationFact, pinesNotifications, translateFilter, progressLoader)
 {
 
 
@@ -38,13 +44,7 @@ angular.module('asreApp').factory('globalHttpInterceptor', ['$q', '$rootScope', 
             //Watch for unauthorized status
             if (rejection.status == "401")
             {
-                $rootScope.showSigninPopup();
-                pinesNotifications.notify({
-                    title: translateFilter('global.validations.error'),
-                    text : translateFilter('authentication.messages.signin_required'),
-                    type : 'info'
-                });
-//                    $rootScope.$broadcast('AlertCtrl:addAlert', {code: 'You need to signin to have access to this page', type: 'warning'});
+              authenticationFact.startOAuthLoginWorkflow();
             }
 
             //Watch for forbidden status
