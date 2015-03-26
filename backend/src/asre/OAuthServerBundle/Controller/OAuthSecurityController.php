@@ -60,6 +60,8 @@ class OAuthSecurityController extends Controller
    */
   public function loginCheckAction(Request $request)
   {
+    echo "CACACACA loginCheckAction";
+    die;
     \Doctrine\Common\Util\Debug::dump($request->request);
   }
 }

@@ -8,10 +8,14 @@ namespace asre\OAuthServerBundle\Controller;
 
 use asre\OAuthServerBundle\Entity\Client;
 use asre\OAuthServerBundle\Form\Model\Authorize;
+use FOS\OAuthServerBundle\Form\Handler\AuthorizeFormHandler;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use FOS\OAuthServerBundle\Controller\AuthorizeController as BaseAuthorizeController;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class AuthorizeController extends BaseAuthorizeController
 {
@@ -44,7 +48,7 @@ class AuthorizeController extends BaseAuthorizeController
 
     $authorize = new Authorize();
 
-    if (($response = $formHandler->process($authorize)) !== false)
+    if (false !== ($response = $formHandler->process($authorize)))
     {
       return $response;
     }

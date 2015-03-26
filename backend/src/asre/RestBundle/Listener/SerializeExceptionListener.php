@@ -42,6 +42,7 @@ class SerializeExceptionListener
     //TODO : do it only in app_dev mode!
     $datas = array(
       'error'       => (new \ReflectionClass($error))->getShortName() . ' : ' . $error->getMessage(),
+      'msg' => $error->getFile() . "[" . $error->getLine() . "]",
       'stack_trace' => explode("\n", $error->getTraceAsString())
     );
 

@@ -90,6 +90,11 @@ class PersonService extends AbstractBusinessService
 
   protected function validateAction(Person $person)
   {
+    if (null == $person->getUser())
+    {
+      throw new AccessDeniedException('Not your account!');
+    }
+
     $currentUser = $this->getLoggedUser();
     if ($currentUser->getId() != $person->getUser()->getId())
     {
@@ -100,7 +105,7 @@ class PersonService extends AbstractBusinessService
   }
 
   /**
-   * validate edit ction
+   * validate edit action
    *
    * @param Person $person
    *

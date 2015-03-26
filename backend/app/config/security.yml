@@ -41,13 +41,14 @@ security:
             security:   false
 
         oauth_authorize:
-            pattern:    ^/account/oauth/v2/auth
+            pattern: ^/account/oauth/v2/auth
             form_login:
                 provider: oauth_provider
                 check_path: /account/oauth/v2/auth_login_check
                 login_path: /account/oauth/v2/auth_login
+#                success_handler: asre_oauth_server.authentication_handler
+#                failure_handler: asre_oauth_server.authentication_handler
             anonymous: true
-            # Add your favorite authentication process here
 
         api:
             pattern:   ^/api

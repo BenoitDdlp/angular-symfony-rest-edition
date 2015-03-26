@@ -16,7 +16,7 @@ angular.module('personsApp', []);
 angular.module('analyticsApp', []);
 angular.module('locationsApp', []);
 angular.module('angularTranslateApp', ['pascalprecht.translate']);
-angular.module('authenticationApp', ['ngCookies', 'personsApp']);
+angular.module('authenticationApp', ['ngCookies', 'personsApp', 'angularOauth']);
 angular.module('socialsApp', []);
 angular.module('positionsApp', []);
 angular.module('angulartics', []);
@@ -43,6 +43,7 @@ var asreApp = angular.module('asreApp', [
 /** ASRE APPS **/
     'pascalprecht.translate',
     'ngCachedResource',
+  'angularOauth',
     'authenticationApp',
     'importApp',
     'i18nApp',

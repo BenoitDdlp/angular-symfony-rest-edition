@@ -7,12 +7,9 @@
 namespace asre\OAuthServerBundle\Services;
 
 use FOS\UserBundle\Model\UserManagerInterface;
+use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
-use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
-use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
-use Doctrine\Common\Persistence\ObjectRepository;
-use Doctrine\ORM\NoResultException;
 
 class OAuthUserProvider implements UserProviderInterface
 {
@@ -29,18 +26,6 @@ class OAuthUserProvider implements UserProviderInterface
   public function loadUserByUsername($username)
   {
     return $this->userManager->findUserByUsernameOrEmail($username);
-
-//    try {
-//      $user = $q->getSingleResult();
-//    } catch (NoResultException $e) {
-//      $message = sprintf(
-//        'Unable to find an active admin AcmeDemoBundle:User object identified by "%s".',
-//        $username
-//      );
-//      throw new UsernameNotFoundException($message, 0, $e);
-//    }
-//
-//    return $user;
   }
 
   public function refreshUser(UserInterface $user)

@@ -1,9 +1,11 @@
 parameters:
-    asre_oauth_server.authorize.form_type.class: "asre\OAuthServerBundle\Form\AuthorizeFormType"
+    asre_oauth_server.authorize.form_type.class:    "asre\OAuthServerBundle\Form\AuthorizeFormType"
     asre_oauth_server.authorize.form_handler.class: "asre\OAuthServerBundle\Form\Handler\AuthorizeFormHandler"
-    asre_oauth_server.entity.user.class: "asre\SecurityBundle\Entity\User"
-    asre_oauth_server.user.provider.class: "asre\OAuthServerBundle\Services\OAuthUserProvider"
-    asre_oauth_server.user.repository.class: "asre\SecurityBundle\Repository\UserRepository"
+    asre_oauth_server.user.provider.class:          "asre\OAuthServerBundle\Services\OAuthUserProvider"
+    asre_oauth_server.authentication_handler.class: "asre\OAuthServerBundle\Handler\OauthAuthenticationHandler"
+
+    asre_oauth_server.entity.user.class:            "asre\SecurityBundle\Entity\User"
+    asre_oauth_server.user.repository.class:        "asre\SecurityBundle\Repository\UserRepository"
 
 services:
     asre_oauth_server.authorize.form_type:
@@ -58,3 +60,14 @@ services:
         class: %asre_oauth_server.user.provider.class%
         arguments:
             - "@fos_user.user_manager"
+
+#ajax login
+
+    asre_oauth_server.authentication_handler:
+        class: "%asre_oauth_server.authentication_handler.class%"
+        arguments:
+            - "@router"
+            - "@fos_user.user_manager"
+            - "@fos_oauth_server.auth_code_manager.default"
+            - "@translator"
+            - "@jms_serializer"

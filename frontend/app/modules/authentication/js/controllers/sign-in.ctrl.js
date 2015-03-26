@@ -33,40 +33,6 @@ angular.module('authenticationApp').controller('signinCtrl', [
     $scope.user = $scope.$root.currentUser || new usersFact;
     $scope.user._remember_me = true;
 
-    var error = function (response, args)
-    {
-      //Notify of the signin action error
-      pinesNotifications.notify({
-        title: translateFilter('global.validations.error'),
-        text: translateFilter('authentication.validations.signin_error'),
-        type: 'error'
-      });
-    };
-
-    function success(user, notif)
-    {
-      $scope.user = user;
-
-      //Modify current user
-      authenticationFact.addUser(user);
-
-      //Notify of the signin action success
-      if (notif)
-      {
-        pinesNotifications.notify({
-          title: translateFilter('global.validations.success'),
-          text: translateFilter('authentication.validations.signin_success'),
-          type: 'success'
-        });
-      }
-
-      //Close modal
-      if ($scope.$close)
-      {
-        $scope.$close();
-      }
-    }
-
     //Manage the signin modal
     $scope.showSigninPopup = $scope.$root.showSigninPopup = function ()
     {
@@ -85,7 +51,7 @@ angular.module('authenticationApp').controller('signinCtrl', [
         "_username": $scope.user._username,
         "_password": $scope.user._password,
         "_remember_me": $scope.user._remember_me
-      }, success, error);
+      });
     };
 
     function getURLParameter(param)

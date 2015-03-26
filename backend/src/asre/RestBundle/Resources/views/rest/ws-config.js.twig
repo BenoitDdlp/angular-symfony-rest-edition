@@ -1,6 +1,7 @@
 var wsConfig = {
 api : {
 urls: {
+base                   : "{{ serverBasePath | raw }}",
 get_persons            : "{{ serverBasePath | raw }}{{ path('community_persons_post')  | raw }}",
 get_organizations      : "{{ serverBasePath | raw }}{{ path('community_organizations_post')  | raw }}",
 get_positions          : "{{ serverBasePath | raw }}{{ path('community_positions_post')  | raw }}",
@@ -9,7 +10,8 @@ get_topics             : "{{ serverBasePath | raw }}{{ path('content_topics_post
 
 socials                : "{{ serverBasePath | raw }}{{ path('tweets_twitter_get')  | raw }}",
 
-login                  : "{{ serverBasePath | raw }}{{ path('asre_oauth_server_auth_login_check', {_format: 'json'})  | raw }}",
+login                  : "{{ serverBasePath | raw }}{{ path('asre_oauth_server_auth_login_check')  | raw }}",
+login                  : "{{ serverBasePath | raw }}{{ path('fos_oauth_server_authorize')  | raw }}",
 logout                 : "{{ serverBasePath | raw }}{{ path('logout')  | raw }}",
 registration           : "{{ serverBasePath | raw }}{{ path('security_signup')  | raw }}",
 confirm                : "{{ serverBasePath | raw }}{{ path('security_confirm')  | raw }}",
@@ -30,7 +32,7 @@ socialnetworks         : [
   }
 {% endfor %}
 ]
-}
+},
 oauth_id               : "{{ oauth.id  | raw }}",
 oauth_secret           : "{{ oauth.secret  | raw }}"
 }

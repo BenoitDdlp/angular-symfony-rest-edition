@@ -3,70 +3,119 @@
  * Manage the current user stored in local storage
  * @type {factory}
  */
-angular.module('authenticationApp').factory('authenticationFact', [
-  '$rootScope',
-  'usersFact',
-  function ($rootScope, usersFact)
+angular.module('authenticationApp').
+
+  config(function (TokenProvider)
   {
-    var loggedUser = localStorage.getItem('loggedUser'),
-      auth = localStorage.getItem('oauth')
+    TokenProvider.extendConfig({
+      redirectUri: 'http://192.168.0.13/asre/frontend/app/',  // allow lunching demo from a mirror
+      authorizationEndpoint: 'http://localhost/asre/backend/web/app_dev.php/account/oauth/v2/auth',
+      scopes: [""],
+      verifyFunc: "AsreTokenVerifier",
+      clientId: '6_1qw5cxiattogs8ckgk8cw00cwo0kk0wsckc0c0kcssg0o8csok'
+    });
+  }).
+
+  factory('authenticationFact', [
+  '$rootScope',
+    'Token',
+    function ($rootScope, Token)
+  {
+    var loggedUser = JSON.parse(localStorage.getItem('loggedUser')),
+      token = JSON.parse(localStorage.getItem('oauth'))
       ;
 
-    function sendLoginForm(form, success, error)
+    //function success(user, notif)
+    //{
+    //  $scope.user = user;
+    //
+    //  //Modify current user
+    //  authenticationFact.addUser(user);
+    //
+    //  //Notify of the signin action success
+    //  if (notif)
+    //  {
+    //    pinesNotifications.notify({
+    //      title: translateFilter('global.validations.success'),
+    //      text: translateFilter('authentication.validations.signin_success'),
+    //      type: 'success'
+    //    });
+    //  }
+    //
+    //  //Close modal
+    //  if ($scope.$close)
+    //  {
+    //    $scope.$close();
+    //  }
+    //}
+    //
+    //function saveLoggedUser(user)
+    //{
+    //  localStorage.setItem('loggedUser', JSON.stringify(user));
+    //  loggedUser = user;
+    //}
+    //
+    //function removeLoggedUser()
+    //{
+    //  localStorage.removeItem('loggedUser');
+    //  loggedUser = undefined;
+    //}
+
+    function saveToken(newToken)
     {
-      //TODO serialize login method in resource
-      return usersFact.signin({}, form, success, error).promise;
+      localStorage.setItem('oauth', JSON.stringify(newToken));
+      token = newToken;
     }
 
-    function refreshAccessToken(refreshToken)
+    function removeToken()
     {
-      //TODO
-      return usersFact.signin().promise;
+      localStorage.removeItem('oauth');
+      token = undefined;
     }
 
-    function grantAccess()
+    /**
+     * should be called when server has denied an access
+     * @returns {*}
+     */
+    $rootScope.startOAuthLoginWorkflow = function ()
     {
-      //TODO
-      return usersFact.grantAccess().promise;
-    }
+      //get access token if a refresh token is available
+      if (token && token.refresh_token)
+      {
+        return refreshAccessToken(token.refresh_token)
+      }
+      //if not, user has never logged in before => show him the login popup
+      //$rootScope.showSigninPopup();
+      var extraParams = {"refresh_token": "ODZiZmViNTYyZGRlOWRkNTI1N2U0Mzg2YjE1MTZjZDliY2MzNjdlYjNiOGYzZTEzZDZmZGEwM2RiOWVhYjY2ZQ"};
+      Token.getTokenByPopup(extraParams).then(function (params)
+      {
+        // Success getting token from popup.
+        saveToken(params)
+
+      }, function ()
+      {
+        // Failure getting token from popup.
+        alert("Failed to get token from popup.");
+      });
+    };
 
     return {
-      /**
-       * should be called when server has denied an access
-       * @returns {*}
-       */
-      startOAuthLoginWorkflow: function ()
-      {
-        //get access token if a refresh token is available
-        if (auth.refresh_token)
-        {
-          return refreshAccessToken(auth.refresh_token)
-        }
-        //if not, user has never logged in before => show him the login popup
-        $rootScope.showSigninPopup();
-      },
-      handleLoginForm: function (form, success, error)
+      handleLoginForm: function (form)
       {
         //TODO serialize login method in resource
-        return sendLoginForm(form, success, error)
+        return sendLoginForm(form)
           .then(grantAccess);
+      },
+
+      getToken: function ()
+      {
+        return token;
       },
 
       getUser: function ()
       {
         return loggedUser;
-      },
-      saveLoggedUser: function (user)
-      {
-        localStorage.setItem('loggedUser', JSON.stringify(user));
-        return loggedUser = user;
-      },
-      removeLoggedUser: function (user)
-      {
-        localStorage.removeItem('loggedUser');
-        loggedUser = undefined;
       }
 
     };
   }]);
-
