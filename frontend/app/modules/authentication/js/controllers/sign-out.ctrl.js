@@ -11,9 +11,8 @@ angular.module('authenticationApp').controller('signoutCtrl', [
   '$cookieStore',
   '$location',
   'usersFact',
-  'authenticationFact',
   'translateFilter',
-  function ($scope, $window, $routeParams, pinesNotifications, $cookieStore, $location, usersFact, authenticationFact, translateFilter)
+  function ($scope, $window, $routeParams, pinesNotifications, $cookieStore, $location, usersFact, translateFilter)
   {
 
     var error = function (response, args)
@@ -29,7 +28,7 @@ angular.module('authenticationApp').controller('signoutCtrl', [
     var success = function (response, args)
     {
       //Clear user from local storage and rootscope
-      authenticationFact.removeUser();
+      alert("user logged OUT");
 
       //Notify of the signout action success
       pinesNotifications.notify({

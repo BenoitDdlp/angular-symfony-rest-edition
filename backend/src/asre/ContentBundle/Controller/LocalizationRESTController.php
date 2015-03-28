@@ -20,7 +20,7 @@ class LocalizationRESTController extends FOSRestController
 
   /**
    * Lists all localizations entities.
-   * @Rest\Get("/localizations",name="content_localizations_all")
+   * @Rest\Get("/localizations",name="asre_asre_content_localizations_all")
    * @Rest\View(serializerEnableMaxDepthChecks=true, serializerGroups={"list"})
    * @Rest\QueryParam(name="offset", requirements="\d+", nullable=true, description="Offset from which to start listing pages.")
    * @Rest\QueryParam(name="limit", requirements="\d+", default="10", description="How many entity to return.")
@@ -38,7 +38,7 @@ class LocalizationRESTController extends FOSRestController
   }
 
   /**
-   * @Rest\Get("/localizations/{id}",name="content_localizations_get")
+   * @Rest\Get("/localizations/{id}",name="asre_content_localizations_get")
    * @Rest\View(serializerEnableMaxDepthChecks=true)
    **/
   public function getLocalizationsByIdAction($id)
@@ -54,7 +54,7 @@ class LocalizationRESTController extends FOSRestController
   /**
    * Creates a new Localizations from the submitted data.
    *
-   * @Rest\Post("/localizations",name="content_localizations_post")
+   * @Rest\Post("/localizations",name="asre_content_localizations_post")
    *
    * @param Request $request the request object
    *
@@ -75,7 +75,7 @@ class LocalizationRESTController extends FOSRestController
 
   /**
    * Put action
-   * @Rest\Put("/localizations/{id}",name="content_localizations_put")
+   * @Rest\Put("/localizations/{id}",name="asre_content_localizations_put")
    *
    * @var Request $request
    * @var integer $id Id of the entity
@@ -96,7 +96,7 @@ class LocalizationRESTController extends FOSRestController
 
   /**
    * Patch action
-   * @Rest\Patch("/localizations/{id}",name="content_localizations_patch")
+   * @Rest\Patch("/localizations/{id}",name="asre_content_localizations_patch")
    *
    * @var Request $request
    * @var integer $id Id of the entity
@@ -115,7 +115,7 @@ class LocalizationRESTController extends FOSRestController
 
   /**
    * Delete action
-   * @Rest\Delete("/localizations/{id}",name="content_localizations_delete")
+   * @Rest\Delete("/localizations/{id}",name="asre_content_localizations_delete")
    *
    * @var integer $id Id of the entity
    */

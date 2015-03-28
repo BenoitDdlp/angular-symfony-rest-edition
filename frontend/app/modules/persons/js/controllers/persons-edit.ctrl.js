@@ -14,9 +14,8 @@ angular.module('personsApp').controller('personsEditCtrl', [
   'organizationsFact',
   'pinesNotifications',
   'translateFilter',
-  'authenticationFact',
   'positionsFact',
-  function ($scope, person, $q, $filter, $modal, $location, personsFact, organizationsFact, pinesNotifications, translateFilter, authenticationFact, positionsFact)
+  function ($scope, person, $q, $filter, $modal, $location, personsFact, organizationsFact, pinesNotifications, translateFilter, positionsFact)
   {
     $scope.person = person;
 
@@ -35,7 +34,7 @@ angular.module('personsApp').controller('personsEditCtrl', [
     //Success on patch request
     var success = function (response, args)
     {
-      authenticationFact.updatePerson(response);
+      alert("user logged in");
     };
 
     //Send patch request on the field to be persisted

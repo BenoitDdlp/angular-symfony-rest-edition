@@ -52,7 +52,7 @@ class TopicRESTController extends FOSRestController
   /**
    * Creates a new Topic from the submitted data.
    *
-   * @Rest\Post("/topics",name="content_topics_post")
+   * @Rest\Post("/topics",name="asre_content_topics_post")
    *
    * @param Request $request the request object
    *

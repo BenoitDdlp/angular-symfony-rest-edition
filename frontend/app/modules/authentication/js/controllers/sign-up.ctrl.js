@@ -11,9 +11,8 @@ angular.module('authenticationApp').controller('signupCtrl',
       'usersFact',
       'formValidation',
       '$modal',
-      'authenticationFact',
       'pinesNotifications',
-      function ($scope, $location, $routeParams, translateFilter, usersFact, formValidation, $modal, authenticationFact, pinesNotifications)
+      function ($scope, $location, $routeParams, translateFilter, usersFact, formValidation, $modal, pinesNotifications)
     {
         $scope.user = {};
 

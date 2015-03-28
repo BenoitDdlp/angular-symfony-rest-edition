@@ -18,7 +18,7 @@ class OrganizationRESTController extends FOSRestController
 
   /**
    * Lists all Organizations entities.
-   * @Rest\Get("/organizations", name="community_organizations_all")
+   * @Rest\Get("/organizations", name="asre_community_organizations_all")
    * @Rest\View(serializerEnableMaxDepthChecks=true, serializerGroups={"list"})
    * @Rest\QueryParam(name="offset", requirements="\d+", nullable=true, description="Offset from which to start listing pages.")
    * @Rest\QueryParam(name="limit", requirements="\d+", default="70", description="How many entity to return.")
@@ -35,7 +35,7 @@ class OrganizationRESTController extends FOSRestController
   }
 
   /**
-   * @Rest\Get("/organizations/{id}", name="community_organizations_get")
+   * @Rest\Get("/organizations/{id}", name="asre_community_organizations_get")
    * @Rest\View(serializerEnableMaxDepthChecks=true)
    **/
   public function getOrganizationAction($id)
@@ -51,7 +51,7 @@ class OrganizationRESTController extends FOSRestController
   /**
    * Creates a new organization from the submitted data.
    *
-   * @Rest\Post("/organizations",name="community_organizations_post")
+   * @Rest\Post("/organizations",name="asre_community_organizations_post")
    *
    * @param Request $request the request object
    *
@@ -71,7 +71,7 @@ class OrganizationRESTController extends FOSRestController
 
   /**
    * Put action
-   * @Rest\Put("/organizations/{id}", name="community_organizations_put")
+   * @Rest\Put("/organizations/{id}", name="asre_community_organizations_put")
    *
    * @var Request $request
    * @var integer $id Id of the entity
@@ -91,7 +91,7 @@ class OrganizationRESTController extends FOSRestController
 
   /**
    * Patch action
-   * @Rest\Patch("/organizations/{id}", name="community_organizations_patch")
+   * @Rest\Patch("/organizations/{id}", name="asre_community_organizations_patch")
    *
    * @var Request $request
    * @var integer $id Id of the entity
@@ -110,7 +110,7 @@ class OrganizationRESTController extends FOSRestController
 
   /**
    * Delete action
-   * @Rest\Delete("/organizations/{id}", name="community_organizations_delete")
+   * @Rest\Delete("/organizations/{id}", name="asre_community_organizations_delete")
    *
    * @var integer $id Id of the entity
    */

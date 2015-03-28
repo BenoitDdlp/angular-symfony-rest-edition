@@ -27,14 +27,11 @@ use Symfony\Component\Security\Core\Exception\AccountStatusException;
  */
 class UserRESTController extends Controller
 {
-
-
   /**********************************   signup & confirm  ***********************************************/
-
 
   /**
    * handle the signup form and sends a confirmation mail.
-   * @Route("/signup", name="security_signup")
+   * @Route("/signup", name="asre_security_signup")
    */
   public function signupAction(Request $request)
   {
@@ -155,7 +152,7 @@ class UserRESTController extends Controller
   /**
    * Receive the confirmation token from the front end
    *  => authenticate the user and prompt him to change his password
-   * @Rest\Post("/user/confirm", name="security_confirm")
+   * @Rest\Post("/user/confirm", name="asre_security_confirm")
    * @Rest\View(serializerEnableMaxDepthChecks=true)
    */
   public function confirmAction(Request $request)
@@ -195,7 +192,7 @@ class UserRESTController extends Controller
   /**
    * change the password of an user.
    * If the password is still random, don't ask for it.
-   * @Route("/user/change_pwd", name="security_changepwd")
+   * @Route("/user/change_pwd", name="asre_security_changepwd")
    */
   public function changePwdAction(Request $request)
   {
@@ -244,7 +241,7 @@ class UserRESTController extends Controller
 
   /**
    * Send the reset mail
-   * @Rest\Post("/reset_pwd_request", name="security_resetpwdrequest")
+   * @Rest\Post("/reset_pwd_request", name="asre_community_organizations_")
    */
   public function resetPwdRequestAction(Request $request)
   {
@@ -296,7 +293,7 @@ class UserRESTController extends Controller
 
   /**
    * Redirect to the frontend api confirmation page.
-   * @Rest\Post("/reset_pwd", name="security_resetpwd")
+   * @Rest\Post("/reset_pwd", name="asre_security_resetpwd")
    * @Rest\View(serializerEnableMaxDepthChecks=true, serializerGroups={"list"})
    */
   public function resetAction(Request $request)

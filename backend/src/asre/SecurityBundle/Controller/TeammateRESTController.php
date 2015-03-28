@@ -19,7 +19,7 @@ class TeammateRESTController extends FOSRestController
 
   /**
    * Lists all Team entities.
-   * @Rest\Get("/teammates",name="security_teammates_all")
+   * @Rest\Get("/teammates",name="asre_security_teammates_all")
    * @Rest\View(serializerEnableMaxDepthChecks=true, serializerGroups={"list"})
    * @Rest\QueryParam(name="offset", requirements="\d+", nullable=true, description="Offset from which to start listing pages.")
    * @Rest\QueryParam(name="limit", requirements="\d+", default="10", description="How many entity to return.")
@@ -37,7 +37,7 @@ class TeammateRESTController extends FOSRestController
   }
 
   /**
-   * @Rest\Get("/teammates/{id}",name="security_teammates_get")
+   * @Rest\Get("/teammates/{id}",name="asre_security_teammates_get")
    * @Rest\View(serializerEnableMaxDepthChecks=true)
    **/
   public function getTeamAction($id)
@@ -53,7 +53,7 @@ class TeammateRESTController extends FOSRestController
   /**
    * Creates a new Team from the submitted data.
    *
-   * @Rest\Post("/teammates",name="security_teammates_post")
+   * @Rest\Post("/teammates",name="asre_security_teammates_post")
    *
    * @param Request $request the request object
    *
@@ -74,7 +74,7 @@ class TeammateRESTController extends FOSRestController
 
   /**
    * Put action
-   * @Rest\Put("/teammates/{id}",name="security_teammates_put")
+   * @Rest\Put("/teammates/{id}",name="asre_security_teammates_put")
    *
    * @var Request $request
    * @var integer $id Id of the entity
@@ -95,7 +95,7 @@ class TeammateRESTController extends FOSRestController
 
   /**
    * Patch action
-   * @Rest\Patch("/teammates/{id}",name="security_teammates_patch")
+   * @Rest\Patch("/teammates/{id}",name="asre_security_teammates_patch")
    *
    * @var Request $request
    * @var integer $id Id of the entity
@@ -114,7 +114,7 @@ class TeammateRESTController extends FOSRestController
 
   /**
    * Delete action
-   * @Rest\Delete("/teammates/{id}",name="security_teammates_delete")
+   * @Rest\Delete("/teammates/{id}",name="asre_security_teammates_delete")
    *
    * @var integer $id Id of the entity
    */

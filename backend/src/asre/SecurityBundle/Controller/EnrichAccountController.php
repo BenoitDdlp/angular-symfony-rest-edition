@@ -17,7 +17,7 @@ class EnrichAccountController extends Controller
 
   /**
    * set user Id in the session so we can get it back next to his social account loggin
-   * @Route("/enrich/{socialService}", name="enrich_account")
+   * @Route("/enrich/{socialService}", name="asre_enrich_account")
    */
   public function enrichAccountAction($socialService)
   {

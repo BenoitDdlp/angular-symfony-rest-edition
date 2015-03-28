@@ -12,6 +12,7 @@ angular.module('personsApp').factory('personsFact', ['$resource', function ($res
     basePath,
     {},
     {
+      profile: {method: 'GET', url: globalConfig.api.urls.profile, isArray: false},
       get: {method: 'GET', url: basePath + '/:id', params: {'id': '@id', cache: true}, isArray: false},
       create: {method: 'POST', params: {}, isArray: false},
       update: {method: 'PUT', url: basePath + '/:id', params: {id: '@id'}, isArray: false},

@@ -7,7 +7,12 @@ angular.module('asreApp').controller('mainCtrl', [
   '$uiConfig',
   '$timeout',
   function ($scope, GLOBAL_CONFIG, $uiConfig, $timeout)
-{
+  {
+    //initialize authentified user from local storage
+    $scope.$root.currentUser = JSON.parse(localStorage.getItem('loggedUser'));
+    $scope.$root.token = JSON.parse(localStorage.getItem('oauth'));
+
+
     /**
      * Getting main html attribute configurations for the ui from the uiConfig factory
      */
@@ -22,11 +27,11 @@ angular.module('asreApp').controller('mainCtrl', [
 
     $scope.toggleNavLeft = function ()
     {
-        if ($scope.$root.ui_isSmallScreen)
-        {
-            return $uiConfig.set('navLeftShown', !$scope.$root.ui_navLeftShown);
-        }
-        $uiConfig.set('navLeftCollapsed', !$scope.$root.ui_navLeftCollapsed);
+      if ($scope.$root.ui_isSmallScreen)
+      {
+        return $uiConfig.set('navLeftShown', !$scope.$root.ui_navLeftShown);
+      }
+      $uiConfig.set('navLeftCollapsed', !$scope.$root.ui_navLeftCollapsed);
     };
 
     /**
@@ -35,23 +40,23 @@ angular.module('asreApp').controller('mainCtrl', [
      */
     $scope.$root.$on('uiConfig:change', function (event, newVal)
     {
-        $scope.$root['ui_' + newVal.key] = $scope['ui_' + newVal.key] = newVal.value;
+      $scope.$root['ui_' + newVal.key] = $scope['ui_' + newVal.key] = newVal.value;
     });
 
     $scope.$on('uiConfig:maxWidth767', function (event, newVal)
     {
-        $timeout(function ()
+      $timeout(function ()
+      {
+        $scope.$root.ui_isSmallScreen = newVal;
+        if (!newVal)
         {
-            $scope.$root.ui_isSmallScreen = newVal;
-            if (!newVal)
-            {
-                $uiConfig.set('navLeftShown', false);
-            }
-            else
-            {
-                $uiConfig.set('navLeftCollapsed', false);
-            }
-        });
+          $uiConfig.set('navLeftShown', false);
+        }
+        else
+        {
+          $uiConfig.set('navLeftCollapsed', false);
+        }
+      });
     });
 
 
@@ -68,7 +73,7 @@ angular.module('asreApp').controller('mainCtrl', [
     //scrollTop function
     $scope.scrollTop = function ()
     {
-        $('html, body').animate({scrollTop: 0}, 'slow');
+      $('html, body').animate({scrollTop: 0}, 'slow');
     }
-}]);
+  }]);
 

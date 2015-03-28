@@ -15,7 +15,7 @@ class TwitterApiSearchTagController extends FOSRestController
    * expose url to ws-config
    * /!\ do not remove
    *
-   * @Rest\Get("/twitter-api/search", name="tweets_twitter_get")
+   * @Rest\Get("/twitter-api/search", name="asre_tweets_twitter_get")
    * @Rest\View
    */
   public function importAction(Request $request, $shortClassName)

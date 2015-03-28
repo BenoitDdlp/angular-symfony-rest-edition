@@ -6,7 +6,7 @@ describe('login workflow test - ', function() {
     var usernameInput = element(by.model('user.username'));
     var passwordInput = element(by.model('user.password'));
     var formSubmit =  element(by.css('[ng-click="signinAction(signinForm)"]'));
-    var loginModalTrigger = element(by.css('[ng-click="showSigninPopup()"]'));
+  var loginModalTrigger = element(by.css('[ng-click="startLoginWorkflow()"]'));
     var loginModal = by.id('signinFormModal');
 
 

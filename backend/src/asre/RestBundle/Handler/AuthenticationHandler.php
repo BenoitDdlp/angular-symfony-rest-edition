@@ -65,7 +65,7 @@ class AuthenticationHandler implements AuthenticationSuccessHandlerInterface, Au
     }
     else
     {
-      $user->setRememberMeToken($request->cookies->get('REMEMBERME'));
+//      $user->setRememberMeToken($request->cookies->get('REMEMBERME'));
       $serializationCtx = (new SerializationContext())->enableMaxDepthChecks(true);
       $responseArr = $this->jms_serializer->serialize($user, 'json', $serializationCtx);
 

@@ -9,9 +9,8 @@ angular.module('authenticationApp').controller('confirmCtrl', [
   'usersFact',
   'pinesNotifications',
   'translateFilter',
-  'authenticationFact',
   '$location',
-  function ($scope, $routeParams, usersFact, pinesNotifications, translateFilter, authenticationFact, $location)
+  function ($scope, $routeParams, usersFact, pinesNotifications, translateFilter, $location)
   {
     var error = function (response, args)
     {
@@ -24,7 +23,7 @@ angular.module('authenticationApp').controller('confirmCtrl', [
       $scope.user = user;
 
       //Modify current user
-      authenticationFact.addUser(user);
+      alert("user logged in");
 
       //Notify of the signin action success
       pinesNotifications.notify({

@@ -18,10 +18,18 @@ class PersonRESTController extends FOSRestController
   const ENTITY_CLASSNAME = "asre\\CommunityBundle\\Entity\\Person";
   const FORM_CLASSNAME = "asre\\CommunityBundle\\Form\\PersonType";
 
+  /**
+   * @Rest\Get("/profile",name="asre_community_persons_self")
+   * @Rest\View(serializerEnableMaxDepthChecks=true)
+   **/
+  public function getProfileAction()
+  {
+    return $this->getUser()->getPerson();
+  }
 
   /**
    * Lists all Person entities.
-   * @Rest\Get("/persons", name="community_persons_all")
+   * @Rest\Get("/persons", name="asre_community_persons_all")
    * @Rest\View(serializerEnableMaxDepthChecks=true, serializerGroups={"list"})
    * @Rest\QueryParam(name="offset", requirements="\d+", nullable=true, description="Offset from which to start listing pages.")
    * @Rest\QueryParam(name="limit", requirements="\d+", default="70", description="How many entity to return.")
@@ -38,7 +46,7 @@ class PersonRESTController extends FOSRestController
   }
 
   /**
-   * @Rest\Get("/persons/{id}", name="community_persons_get")
+   * @Rest\Get("/persons/{id}", name="asre_community_persons_get")
    * @Rest\View(serializerEnableMaxDepthChecks=true)
    **/
   public function getPersonAction($id)
@@ -54,7 +62,7 @@ class PersonRESTController extends FOSRestController
   /**
    * Creates a new person from the submitted data.
    *
-   * @Rest\Post("/persons",name="community_persons_post")
+   * @Rest\Post("/persons",name="asre_community_persons_post")
    *
    * @param Request $request the request object
    *
@@ -74,7 +82,7 @@ class PersonRESTController extends FOSRestController
 
   /**
    * Put action
-   * @Rest\Put("/persons/{id}", name="community_persons_put")
+   * @Rest\Put("/persons/{id}", name="asre_community_persons_put")
    *
    * @var Request $request
    * @var integer $id Id of the entity
@@ -94,7 +102,7 @@ class PersonRESTController extends FOSRestController
 
   /**
    * Patch action
-   * @Rest\Patch("/persons/{id}", name="community_persons_patch")
+   * @Rest\Patch("/persons/{id}", name="asre_community_persons_patch")
    *
    * @var Request $request
    * @var integer $id Id of the entity
@@ -113,7 +121,7 @@ class PersonRESTController extends FOSRestController
 
   /**
    * Delete action
-   * @Rest\Delete("/persons/{id}", name="community_persons_delete")
+   * @Rest\Delete("/persons/{id}", name="asre_community_persons_delete")
    *
    * @var integer $id Id of the entity
    */

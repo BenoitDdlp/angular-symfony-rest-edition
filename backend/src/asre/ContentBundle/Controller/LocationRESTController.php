@@ -19,7 +19,7 @@ class LocationRESTController extends FOSRestController
 
   /**
    * Lists all Location entities.
-   * @Rest\Get("/locations",name="content_locations_all")
+   * @Rest\Get("/locations",name="asre_content_locations_all")
    * @Rest\View(serializerEnableMaxDepthChecks=true, serializerGroups={"list"})
    * @Rest\QueryParam(name="offset", requirements="\d+", nullable=true, description="Offset from which to start listing pages.")
    * @Rest\QueryParam(name="limit", requirements="\d+", default="10", description="How many entity to return.")
@@ -36,7 +36,7 @@ class LocationRESTController extends FOSRestController
   }
 
   /**
-   * @Rest\Get("/locations/{id}",name="content_locations_get")
+   * @Rest\Get("/locations/{id}",name="asre_content_locations_get")
    * @Rest\View(serializerEnableMaxDepthChecks=true)
    **/
   public function getLocationAction($id)
@@ -52,7 +52,7 @@ class LocationRESTController extends FOSRestController
   /**
    * Creates a new Location from the submitted data.
    *
-   * @Rest\Post("/locations",name="content_locations_post")
+   * @Rest\Post("/locations",name="asre_content_locations_post")
    *
    * @param Request $request the request object
    *
@@ -73,7 +73,7 @@ class LocationRESTController extends FOSRestController
 
   /**
    * Put action
-   * @Rest\Put("/locations/{id}",name="content_locations_put")
+   * @Rest\Put("/locations/{id}",name="asre_content_locations_put")
    *
    * @var Request $request
    * @var integer $id Id of the entity
@@ -94,7 +94,7 @@ class LocationRESTController extends FOSRestController
 
   /**
    * Patch action
-   * @Rest\Patch("/locations/{id}",name="content_locations_patch")
+   * @Rest\Patch("/locations/{id}",name="asre_content_locations_patch")
    *
    * @var Request $request
    * @var integer $id Id of the entity
@@ -113,7 +113,7 @@ class LocationRESTController extends FOSRestController
 
   /**
    * Delete action
-   * @Rest\Delete("/locations/{id}",name="content_locations_delete")
+   * @Rest\Delete("/locations/{id}",name="asre_content_locations_delete")
    *
    * @var integer $id Id of the entity
    */

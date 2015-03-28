@@ -12,60 +12,113 @@ angular.module('authenticationApp').controller('signinCtrl', [
   '$timeout',
   'pinesNotifications',
   'translateFilter',
-  'authenticationFact',
-  function ($scope, $routeParams, $location, $modal, $timeout, pinesNotifications, translateFilter, authenticationFact)
+  'usersFact',
+  'personsFact',
+  'authService',
+  function ($scope, $routeParams, $location, $modal, $timeout, pinesNotifications, translateFilter, usersFact, personsFact, authService)
   {
-    //log user after a social account login.
-    var id = getURLParameter('id'),
-      username = getURLParameter('username');
-    if (id && username)
-    {
-      //remove username and id param from url
-      window.location.href = window.location.href.replace(/&?(username|id)=.[^&]*/g, "");
-//            todo : fetch this ?
-      success({username: username, id: id}, false);
-    }
-    else
-    {
-      $scope.$root.currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    }
+    var loggedUser = $scope.$root.currentUser,
+      token = $scope.$root.token;
 
-    $scope.user = $scope.$root.currentUser || new usersFact;
-    $scope.user._remember_me = true;
-
-    //Manage the signin modal
-    $scope.showSigninPopup = $scope.$root.showSigninPopup = function ()
+    //two way to trigger the authentication workflow
+    $scope.startLoginWorkflow = startLoginWorkflow;
+    $scope.$on('event:auth-loginRequired', function (event, data)
     {
-      //Open signin modal
-      var modalInstance = $modal.open({
-        templateUrl: 'modules/authentication/partials/signin.html',
-        controller: 'signinCtrl',
-        size: "large"
-      });
-    };
+      startLoginWorkflow();
+    });
 
-    //Send signin request with signin form information
-    $scope.signinAction = function (user)
+    $scope.$on('event:auth-forbidden', function (event, data)
     {
-      return authenticationFact.handleLoginForm({
-        "_username": $scope.user._username,
-        "_password": $scope.user._password,
-        "_remember_me": $scope.user._remember_me
-      });
-    };
+      console.log(data); // 'Data to send'
+    });
 
-    function getURLParameter(param)
+    //submit signin form
+    $scope.signinAction = signinAction;
+
+    //start login workflow
+    function startLoginWorkflow()
     {
-      var sURLVariables = window.location.hash.split('?').length > 1 ? window.location.hash.split('?')[1].split('&') : {};
-      var sURLVariables = window.location.hash.split('?').length > 1 ? window.location.hash.split('?')[1].split('&') : {};
-      for (var i = 0; i < sURLVariables.length; i++)
+      //get access token if a refresh token is available
+      if (token && token.refresh_token)
       {
-        var parameterName = sURLVariables[i].split('=');
-        if (parameterName[0] == param)
-        {
-          return parameterName[1];
-        }
+        var param = angular.extend({}, config, {
+          "grant_type": 'refresh_token',
+          "refresh_token": token.refresh_token
+        });
+        return new usersFact().$token(param)
+          .then(saveToken, signInModal);
+      }
+      //Open signin modal
+      function signInModal()
+      {
+        return $modal.open({
+          templateUrl: 'modules/authentication/partials/signin.html',
+          controller: 'signinCtrl',
+          size: "large"
+        });
       }
     }
 
+    //submit signin form
+    function signinAction(user)
+    {
+      var param = angular.extend({}, config, {
+        "username": user._username,
+        "password": user._password,
+        "grant_type": 'password'
+      });
+      return usersFact.$token(param).then(saveToken);
+    }
+
+    //when authentication was successful
+    function saveToken(newToken)
+    {
+      localStorage.setItem('oauth', JSON.stringify(newToken));
+      $scope.$root.token = token = newToken;
+      authService.loginConfirmed();
+      if (!loggedUser)
+      {
+        new personsFact().$profile();
+      }
+    }
+
+    //when authentication was successful
+    function saveToken(newToken)
+    {
+      localStorage.setItem('oauth', JSON.stringify(newToken));
+      $scope.$root.token = token = newToken;
+      authService.loginConfirmed();
+      if (!loggedUser)
+      {
+        new personsFact().$profile().then(saveLoggedUser);
+      }
+    }
+
+    function removeToken()
+    {
+      localStorage.removeItem('oauth');
+      token = undefined;
+    }
+
+    //when authentication was successful
+    function saveLoggedUser(user)
+    {
+      localStorage.setItem('loggedUser', JSON.stringify(user));
+      $scope.$root.loggedUser = token = user;
+      authService.loginConfirmed();
+    }
+
+    function removeLoggedUser()
+    {
+      localStorage.removeItem('loggedUser');
+      loggedUser = undefined;
+    }
+
+    var config =
+    {
+      //redirectUri: 'http://192.168.0.13/asre/frontend/app/',
+      client_id: '6_1qw5cxiattogs8ckgk8cw00cwo0kk0wsckc0c0kcssg0o8csok',
+      client_secret: '1v1rd14maydc8sc88wco400k4s4k0kgwwk484gsk8w4ggwcgsg',
+      grant_type: 'password'
+    }
   }]);

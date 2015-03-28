@@ -6,79 +6,63 @@
  *
  *
  */
-angular.module('asreApp').factory('globalHttpInterceptor', [
-  '$q',
-  '$rootScope',
-  'pinesNotifications',
-  'translateFilter',
-  'progressLoader',
-  'authenticationFact',
-  function ($q, $rootScope, pinesNotifications, translateFilter, progressLoader, authenticationFact)
+angular.module('asreApp').config([
+  '$httpProvider',
+  function ($httpProvider)
   {
-
-
-    //Interceptor configurations
-    return {
-
-      //Executed whenever a request is made by the client
-      'request': function (config)
+    $httpProvider.interceptors.push([
+      '$q',
+      '$rootScope',
+      'pinesNotifications',
+      'translateFilter',
+      'progressLoader'
+      , function ($q, $rootScope, pinesNotifications, translateFilter, progressLoader)
       {
-        progressLoader.start();
-        progressLoader.set(50);
-        var token = authenticationFact.getToken();
-        if (config.url.indexOf(globalConfig.api.urls.base) > -1)
-        {
-          if (!config.params)
+        return {
+          //Executed whenever a request is made by the client
+          // append a acces_token param only for rest api request
+          request: function (config)
           {
-            config.params = {};
+            progressLoader.start();
+            progressLoader.set(50);
+
+            if ((config.params && config.params.no_token) || config.url.indexOf(globalConfig.api.urls.base) == -1)
+            {
+              return config;
+            }
+
+            var token = $rootScope.token;
+            if (token)
+            {
+              if (!config.params)
+              {
+                config.params = {};
+              }
+              config.params["access_token"] = token.access_token;
+            }
+
+            return config;
+          },
+
+          //Executed whenever a valid request is received by the client
+          response: function (response)
+          {
+            //Stop progress loader
+            progressLoader.end();
+            return response || $q.when(response);
+          },
+
+          //Executed whenever an error is received
+          responseError: function (rejection)
+          {
+            //Stop progress loader
+            progressLoader.end();
+            //Reject the promise
+            return $q.reject(rejection);
           }
-          config.params["access_token"] = token.access_token;
-        }
-        return config;
-      },
-
-      //Executed whenever a valid request is received by the client
-      'response': function (response)
-      {
-        //Stop progress loader
-        progressLoader.end();
-        return response || $q.when(response);
-      },
-
-
-      //Executed whenever an error is received
-      'responseError': function (rejection)
-      {
-        //Stop progress loader
-        progressLoader.end();
-        //Watch for unauthorized status
-        if (rejection.status == "401")
-        {
-          $rootScope.startOAuthLoginWorkflow();
-        }
-
-        //Watch for forbidden status
-        else if (rejection.status == "403")
-        {
-          //Notify of the field update action error
-          pinesNotifications.notify({
-            title: translateFilter('global.validations.error'),
-            text: translateFilter('authentication.messages.forbidden'),
-            type: 'error'
-          });
-        }
-//                else if (rejection.data.error)
-//                {
-//                    $rootScope.$broadcast('AlertCtrl:addAlert', {code: rejection.data.error, type: 'warning'});
-//                }
-        else
-        {
-//         $rootScope.$broadcast('AlertCtrl:addAlert', {code: rejection.status + ' ' + rejection.statusText, type: 'danger'});
-        }
-
-        //Resolve the promise
-        return $q.reject(rejection);
+        };
       }
-    };
+    ])
   }
-]);
+])
+;

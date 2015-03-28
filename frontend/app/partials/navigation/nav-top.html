@@ -11,7 +11,8 @@
   <ul class="nav navbar-nav pull-right toolbar">
 
     <li class="dropdown" ng-show="!isLoggedIn">
-      <a href="" ng-click="showSigninPopup()" ng-controller="signinCtrl" style="font-size: 14px"><i class="fa fa-sign-in"></i> {{ 'authentication.actions.signin' | translate }}</a>
+      <a href="" ng-click="startLoginWorkflow()" ng-controller="signinCtrl" style="font-size: 14px"><i
+        class="fa fa-sign-in"></i> {{ 'authentication.actions.signin' | translate }}</a>
     </li>
     <li class="dropdown" disabled="disabled" ng-show="isLoggedIn">
       <a href="#" class="dropdown-toggle username"><span class="hidden-xs">{{currentUser.person.label}}</span><img class="img-responsive" no-image ng-src="{{currentUser.person.img}}" alt=""/></a>

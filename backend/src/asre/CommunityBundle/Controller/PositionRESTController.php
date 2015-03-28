@@ -19,7 +19,7 @@ class PositionRESTController extends FOSRestController
 
 
   /**
-   * @Rest\Get("/positions/{id}", name="community_positions_get")
+   * @Rest\Get("/positions/{id}", name="asre_community_positions_get")
    * @Rest\View(serializerEnableMaxDepthChecks=true)
    **/
   public function getPositionAction($id)
@@ -35,7 +35,7 @@ class PositionRESTController extends FOSRestController
   /**
    * Creates a new position from the submitted data.
    *
-   * @Rest\Post("/positions",name="community_positions_post")
+   * @Rest\Post("/positions",name="asre_community_positions_post")
    *
    * @param Request $request the request object
    *
@@ -55,7 +55,7 @@ class PositionRESTController extends FOSRestController
 
   /**
    * Put action
-   * @Rest\Put("/positions/{id}", name="community_positions_put")
+   * @Rest\Put("/positions/{id}", name="asre_community_positions_put")
    *
    * @var Request $request
    * @var integer $id Id of the entity
@@ -75,7 +75,7 @@ class PositionRESTController extends FOSRestController
 
   /**
    * Patch action
-   * @Rest\Patch("/positions/{id}", name="community_positions_patch")
+   * @Rest\Patch("/positions/{id}", name="asre_community_positions_patch")
    *
    * @var Request $request
    * @var integer $id Id of the entity
@@ -94,7 +94,7 @@ class PositionRESTController extends FOSRestController
 
   /**
    * Delete action
-   * @Rest\Delete("/positions/{id}", name="community_positions_delete")
+   * @Rest\Delete("/positions/{id}", name="asre_community_positions_delete")
    *
    * @var integer $id Id of the entity
    */
