@@ -11,8 +11,11 @@ get_topics             : "{{ serverBasePath | raw }}{{ path('asre_content_topics
 socials                : "{{ serverBasePath | raw }}{{ path('asre_tweets_twitter_get')  | raw }}",
 
 token                  : "{{ serverBasePath | raw }}{{ path('fos_oauth_server_token')  | raw }}",
-login                  : "{{ serverBasePath | raw }}{{ path('fos_oauth_server_authorize')  | raw }}",
-logout                 : "{{ serverBasePath | raw }}{{ path('logout')  | raw }}",
+revoke                  : "{{ serverBasePath | raw }}{{ path('asre_oauth_server_expose_revoke')  | raw }}",
+
+{#login                  : "{{ serverBasePath | raw }}{{ path('fos_oauth_server_authorize')  | raw }}",#}
+{#logout                 : "{{ serverBasePath | raw }}{{ path('logout')  | raw }}",#}
+
 profile                : "{{ serverBasePath | raw }}{{ path('asre_community_persons_self')  | raw }}",
 registration           : "{{ serverBasePath | raw }}{{ path('asre_security_signup')  | raw }}",
 confirm                : "{{ serverBasePath | raw }}{{ path('asre_security_confirm')  | raw }}",

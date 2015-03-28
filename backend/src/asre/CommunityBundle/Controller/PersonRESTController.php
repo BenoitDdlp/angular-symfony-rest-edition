@@ -19,7 +19,7 @@ class PersonRESTController extends FOSRestController
   const FORM_CLASSNAME = "asre\\CommunityBundle\\Form\\PersonType";
 
   /**
-   * @Rest\Get("/profile",name="asre_community_persons_self")
+   * @Rest\Get("/persons/profile",name="asre_community_persons_self")
    * @Rest\View(serializerEnableMaxDepthChecks=true)
    **/
   public function getProfileAction()

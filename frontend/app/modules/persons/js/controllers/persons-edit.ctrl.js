@@ -34,7 +34,6 @@ angular.module('personsApp').controller('personsEditCtrl', [
     //Success on patch request
     var success = function (response, args)
     {
-      alert("user logged in");
     };
 
     //Send patch request on the field to be persisted

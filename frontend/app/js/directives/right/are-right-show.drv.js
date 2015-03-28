@@ -34,7 +34,7 @@ angular.module('asreApp').directive('asreRightShow', [
         scope.resource.isRightUpToDate = false;
 
         //watch logged user to refresh its rights
-        scope.$watch("$root.currentUser", function (newValue, oldValue, scope)
+        scope.$watch("$root.loggedUser", function (newValue, oldValue, scope)
         {
           if (newValue == oldValue)
           { //no change
@@ -91,7 +91,7 @@ angular.module('asreApp').directive('asreRightShow', [
           {
             element.hide();
           }
-          else if (!scope.$root.currentUser || !scope.$root.currentUser.id)
+          else if (!scope.$root.loggedUser || !scope.$root.loggedUser.id)
           { //hide if not logged
             element.hide();
           }

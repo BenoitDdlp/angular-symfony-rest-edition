@@ -9,7 +9,7 @@ angular.module('asreApp').controller('mainCtrl', [
   function ($scope, GLOBAL_CONFIG, $uiConfig, $timeout)
   {
     //initialize authentified user from local storage
-    $scope.$root.currentUser = JSON.parse(localStorage.getItem('loggedUser'));
+    $scope.$root.loggedUser = JSON.parse(localStorage.getItem('loggedUser'));
     $scope.$root.token = JSON.parse(localStorage.getItem('oauth'));
 
 

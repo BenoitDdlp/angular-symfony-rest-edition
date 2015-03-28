@@ -10,7 +10,7 @@ angular.module('asreApp').factory('pinesNotifications', function ()
     return {
         notify: function (args)
         {
-            args.delay = 5000;
+          args.delay = 2000;
             args.animation = "none";
           //set opacity on hover
             args.nonblock = {

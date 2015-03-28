@@ -5,8 +5,6 @@
 angular.module('asreApp').controller('navTopCtrl', ['$scope', '$rootScope', '$uiConfig', function ($scope, $rootScope, $uiConfig)
 {
 
-  $scope.isLoggedIn = !!$scope.$root.currentUser;
-
   /**
    * Action that toggle the left menu bar
    */

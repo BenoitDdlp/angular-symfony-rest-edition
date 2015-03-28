@@ -1,5 +1,5 @@
 <form ng-controller="changePwdCtrl" name="changePwdForm" class="form" role="form" ng-submit="changePwdAction(changePwd)" novalidate="">
-    <div ng-show="!currentUser.random_pwd">
+  <div ng-show="!loggedUser.random_pwd">
         <div class="form-group">
             <label for="inputPassword" class="col-sm-3 control-label">{{ 'authentication.labels.current_pwd' | translate }}</label>
             <input type="password" ng-model="changePwd.current_password" id="inputPassword" name="current_password" placeholder="{{ 'authentication.labels.current_pwd' | translate }}" class="form-control"

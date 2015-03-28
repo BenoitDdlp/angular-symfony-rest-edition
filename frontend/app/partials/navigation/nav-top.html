@@ -10,16 +10,17 @@
   <!-- USER DROPDOWN MENU : -->
   <ul class="nav navbar-nav pull-right toolbar">
 
-    <li class="dropdown" ng-show="!isLoggedIn">
+    <li class="dropdown" ng-show="!$root.loggedUser">
       <a href="" ng-click="startLoginWorkflow()" ng-controller="signinCtrl" style="font-size: 14px"><i
         class="fa fa-sign-in"></i> {{ 'authentication.actions.signin' | translate }}</a>
     </li>
-    <li class="dropdown" disabled="disabled" ng-show="isLoggedIn">
-      <a href="#" class="dropdown-toggle username"><span class="hidden-xs">{{currentUser.person.label}}</span><img class="img-responsive" no-image ng-src="{{currentUser.person.img}}" alt=""/></a>
+    <li class="dropdown" disabled="disabled" ng-show="!!$root.loggedUser">
+      <a href="#" class="dropdown-toggle username"><span class="hidden-xs">{{loggedUser.person.label}}</span><img
+        class="img-responsive" no-image ng-src="{{loggedUser.person.img}}" alt=""/></a>
       <ul class="dropdown-menu userinfo arrow">
         <li class="userlinks">
           <ul class="dropdown-menu">
-            <li><a href="#/persons/show/{{currentUser.id}}">{{ 'authentication.labels.profile' | translate }}
+            <li><a href="#/persons/show/{{loggedUser.id}}">{{ 'authentication.labels.profile' | translate }}
               <i class="pull-right fa fa-fw fa-eye"></i></a></li>
             <li><a href="#/authentication/account">{{ 'authentication.labels.account' | translate }} <i
               class="pull-right fa fa-fw fa-user"></i></a></li>
@@ -37,7 +38,7 @@
         </li>
       </ul>
     </li>
-    <li class="dropdown" ng-controller="messagesPopoverCtrl" ng-show="isLoggedIn"
+    <li class="dropdown" ng-controller="messagesPopoverCtrl" ng-show="!!$root.loggedUser"
         data-bootstro
         data-bootstro-step="2"
         data-bootstro-placement='bottom'
@@ -71,7 +72,7 @@
         <li class="dd-footer"><a href="#/messages/inbox">View All Messages</a></li>
       </ul>
     </li>
-    <li class="dropdown" ng-controller="notificationsPopoverCtrl" ng-show="isLoggedIn">
+    <li class="dropdown" ng-controller="notificationsPopoverCtrl" ng-show="!!$root.loggedUser">
       <a href="#" class="dropdown-toggle">
         <i class="fa fa-bell"></i><span class="badge badge-orange" ng-if="unseenCount>0" ng-bind="unseenCount"></span>
       </a>

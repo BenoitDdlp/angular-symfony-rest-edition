@@ -3,131 +3,131 @@
  * Manage the current user stored in local storage
  * @type {factory}
  */
-//angular.module('authenticationApp').
-//
-//  config(function (TokenProvider)
-//  {
-//    TokenProvider.extendConfig({
-//      redirectUri: 'http://192.168.0.13/asre/frontend/app/',  // allow lunching demo from a mirror
-//      authorizationEndpoint: 'http://localhost/asre/backend/web/app_dev.php/account/oauth/v2/auth',
-//      scopes: [""],
-//      verifyFunc: "AsreTokenVerifier",
-//      clientId: '6_1qw5cxiattogs8ckgk8cw00cwo0kk0wsckc0c0kcssg0o8csok',
-//      clientsecret: '1v1rd14maydc8sc88wco400k4s4k0kgwwk484gsk8w4ggwcgsg'
-//    });
-//  }).
-//
-//  factory('authenticationFact', [
-//  '$rootScope',
-//    'Token',
-//    function ($rootScope, Token)
-//  {
-//    var loggedUser = JSON.parse(localStorage.getItem('loggedUser')),
-//      token = JSON.parse(localStorage.getItem('oauth'))
-//      ;
-//
-//    //function success(user, notif)
-//    //{
-//    //  $scope.user = user;
-//    //
-//    //  //Modify current user
-//    //  authenticationFact.addUser(user);
-//    //
-//    //  //Notify of the signin action success
-//    //  if (notif)
-//    //  {
-//    //    pinesNotifications.notify({
-//    //      title: translateFilter('global.validations.success'),
-//    //      text: translateFilter('authentication.validations.signin_success'),
-//    //      type: 'success'
-//    //    });
-//    //  }
-//    //
-//    //  //Close modal
-//    //  if ($scope.$close)
-//    //  {
-//    //    $scope.$close();
-//    //  }
-//    //}
-//    //
-//    //function saveLoggedUser(user)
-//    //{
-//    //  localStorage.setItem('loggedUser', JSON.stringify(user));
-//    //  loggedUser = user;
-//    //}
-//    //
-//    //function removeLoggedUser()
-//    //{
-//    //  localStorage.removeItem('loggedUser');
-//    //  loggedUser = undefined;
-//    //}
-//    //
-//    //function saveToken(newToken)
-//    //{
-//    //  localStorage.setItem('oauth', JSON.stringify(newToken));
-//    //  token = newToken;
-//    //}
-//    //
-//    //function removeToken()
-//    //{
-//    //  localStorage.removeItem('oauth');
-//    //  token = undefined;
-//    //}
-//
-//    /**
-//     * should be called when server has denied an access
-//     * @returns {*}
-//     */
-//    $rootScope.startOAuthLoginWorkflow = function ()
-//    {
-//      //get access token if a refresh token is available
-//      if (token && token.refresh_token)
-//      {
-//        return refreshAccessToken(token.refresh_token)
-//      }
-//      //if not, user has never logged in before => show him the login popup
-//      $rootScope.startLoginWorkflow(function (params)
-//      {
-//        // Success getting token from popup.
-//        saveToken(params)
-//
-//      }, function ()
-//      {
-//        // Failure getting token from popup.
-//        alert("Failed to get token from popup.");
-//      });
-//      //if not, user has never logged in before => show him the login popup
-//      //$rootScope.startLoginWorkflow();
-//      //var extraParams = {};
-//      /*Token.getTokenByPopup(extraParams).then(function (params)
-//      {
-//        // Success getting token from popup.
-//        saveToken(params)
-//
-//      }, function ()
-//      {
-//        // Failure getting token from popup.
-//        alert("Failed to get token from popup.");
-//      });*/
-//    };
-//
-//    return {
-//      handleLoginForm: function (form)
-//      {
-//        //TODO serialize login method in resource
-//        return sendLoginForm(form)
-//          .then(grantAccess);
-//      },
-//
-//      getToken: function ()
-//      {
-//        return token;
-//      },
-//
-//      getUser: function ()
-//      {
-//        return loggedUser;
-//      }
-//
-//    };
-//  }]);
+angular.module('authenticationApp').factory('authenticationService', [
+  '$rootScope',
+  'authService',
+  'usersFact',
+  'personsFact',
+  '$modal',
+  'translateFilter',
+  'pinesNotifications',
+  function ($rootScope, authService, usersFact, personsFact, $modal, translateFilter, pinesNotifications)
+  {
+    var modal;
+    var config =
+        {
+          //redirectUri: 'http://192.168.0.13/asre/frontend/app/',
+          client_id: '6_1qw5cxiattogs8ckgk8cw00cwo0kk0wsckc0c0kcssg0o8csok',
+          client_secret: '1v1rd14maydc8sc88wco400k4s4k0kgwwk484gsk8w4ggwcgsg'
+        };
+
+    //a way to trigger the authentication workflow
+    $rootScope.$on('event:auth-loginRequired', startLoginWorkflow);
+    //a way to trigger the authentication workflow
+    $rootScope.$on('event:auth-signout', signOut);
+
+    //when action is forbidden (http 403)
+    $rootScope.$on('event:auth-forbidden', function (event, data)
+    {
+      console.log(data); // 'Data to send'
+    });
+
+    return {
+      //another way to trigger the authentication workflow
+      startLoginWorkflow: startLoginWorkflow,
+      signInWithCredential: signInWithCredential
+    };
+
+    //called when the user want to check its account credentials
+    function signInWithCredential(user)
+    {
+      var param = angular.extend({}, config, user, {
+        "grant_type": 'password'
+      });
+      return new usersFact().$token(param).then(saveToken, function ()
+      {
+        notifyError("authentication.validations.signin_error")
+      });
+    }
+
+    //start login workflow
+    function startLoginWorkflow()
+    {
+      //try to refresh token
+      if ($rootScope.token && $rootScope.token.refresh_token)
+      {
+        var param = angular.extend({}, config, {
+          "grant_type": 'refresh_token',
+          "refresh_token": $rootScope.token.refresh_token
+        });
+        return new usersFact().$token(param)
+          .then(saveToken, signInModal);
+      }
+      //if no refresh token available : show sign in modal
+      signInModal();
+      function signInModal()
+      {
+        return modal = $modal.open({
+          templateUrl: 'modules/authentication/partials/signin.html',
+          controller: 'signinCtrl',
+          size: "large"
+        });
+      }
+    }
+
+    //when authentication was successful : the response is an oauth token
+    function saveToken(newToken)
+    {
+      localStorage.setItem('oauth', JSON.stringify(newToken));
+      $rootScope.token = newToken;
+      if (!$rootScope.loggedUser)
+      {
+        new personsFact().$profile().then(saveLoggedUser, notifyError());
+      }
+      //relaunch all denied requests
+      authService.loginConfirmed();
+      modal.close();
+    }
+
+    //when profile was successfully fetched
+    function saveLoggedUser(user)
+    {
+      localStorage.setItem('loggedUser', JSON.stringify(user));
+      $rootScope.loggedUser = user;
+    }
+
+    function signOut()
+    {
+      new usersFact().$revoke({token: $rootScope.token.refresh_token})
+        .then(function (user)
+        {
+          return user.$revoke({token: $rootScope.token.access_token}).$promise;
+        }, notifyError)
+        .then(function ()
+        {
+          localStorage.removeItem('oauth');
+          $rootScope.token = undefined;
+          localStorage.removeItem('loggedUser');
+          $rootScope.loggedUser = undefined;
+
+          //Notify of the signout action success
+          pinesNotifications.notify({
+            title: translateFilter('global.validations.success'),
+            text: translateFilter('authentication.validations.signout_success'),
+            type: 'success'
+          });
+        }, notifyError
+      )
+      ;
+    }
+
+    function notifyError(code)
+    {
+      //Notify of the signout action error
+      pinesNotifications.notify({
+        title: translateFilter('global.validations.error'),
+        text: translateFilter(typeof code == "string" ? code : 'global.error'),
+        type: 'error'
+      });
+    }
+  }]);

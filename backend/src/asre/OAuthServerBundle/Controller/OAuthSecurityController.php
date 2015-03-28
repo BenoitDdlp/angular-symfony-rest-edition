@@ -2,6 +2,8 @@
 
 namespace asre\OAuthServerBundle\Controller;
 
+use FOS\OAuthServerBundle\Model\AccessTokenManagerInterface;
+use FOS\OAuthServerBundle\Model\RefreshTokenManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -55,13 +57,43 @@ class OAuthSecurityController extends Controller
   }
 
   /**
-   * set user Id in the session so we can get it back next to his social account loggin
    * @Route("/oauth/v2/auth_login_check", name="asre_oauth_server_auth_login_check")
+   * @param Request $request
    */
   public function loginCheckAction(Request $request)
   {
-    echo "CACACACA loginCheckAction";
-    die;
-    \Doctrine\Common\Util\Debug::dump($request->request);
+  }
+
+  /**
+   * Expose revoke url
+   * @Route("/oauth/v2/revoke", name="asre_oauth_server_expose_revoke")
+   */
+  public function ExposeRevokeRefreshTokenAction(Request $request)
+  {
+  }
+
+  /**
+   * @Route("/oauth/v2/revoke/{token}", name="asre_oauth_server_revoke")
+   *
+   * @param Request $request
+   * @param String  $token
+   */
+  public function revokeRefreshTokenAction(Request $request, $token)
+  {
+    /** @var RefreshTokenManagerInterface $tokenManager */
+    $tokenManager = $this->get("fos_oauth_server.refresh_token_manager.default");
+    $refreshToken = $tokenManager->findTokenBy(array("token" => $token));
+    if (null != $refreshToken)
+    {
+      $tokenManager->deleteToken($refreshToken);
+    }
+
+    /** @var AccessTokenManagerInterface $tokenManager */
+    $tokenManager = $this->get("fos_oauth_server.access_token_manager.default");
+    $accessToken = $tokenManager->findTokenBy(array("token" => $token));
+    if (null != $accessToken)
+    {
+      $tokenManager->deleteToken($accessToken);
+    }
   }
 }

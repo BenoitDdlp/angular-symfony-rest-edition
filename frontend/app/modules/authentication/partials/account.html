@@ -11,7 +11,7 @@
 </div>
 <div class="container-fluid">
 
-    <div ng-if="currentUser.random_pwd">
+  <div ng-if="loggedUser.random_pwd">
         <div class="alert alert-warning" role="alert">{{ 'authentication.messages.pwd_not_set' | translate }}</div>
         <div ng-include="'modules/authentication/partials/change-pwd.html'"></div>
     </div>
@@ -25,7 +25,7 @@
     <!--</a>-->
 
 
-    <div ng-if="!currentUser.random_pwd">
+  <div ng-if="!loggedUser.random_pwd">
         <hr/>
         <h4>{{ 'authentication.labels.change_pwd' | translate }}</h4>
         <div ng-include="'modules/authentication/partials/change-pwd.html'"></div>
