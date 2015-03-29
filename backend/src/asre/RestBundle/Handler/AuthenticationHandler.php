@@ -2,9 +2,14 @@
 
 namespace asre\RestBundle\Handler;
 
+use FOS\OAuthServerBundle\Model\AuthCodeInterface;
+use FOS\OAuthServerBundle\Model\AuthCodeManagerInterface;
+use FOS\OAuthServerBundle\Model\ClientManagerInterface;
 use FOS\UserBundle\Model\UserManagerInterface;
 use JMS\Serializer\SerializationContext;
 use JMS\Serializer\SerializerInterface;
+use OAuth2\IOAuth2GrantCode;
+use OAuth2\OAuth2;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,14 +29,29 @@ class AuthenticationHandler implements AuthenticationSuccessHandlerInterface, Au
   protected $security;
   protected $userManager;
   protected $translator;
+  protected $jms_serializer;
+  protected $oauth2;
+  protected $authCodeManager;
+  protected $clientManager;
+  protected $storage;
+  protected $oAuthClientId;
+  protected $oAuthSecret;
+  protected $frontEndPath;
 
-  public function __construct(RouterInterface $router, SecurityContext $security, UserManagerInterface $userManager, TranslatorInterface $translator, SerializerInterface $jms_serializer)
+  public function __construct(RouterInterface $router, SecurityContext $security, UserManagerInterface $userManager, TranslatorInterface $translator, SerializerInterface $jms_serializer, OAuth2 $oauth2, AuthCodeManagerInterface $authCodeManager, ClientManagerInterface $clientManager, IOAuth2GrantCode $storage, $oAuthClientId, $oAuthSecret, $frontEndPath)
   {
     $this->router = $router;
     $this->security = $security;
     $this->userManager = $userManager;
     $this->translator = $translator;
     $this->jms_serializer = $jms_serializer;
+    $this->oauth2 = $oauth2;
+    $this->authCodeManager = $authCodeManager;
+    $this->clientManager = $clientManager;
+    $this->storage = $storage;
+    $this->oAuthClientId = $oAuthClientId;
+    $this->oAuthSecret = $oAuthSecret;
+    $this->frontEndPath = $frontEndPath;
   }
 
   /**
@@ -53,9 +73,48 @@ class AuthenticationHandler implements AuthenticationSuccessHandlerInterface, Au
     $user = $token->getUser();
     $user->setLastLogin(new \DateTime());
     $this->userManager->updateUser($user);
+
+    //create a auth code copying the one received by the social service oauth2 endpoint
+    /** @var AuthCodeInterface $authCode */
+    $authCode = $this->storage->createAuthCode(
+      $request->query->get('code'),
+      $this->clientManager->findClientByPublicId($this->oAuthClientId),
+      $user,
+      $this->frontEndPath,
+      time() + OAuth2::DEFAULT_AUTH_CODE_LIFETIME
+    );
+
+
+    $redirectUrl = $this->router->generate('asre_frontend_front_index');
+
+    if ($user->isRandomPwd())
+    {
+      $redirectUrl .= '#code=' . $authCode->getToken();
+    }
+    //this redirection should prompt the user to change his password
+    $response = new RedirectResponse($redirectUrl);
+
+//    $redirectUrl = $this->router->generate('fos_oauth_server_token');
+//    $response = new RedirectResponse(
+//      sprintf($redirectUrl . "?client_id=%s&client_secret=%s&grant_type=%s&redirect_uri=%s&code=%s",
+//        $this->oAuthClientId,
+//        $this->oAuthSecret,
+//        "authorization_code",
+//        $this->frontEndPath,
+//        $request->query->get('code')
+//      ));
+    return $response;
+
+//    token?
+//      client_id=6_1qw5cxiattogs8ckgk8cw00cwo0kk0wsckc0c0kcssg0o8csok
+//    &client_secret=1v1rd14maydc8sc88wco400k4s4k0kgwwk484gsk8w4ggwcgsg
+//  &grant_type=authorization_code
+//  &redirect_uri=http://192.168.0.13/asre/frontend/app/&code=OGFhYTc1NjNiOTM3NDg3ZGVjZjM2YmMyYjIxMTcxZTA4YmU0MGFmYTcyZTYxYjgyNWI2NDg5ZWY3ZjZhMzc3Mg
+
     if ('html' == $request->getRequestFormat())
     {
       $redirectUrl = $this->router->generate('asre_frontend_front_index');
+
       if ($user->isRandomPwd())
       {
         $redirectUrl .= '#/profile';

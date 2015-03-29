@@ -108,7 +108,8 @@ class copyWsConfigCommand extends ContainerAwareCommand
       "serverBasePath" => $this->serverBasePath,
       "oauth"          => array(
         "id"     => $this->getContainer()->getParameter("front_end_oauth_public"),
-        "secret" => $this->getContainer()->getParameter("front_end_oauth_secret")
+        "secret"       => $this->getContainer()->getParameter("front_end_oauth_secret"),
+        "redirect_uri" => $this->getContainer()->getParameter("front_end_path")
       )));
 
     if (true === $content = $this->writeFileContent($this->toPath, $wsConfig))

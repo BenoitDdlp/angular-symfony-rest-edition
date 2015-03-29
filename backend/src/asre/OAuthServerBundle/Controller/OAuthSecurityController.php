@@ -10,9 +10,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\SecurityContext;
 
-/**
- * Override edit and show action of FOS\UserBundle\Controller\ProfileController
- */
 class OAuthSecurityController extends Controller
 {
   /**

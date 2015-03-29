@@ -15,7 +15,8 @@
       <a ng-repeat="socialnetwork in GLOBAL_CONFIG.api.urls.socialnetworks track by $index"
          ng-if="socialnetwork.can_register"
          class="btn btn-social btn-{{ socialnetwork.name }}{{ socialnetwork.name == 'google' ? '-plus' : '' }}"
-         href="{{ socialnetwork.urls.login }}">
+         href="javascript:void(0)"
+         ng-click="windowPop( socialnetwork.urls.login )">
         <!--ng-click="socialSignInAction(socialnetwork.url)">-->
         <i class="fa fa-{{ socialnetwork.name }}{{ socialnetwork.name == 'google' ? '-plus' : '' }}"></i> {{
         'authentication.labels.signin_with' | translate }} {{ socialnetwork.name | titleize }}

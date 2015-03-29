@@ -17,7 +17,8 @@ revoke                  : "{{ serverBasePath | raw }}{{ path('asre_oauth_server_
 {#logout                 : "{{ serverBasePath | raw }}{{ path('logout')  | raw }}",#}
 
 profile                : "{{ serverBasePath | raw }}{{ path('asre_community_persons_self')  | raw }}",
-registration           : "{{ serverBasePath | raw }}{{ path('asre_security_signup')  | raw }}",
+registration           : "{{ serverBasePath | raw }}{{ path('asre_security_signup')  |
+raw }}",
 confirm                : "{{ serverBasePath | raw }}{{ path('asre_security_confirm')  | raw }}",
 changepwd              : "{{ serverBasePath | raw }}{{ path('asre_security_changepwd')  | raw }}",
 reset_pwd_request      : "{{ serverBasePath | raw }}{{ path('asre_community_organizations_')  | raw }}",
@@ -38,6 +39,7 @@ socialnetworks         : [
 ]
 },
 oauth_id               : "{{ oauth.id  | raw }}",
-oauth_secret           : "{{ oauth.secret  | raw }}"
+oauth_secret           : "{{ oauth.secret  | raw }}",
+oauth_redirect_uri     : "{{ oauth.redirect_uri  | raw }}",
 }
 };

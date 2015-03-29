@@ -13,6 +13,45 @@
   <meta name="author" content="Fiona Le peutrec">
   <meta name="author" content="Florian Bacle">
 
+  <!-- Handling popup closing when redirected after social account successful login-->
+  <script type="text/javascript">
+    /**
+     * Parses an escaped url query string into key-value pairs.
+     *
+     * (Copied from Angular.js in the AngularJS project.)
+     *
+     * @returns Object.<(string|boolean)>
+     */
+    function parseKeyValue(/**string*/keyValues)
+    {
+      keyValues = (keyValues || "").split('&');
+      var obj = {}, key_value, key,
+          keyValue;
+      for (var i = 0; i < keyValues.length; i++)
+      {
+        keyValue = keyValues[i];
+        if (keyValue)
+        {
+          key_value = keyValue.split('=');
+          key = decodeURIComponent(key_value[0]);
+          obj[key] = key_value[1] ? decodeURIComponent(key_value[1]) : true;
+        }
+      }
+      return obj;
+    }
+
+    var queryString = window.location.hash.substring(1);  // preceding slash omitted
+    var params = parseKeyValue(queryString);
+    // TODO: The target origin should be set to an explicit origin.  Otherwise, a malicious site that can receive
+    //       the token if it manages to change the location of the parent. (See:
+    //       https://developer.mozilla.org/en/docs/DOM/window.postMessage#Security_concerns)
+    if (window.opener)
+    {
+      window.opener.postMessage(params, "*");
+      window.close();
+    }
+  </script>
+
   <!-- Favicons -->
   <link rel="icon" type="image/png" sizes="192x192" href="favicon.ico">
   <link rel="icon" type="image/png" sizes="160x160" href="favicon.ico">
@@ -70,45 +109,6 @@
   <!-- Asre styles -->
   <!--<link rel='stylesheet' type='text/css' href="assets/css/styles.css"/>-->
 
-  <!-- Handling oauth url param gathering when redirected after success & popup closing -->
-  <script type="text/javascript">
-    /**
-     * Parses an escaped url query string into key-value pairs.
-     *
-     * (Copied from Angular.js in the AngularJS project.)
-     *
-     * @returns Object.<(string|boolean)>
-     */
-    function parseKeyValue(/**string*/keyValues)
-    {
-      var obj = {}, key_value, key,
-        keyValues = (keyValues || "").split('&'),
-        keyValue;
-      for (var i = 0; i < keyValues.length; i++)
-      {
-        keyValue = keyValues[i];
-        if (keyValue)
-        {
-          key_value = keyValue.split('=');
-          key = decodeURIComponent(key_value[0]);
-          obj[key] = key_value[1] ? decodeURIComponent(key_value[1]) : true;
-        }
-      }
-      return obj;
-    }
-
-    var queryString = window.location.hash.substring(1);  // preceding slash omitted
-    var params = parseKeyValue(queryString);
-
-    // TODO: The target origin should be set to an explicit origin.  Otherwise, a malicious site that can receive
-    //       the token if it manages to change the location of the parent. (See:
-    //       https://developer.mozilla.org/en/docs/DOM/window.postMessage#Security_concerns)
-    if (window.opener)
-    {
-      window.opener.postMessage(params, "*");
-      window.close();
-    }
-  </script>
 
   <!-- build:remove -->
   <script type="text/javascript">less = {};

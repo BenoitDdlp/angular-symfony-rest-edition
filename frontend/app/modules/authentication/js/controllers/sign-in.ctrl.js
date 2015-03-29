@@ -10,8 +10,8 @@ angular.module('authenticationApp').controller('signinCtrl', [
   function ($scope, authenticationService)
   {
     $scope.startLoginWorkflow = authenticationService.startLoginWorkflow;
-    //submit signin form
     $scope.signinAction = signinAction;
+    $scope.windowPop = windowPop;
 
     //submit signin form
     function signinAction(user)
@@ -20,5 +20,20 @@ angular.module('authenticationApp').controller('signinCtrl', [
         "username": user._username,
         "password": user._password
       });
+    }
+
+    //open social login popup
+    function windowPop(url)
+    {
+      authenticationService.getTokenByPopup(url)
+        .then(function (result)
+        {
+          console.log(result);
+        }, function (result)
+        {
+          console.log(result);
+          alert("fail");
+        }
+      )
     }
   }]);

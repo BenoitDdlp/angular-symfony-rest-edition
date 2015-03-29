@@ -87,7 +87,7 @@ security:
                 default_target_path: /
                 use_forward:       false
                 success_handler: authentication_handler
-                failure_handler: authentication_handler
+#                failure_handler: authentication_handler
                 # use_forward:       true
 
                 oauth_user_provider:

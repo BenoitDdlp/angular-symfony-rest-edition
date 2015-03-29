@@ -11,15 +11,19 @@ angular.module('authenticationApp').factory('authenticationService', [
   '$modal',
   'translateFilter',
   'pinesNotifications',
-  function ($rootScope, authService, usersFact, personsFact, $modal, translateFilter, pinesNotifications)
+  '$q',
+  '$window',
+  function ($rootScope, authService, usersFact, personsFact, $modal, translateFilter, pinesNotifications, $q, $window)
   {
-    var modal;
-    var config =
+    var modal,
+        config =
         {
           //redirectUri: 'http://192.168.0.13/asre/frontend/app/',
-          client_id: '6_1qw5cxiattogs8ckgk8cw00cwo0kk0wsckc0c0kcssg0o8csok',
-          client_secret: '1v1rd14maydc8sc88wco400k4s4k0kgwwk484gsk8w4ggwcgsg'
-        };
+          client_id: globalConfig.api.oauth_id,
+          client_secret: globalConfig.api.oauth_secret
+        },
+        redirect_uri = globalConfig.api.oauth_redirect_uri
+      ;
 
     //a way to trigger the authentication workflow
     $rootScope.$on('event:auth-loginRequired', startLoginWorkflow);
@@ -35,7 +39,9 @@ angular.module('authenticationApp').factory('authenticationService', [
     return {
       //another way to trigger the authentication workflow
       startLoginWorkflow: startLoginWorkflow,
-      signInWithCredential: signInWithCredential
+      signInWithCredential: signInWithCredential,
+      getTokenByPopup: getTokenByPopup
+
     };
 
     //called when the user want to check its account credentials
@@ -75,6 +81,81 @@ angular.module('authenticationApp').factory('authenticationService', [
       }
     }
 
+    function getTokenByPopup(url)
+    {
+      return getAuthCodeByPopup(url)
+        .then(function (data)
+        {
+          var param = angular.extend({}, config, {
+            "grant_type": 'authorization_code',
+            "code": data.code,
+            "redirect_uri": redirect_uri,
+          });
+          return new usersFact().$token(param)
+            .then(saveToken, notifyError);
+        }, notifyError)
+    }
+
+    //open social login popup
+    function getAuthCodeByPopup(url)
+    {
+      var popupOptions = {
+        name: 'AuthPopup',
+        openParams: {
+          width: 650,
+          height: 300,
+          resizable: true,
+          scrollbars: true,
+          status: true
+        }
+      };
+
+      var deferred = $q.defer();
+
+      var formatPopupOptions = function (options)
+      {
+        var pairs = [];
+        angular.forEach(options, function (value, key)
+        {
+          if (value || value === 0)
+          {
+            value = value === true ? 'yes' : value;
+            pairs.push(key + '=' + value);
+          }
+        });
+        return pairs.join(',');
+      };
+
+      var popup = window.open(url, popupOptions.name, formatPopupOptions(popupOptions.openParams));
+
+      angular.element($window).bind('message', function (event)
+      {
+        // Use JQuery originalEvent if present
+        event = event.originalEvent || event;
+        if (event.source == popup && event.origin == window.location.origin)
+        {
+          $rootScope.$apply(function ()
+          {
+            if (event.data.access_token)
+            {
+              deferred.resolve(event.data)
+            }
+            else if (event.data.code)
+            {
+              deferred.resolve(event.data)
+            }
+            {
+              deferred.reject(event.data)
+            }
+          })
+        }
+      });
+
+      // TODO: reject deferred if the popup was closed without a message being delivered + maybe offer a timeout
+
+      return deferred.promise;
+    }
+
     //when authentication was successful : the response is an oauth token
     function saveToken(newToken)
     {
@@ -82,7 +163,7 @@ angular.module('authenticationApp').factory('authenticationService', [
       $rootScope.token = newToken;
       if (!$rootScope.loggedUser)
       {
-        new personsFact().$profile().then(saveLoggedUser, notifyError());
+        new personsFact().$profile().then(saveLoggedUser, notifyError);
       }
       //relaunch all denied requests
       authService.loginConfirmed();
@@ -116,9 +197,7 @@ angular.module('authenticationApp').factory('authenticationService', [
             text: translateFilter('authentication.validations.signout_success'),
             type: 'success'
           });
-        }, notifyError
-      )
-      ;
+        }, notifyError);
     }
 
     function notifyError(code)
@@ -130,4 +209,5 @@ angular.module('authenticationApp').factory('authenticationService', [
         type: 'error'
       });
     }
-  }]);
+  }])
+;

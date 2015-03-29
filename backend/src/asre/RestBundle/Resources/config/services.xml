@@ -27,6 +27,15 @@
       <argument type="service" id="fos_user.user_manager"/>
       <argument type="service" id="translator"/>
       <argument type="service" id="jms_serializer"/>
+      <argument type="service" id="fos_oauth_server.server"/>
+      <argument type="service" id="fos_oauth_server.auth_code_manager.default"/>
+      <argument type="service" id="fos_oauth_server.client_manager.default"/>
+      <argument type="service" id="fos_oauth_server.storage.default"/>
+      <argument>%front_end_oauth_public%</argument>
+      <argument>%front_end_oauth_secret%</argument>
+      <argument>%front_end_path%</argument>
+      <!--<argument type="service" id="fos_oauth_server.access_token_manager.default"/>-->
+      <!--<argument type="service" id="fos_oauth_server.refresh_token_manager.default"/>-->
     </service>
     <!-- ajax logout -->
     <service id="asre.rest.logout.success_handler" class="%asre.rest.logout.success_handler.class%"/>
