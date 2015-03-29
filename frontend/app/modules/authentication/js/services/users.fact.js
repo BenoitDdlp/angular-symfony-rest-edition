@@ -19,7 +19,10 @@ angular.module('authenticationApp').factory('usersFact', ['$resource', function 
       get: {method: 'GET', params: {}, isArray: false},
       signin: {method: 'POST', params: {}, isArray: false},
       token: {method: 'GET', url: globalConfig.api.urls.token, params: {no_token: true}, isArray: false},
-      revoke: {method: 'GET', url: globalConfig.api.urls.revoke + '/:token', params: {token: '@token'}, isArray: false},
+      revoke: {
+        method: 'GET', url: globalConfig.api.urls.revoke + '/:token', params: {token: '@token', no_token: true},
+        isArray: false
+      },
       signup: {method: 'POST', url: globalConfig.api.urls.registration, isArray: false},
       confirm: {method: 'POST', url: globalConfig.api.urls.confirm, isArray: false},
       changepwd: {method: 'POST', url: globalConfig.api.urls.changepwd, isArray: false},

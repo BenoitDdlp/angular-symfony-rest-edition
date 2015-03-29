@@ -78,7 +78,7 @@ class OAuthSecurityController extends Controller
    * @param Request $request
    * @param String  $token
    */
-  public function revokeRefreshTokenAction(Request $request, $token)
+  public function revokeTokenAction(Request $request, $token)
   {
     /** @var RefreshTokenManagerInterface $tokenManager */
     $tokenManager = $this->get("fos_oauth_server.refresh_token_manager.default");
