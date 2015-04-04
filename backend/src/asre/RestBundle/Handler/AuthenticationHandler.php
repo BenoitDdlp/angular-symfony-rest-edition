@@ -6,7 +6,6 @@ use FOS\OAuthServerBundle\Model\AuthCodeInterface;
 use FOS\OAuthServerBundle\Model\AuthCodeManagerInterface;
 use FOS\OAuthServerBundle\Model\ClientManagerInterface;
 use FOS\UserBundle\Model\UserManagerInterface;
-use JMS\Serializer\SerializationContext;
 use JMS\Serializer\SerializerInterface;
 use OAuth2\IOAuth2GrantCode;
 use OAuth2\OAuth2;
@@ -93,45 +92,6 @@ class AuthenticationHandler implements AuthenticationSuccessHandlerInterface, Au
     }
     //this redirection should prompt the user to change his password
     $response = new RedirectResponse($redirectUrl);
-
-//    $redirectUrl = $this->router->generate('fos_oauth_server_token');
-//    $response = new RedirectResponse(
-//      sprintf($redirectUrl . "?client_id=%s&client_secret=%s&grant_type=%s&redirect_uri=%s&code=%s",
-//        $this->oAuthClientId,
-//        $this->oAuthSecret,
-//        "authorization_code",
-//        $this->frontEndPath,
-//        $request->query->get('code')
-//      ));
-    return $response;
-
-//    token?
-//      client_id=6_1qw5cxiattogs8ckgk8cw00cwo0kk0wsckc0c0kcssg0o8csok
-//    &client_secret=1v1rd14maydc8sc88wco400k4s4k0kgwwk484gsk8w4ggwcgsg
-//  &grant_type=authorization_code
-//  &redirect_uri=http://192.168.0.13/asre/frontend/app/&code=OGFhYTc1NjNiOTM3NDg3ZGVjZjM2YmMyYjIxMTcxZTA4YmU0MGFmYTcyZTYxYjgyNWI2NDg5ZWY3ZjZhMzc3Mg
-
-    if ('html' == $request->getRequestFormat())
-    {
-      $redirectUrl = $this->router->generate('asre_frontend_front_index');
-
-      if ($user->isRandomPwd())
-      {
-        $redirectUrl .= '#/profile';
-      }
-      //this redirection should prompt the user to change his password
-      $response = new RedirectResponse($redirectUrl);
-    }
-    else
-    {
-//      $user->setRememberMeToken($request->cookies->get('REMEMBERME'));
-      $serializationCtx = (new SerializationContext())->enableMaxDepthChecks(true);
-      $responseArr = $this->jms_serializer->serialize($user, 'json', $serializationCtx);
-
-      $response = new Response($responseArr);
-      $response->headers->set('Content-Type', 'application/json');
-    }
-
     return $response;
   }
 

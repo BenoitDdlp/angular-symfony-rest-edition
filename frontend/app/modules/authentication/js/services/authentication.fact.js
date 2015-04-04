@@ -89,7 +89,7 @@ angular.module('authenticationApp').factory('authenticationService', [
           var param = angular.extend({}, config, {
             "grant_type": 'authorization_code',
             "code": data.code,
-            "redirect_uri": redirect_uri,
+            "redirect_uri": redirect_uri
           });
           return new usersFact().$token(param)
             .then(saveToken, notifyError);
